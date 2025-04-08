@@ -3,6 +3,7 @@ import { useEffect, useRef } from "react";
 import L from "leaflet";
 import { VenueType } from "../data/venues";
 import { useIsMobile } from "@/hooks/use-mobile";
+import { MapPin } from "lucide-react";
 
 interface MapProps {
   venues: VenueType[];
@@ -47,15 +48,26 @@ const Map = ({ venues, activeVenueId, onMarkerClick }: MapProps) => {
       const el = document.createElement('div');
       el.className = `venue-marker ${isActive ? 'active' : ''}`;
       
+      // Create pulsing marker with improved styling
       const icon = L.divIcon({
         html: el,
         className: 'custom-marker',
-        iconSize: [20, 20],
-        iconAnchor: [10, 10]
+        iconSize: isActive ? [24, 24] : [16, 16],
+        iconAnchor: isActive ? [12, 12] : [8, 8]
       });
       
-      const marker = L.marker(venue.location.coordinates, { icon })
-        .addTo(mapRef.current!);
+      const marker = L.marker(venue.location.coordinates, { 
+        icon,
+        riseOnHover: true,  // Rise above other markers when hovered
+        title: venue.name   // Show tooltip on hover
+      }).addTo(mapRef.current!);
+      
+      // Add tooltip with name
+      marker.bindTooltip(venue.name, {
+        permanent: false,
+        direction: 'top',
+        className: 'bg-white shadow rounded px-2 py-1 text-xs'
+      });
       
       marker.on('click', () => {
         onMarkerClick(venue.id);

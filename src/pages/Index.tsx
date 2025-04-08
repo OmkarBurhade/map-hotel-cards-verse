@@ -4,6 +4,7 @@ import Header from "../components/Header";
 import FilterBar from "../components/FilterBar";
 import VenueCard from "../components/VenueCard";
 import Map from "../components/Map";
+import VenuePopup from "../components/VenuePopup";
 import { venues, VenueType } from "../data/venues";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { toast } from "@/hooks/use-toast";
@@ -11,6 +12,8 @@ import { toast } from "@/hooks/use-toast";
 const Index = () => {
   const [filteredVenues, setFilteredVenues] = useState<VenueType[]>(venues);
   const [activeVenueId, setActiveVenueId] = useState<string | null>(null);
+  const [selectedVenue, setSelectedVenue] = useState<VenueType | null>(null);
+  const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [activeFilters, setActiveFilters] = useState<string[]>([]);
   const [searchLocation, setSearchLocation] = useState("Los Angeles, CA");
   const [capacityRange, setCapacityRange] = useState<[number, number]>([0, 200]);
@@ -54,6 +57,12 @@ const Index = () => {
 
   const handleMarkerClick = (id: string) => {
     setActiveVenueId(id);
+    const venue = venues.find(v => v.id === id);
+    if (venue) {
+      setSelectedVenue(venue);
+      setIsPopupOpen(true);
+    }
+    
     const element = document.getElementById(`venue-${id}`);
     if (element) {
       element.scrollIntoView({ behavior: "smooth", block: "center" });
@@ -62,6 +71,18 @@ const Index = () => {
 
   const handleCardHover = (id: string | null) => {
     setActiveVenueId(id);
+  };
+
+  const handleCardClick = (id: string) => {
+    const venue = venues.find(v => v.id === id);
+    if (venue) {
+      setSelectedVenue(venue);
+      setIsPopupOpen(true);
+    }
+  };
+
+  const handleClosePopup = () => {
+    setIsPopupOpen(false);
   };
 
   return (
@@ -86,6 +107,7 @@ const Index = () => {
                     venue={venue} 
                     isActive={venue.id === activeVenueId}
                     onHover={handleCardHover} 
+                    onClick={handleCardClick}
                   />
                 </div>
               ))}
@@ -101,6 +123,12 @@ const Index = () => {
           </div>
         </div>
       </main>
+
+      <VenuePopup 
+        venue={selectedVenue}
+        isOpen={isPopupOpen}
+        onClose={handleClosePopup}
+      />
     </div>
   );
 };

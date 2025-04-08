@@ -87,17 +87,49 @@
 }
 
 .venue-marker {
-  background-color: #ff6b6b;
+  background-color: #D946EF; /* Using a vibrant pink color */
   border-radius: 50%;
   border: 2px solid white;
-  width: 12px;
-  height: 12px;
+  width: 16px;
+  height: 16px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+  transition: all 0.3s ease;
 }
 
 .venue-marker.active {
-  background-color: #ff3e3e;
+  background-color: #BF1A79; /* Darker pink for active state */
+  width: 24px;
+  height: 24px;
+  transform: translate(-4px, -4px);
+  border: 3px solid white;
+  box-shadow: 0 0 16px rgba(209, 3, 148, 0.5);
+  z-index: 1000;
+}
+
+/* Pulse animation for markers to make them more noticeable */
+.venue-marker:after {
+  content: '';
+  position: absolute;
+  border-radius: 50%;
   width: 16px;
   height: 16px;
-  transform: translate(-2px, -2px);
+  background-color: rgba(217, 70, 239, 0.4);
+  z-index: -1;
+  animation: pulse 1.5s infinite;
 }
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+    opacity: 0.7;
+  }
+  70% {
+    transform: scale(2);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(2.5);
+    opacity: 0;
+  }
+}
+

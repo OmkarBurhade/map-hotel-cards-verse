@@ -2,23 +2,31 @@
 import { Heart } from "lucide-react";
 import { useState } from "react";
 import { VenueType } from "../data/venues";
+import { Card } from "./ui/card";
 
 interface VenueCardProps {
   venue: VenueType;
   isActive: boolean;
   onHover: (id: string | null) => void;
+  onClick: (id: string) => void; // New prop for handling clicks
 }
 
-const VenueCard = ({ venue, isActive, onHover }: VenueCardProps) => {
+const VenueCard = ({ venue, isActive, onHover, onClick }: VenueCardProps) => {
   const [isFavorite, setIsFavorite] = useState(venue.isFavorite);
+
+  const handleHeartClick = (e: React.MouseEvent) => {
+    e.stopPropagation(); // Prevent card click when clicking the heart
+    setIsFavorite(!isFavorite);
+  };
 
   return (
     <div 
-      className={`bg-white rounded-lg shadow-md overflow-hidden transition-all ${
-        isActive ? "ring-2 ring-green-500 transform scale-[1.02]" : "hover:shadow-lg"
+      className={`bg-white rounded-lg shadow-md overflow-hidden transition-all cursor-pointer ${
+        isActive ? "ring-2 ring-pink-500 transform scale-[1.02]" : "hover:shadow-lg"
       }`}
       onMouseEnter={() => onHover(venue.id)}
       onMouseLeave={() => onHover(null)}
+      onClick={() => onClick(venue.id)} // Handle click to open popup
     >
       <div className="relative">
         <img 
@@ -31,7 +39,7 @@ const VenueCard = ({ venue, isActive, onHover }: VenueCardProps) => {
         </div>
         <button 
           className="absolute top-2 right-2 p-1 rounded-full"
-          onClick={() => setIsFavorite(!isFavorite)}
+          onClick={handleHeartClick}
         >
           <Heart 
             className={`h-6 w-6 ${isFavorite ? "fill-red-500 text-red-500" : "text-white"}`}
@@ -42,7 +50,7 @@ const VenueCard = ({ venue, isActive, onHover }: VenueCardProps) => {
       <div className="p-4">
         <h3 className="font-bold text-lg">{venue.name}</h3>
         <div className="flex items-center text-sm text-gray-600 mb-2">
-          <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-1 text-pink-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
           </svg>
