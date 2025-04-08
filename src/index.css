@@ -90,16 +90,18 @@
   background-color: #D946EF; /* Using a vibrant pink color */
   border-radius: 50%;
   border: 2px solid white;
-  width: 16px;
-  height: 16px;
+  width: 20px;
+  height: 20px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
   transition: all 0.3s ease;
+  position: relative;
+  z-index: 10;
 }
 
 .venue-marker.active {
   background-color: #BF1A79; /* Darker pink for active state */
-  width: 24px;
-  height: 24px;
+  width: 28px;
+  height: 28px;
   transform: translate(-4px, -4px);
   border: 3px solid white;
   box-shadow: 0 0 16px rgba(209, 3, 148, 0.5);
@@ -111,11 +113,13 @@
   content: '';
   position: absolute;
   border-radius: 50%;
-  width: 16px;
-  height: 16px;
+  width: 100%;
+  height: 100%;
   background-color: rgba(217, 70, 239, 0.4);
   z-index: -1;
   animation: pulse 1.5s infinite;
+  left: 0;
+  top: 0;
 }
 
 @keyframes pulse {
@@ -133,3 +137,32 @@
   }
 }
 
+/* Custom styling for the command menu */
+.cmdk-group {
+  padding: 8px;
+}
+
+.cmdk-item {
+  cursor: pointer;
+  padding: 8px 12px;
+  border-radius: 6px;
+}
+
+.cmdk-item:hover {
+  background-color: #f3f4f6;
+}
+
+/* No scrollbar utility class */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* Custom tooltip for buttons */
+[role="tooltip"] {
+  z-index: 1000;
+}

@@ -1,17 +1,54 @@
 
 import { Search } from "lucide-react";
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
+import { Command, CommandInput, CommandList, CommandEmpty, CommandGroup, CommandItem } from "@/components/ui/command";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 
 interface HeaderProps {
   onSearch: (location: string) => void;
 }
 
 const Header = ({ onSearch }: HeaderProps) => {
-  const [location, setLocation] = useState("Los Angeles, CA");
+  const [location, setLocation] = useState("");
+  const [searchOpen, setSearchOpen] = useState(false);
+  const [suggestions, setSuggestions] = useState<string[]>([]);
+  
+  // Common location suggestions
+  const commonLocations = [
+    "Los Angeles, CA", 
+    "New York, NY", 
+    "Chicago, IL", 
+    "San Francisco, CA", 
+    "Miami, FL",
+    "Seattle, WA",
+    "Austin, TX",
+    "Portland, OR"
+  ];
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
     onSearch(location);
+    setSearchOpen(false);
+  };
+
+  const handleLocationChange = (value: string) => {
+    setLocation(value);
+    
+    // Filter suggestions based on input
+    if (value) {
+      const filtered = commonLocations.filter(loc => 
+        loc.toLowerCase().includes(value.toLowerCase())
+      );
+      setSuggestions(filtered);
+    } else {
+      setSuggestions([]);
+    }
+  };
+
+  const selectSuggestion = (suggestion: string) => {
+    setLocation(suggestion);
+    onSearch(suggestion);
+    setSearchOpen(false);
   };
 
   return (
@@ -31,13 +68,49 @@ const Header = ({ onSearch }: HeaderProps) => {
         <div className="w-full md:w-auto md:flex-1 md:mx-8">
           <form onSubmit={handleSearch} className="flex items-center">
             <div className="relative flex-1">
-              <input
-                type="text"
-                value={location}
-                onChange={(e) => setLocation(e.target.value)}
-                className="w-full px-4 py-2 border border-gray-300 rounded-l-full focus:outline-none focus:ring-2 focus:ring-green-500"
-                placeholder="Location"
-              />
+              <Popover open={searchOpen} onOpenChange={setSearchOpen}>
+                <PopoverTrigger asChild>
+                  <input
+                    type="text"
+                    value={location}
+                    onChange={(e) => handleLocationChange(e.target.value)}
+                    className="w-full px-4 py-2 border border-gray-300 rounded-l-full focus:outline-none focus:ring-2 focus:ring-green-500"
+                    placeholder="Search for a location"
+                    onFocus={() => setSearchOpen(true)}
+                  />
+                </PopoverTrigger>
+                <PopoverContent className="p-0 w-full" align="start">
+                  <Command className="rounded-lg border shadow-md">
+                    <CommandList>
+                      {suggestions.length === 0 && location ? (
+                        <CommandEmpty>No locations found</CommandEmpty>
+                      ) : null}
+                      <CommandGroup heading="Suggested Locations">
+                        {suggestions.map((suggestion) => (
+                          <CommandItem 
+                            key={suggestion} 
+                            onSelect={() => selectSuggestion(suggestion)}
+                            className="cursor-pointer hover:bg-gray-100"
+                          >
+                            {suggestion}
+                          </CommandItem>
+                        ))}
+                        {!location && (
+                          commonLocations.slice(0, 5).map((suggestion) => (
+                            <CommandItem 
+                              key={suggestion} 
+                              onSelect={() => selectSuggestion(suggestion)}
+                              className="cursor-pointer hover:bg-gray-100"
+                            >
+                              {suggestion}
+                            </CommandItem>
+                          ))
+                        )}
+                      </CommandGroup>
+                    </CommandList>
+                  </Command>
+                </PopoverContent>
+              </Popover>
             </div>
             <div className="relative">
               <select className="h-full px-4 py-2 border-t border-b border-gray-300 appearance-none focus:outline-none focus:ring-2 focus:ring-green-500 bg-white">

@@ -48,12 +48,12 @@ const Map = ({ venues, activeVenueId, onMarkerClick }: MapProps) => {
       const el = document.createElement('div');
       el.className = `venue-marker ${isActive ? 'active' : ''}`;
       
-      // Create pulsing marker with improved styling
+      // Create pulsing marker with enhanced styling
       const icon = L.divIcon({
         html: el,
         className: 'custom-marker',
-        iconSize: isActive ? [24, 24] : [16, 16],
-        iconAnchor: isActive ? [12, 12] : [8, 8]
+        iconSize: isActive ? [28, 28] : [20, 20],
+        iconAnchor: isActive ? [14, 14] : [10, 10]
       });
       
       const marker = L.marker(venue.location.coordinates, { 
@@ -66,7 +66,7 @@ const Map = ({ venues, activeVenueId, onMarkerClick }: MapProps) => {
       marker.bindTooltip(venue.name, {
         permanent: false,
         direction: 'top',
-        className: 'bg-white shadow rounded px-2 py-1 text-xs'
+        className: 'bg-white shadow rounded px-2 py-1 text-sm font-medium'
       });
       
       marker.on('click', () => {
@@ -80,7 +80,7 @@ const Map = ({ venues, activeVenueId, onMarkerClick }: MapProps) => {
     if (activeVenueId) {
       const activeVenue = venues.find(v => v.id === activeVenueId);
       if (activeVenue) {
-        mapRef.current.setView(activeVenue.location.coordinates, 15, { animate: true });
+        mapRef.current.setView(activeVenue.location.coordinates, 15, { animate: true, duration: 0.5 });
         
         // Update marker style
         Object.entries(markersRef.current).forEach(([id, marker]) => {
