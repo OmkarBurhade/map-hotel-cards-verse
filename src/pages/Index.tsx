@@ -1,12 +1,90 @@
-// Update this page (the content is just a fallback if you fail to update the page)
+
+import { useState, useEffect } from "react";
+import Header from "../components/Header";
+import FilterBar from "../components/FilterBar";
+import VenueCard from "../components/VenueCard";
+import Map from "../components/Map";
+import { venues, VenueType } from "../data/venues";
+import { useIsMobile } from "@/hooks/use-mobile";
+import { toast } from "@/hooks/use-toast";
 
 const Index = () => {
+  const [filteredVenues, setFilteredVenues] = useState<VenueType[]>(venues);
+  const [activeVenueId, setActiveVenueId] = useState<string | null>(null);
+  const [activeFilters, setActiveFilters] = useState<string[]>([]);
+  const [searchLocation, setSearchLocation] = useState("Los Angeles, CA");
+  const isMobile = useIsMobile();
+
+  useEffect(() => {
+    // Filter venues based on active filters
+    if (activeFilters.length === 0) {
+      setFilteredVenues(venues);
+    } else {
+      const filtered = venues.filter(venue => 
+        venue.tags.some(tag => activeFilters.includes(tag))
+      );
+      setFilteredVenues(filtered);
+    }
+  }, [activeFilters]);
+
+  const handleSearch = (location: string) => {
+    setSearchLocation(location);
+    toast({
+      title: "Location updated",
+      description: `Searching for venues in ${location}`,
+    });
+  };
+
+  const handleFilterChange = (filters: string[]) => {
+    setActiveFilters(filters);
+  };
+
+  const handleMarkerClick = (id: string) => {
+    setActiveVenueId(id);
+    const element = document.getElementById(`venue-${id}`);
+    if (element) {
+      element.scrollIntoView({ behavior: "smooth", block: "center" });
+    }
+  };
+
+  const handleCardHover = (id: string | null) => {
+    setActiveVenueId(id);
+  };
+
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
-      <div className="text-center">
-        <h1 className="text-4xl font-bold mb-4">Welcome to Your Blank App</h1>
-        <p className="text-xl text-gray-600">Start building your amazing project here!</p>
-      </div>
+    <div className="min-h-screen bg-gray-50">
+      <Header onSearch={handleSearch} />
+      <FilterBar onFilterChange={handleFilterChange} />
+      
+      <main className="container mx-auto px-4 py-6">
+        <div className="text-lg font-medium mb-4">
+          {filteredVenues.length} gardens in {searchLocation}
+        </div>
+        
+        <div className={`grid ${isMobile ? 'grid-cols-1' : 'grid-cols-12'} gap-6`}>
+          <div className={`${isMobile ? 'order-2' : 'col-span-7 order-1'}`}>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {filteredVenues.map((venue) => (
+                <div id={`venue-${venue.id}`} key={venue.id}>
+                  <VenueCard 
+                    venue={venue} 
+                    isActive={venue.id === activeVenueId}
+                    onHover={handleCardHover} 
+                  />
+                </div>
+              ))}
+            </div>
+          </div>
+          
+          <div className={`${isMobile ? 'order-1 h-[350px] mb-4' : 'col-span-5 order-2 sticky top-24 h-[calc(100vh-150px)]'}`}>
+            <Map 
+              venues={filteredVenues} 
+              activeVenueId={activeVenueId}
+              onMarkerClick={handleMarkerClick}
+            />
+          </div>
+        </div>
+      </main>
     </div>
   );
 };
