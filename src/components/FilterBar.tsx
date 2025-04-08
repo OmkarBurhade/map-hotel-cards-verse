@@ -15,6 +15,7 @@ import { Wifi, Clock, Zap } from "lucide-react";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Button } from "@/components/ui/button";
 import { toast } from "@/hooks/use-toast";
+import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 
 interface FilterBarProps {
   onFilterChange: (filters: string[]) => void;
@@ -25,6 +26,15 @@ const FilterBar = ({ onFilterChange, onCapacityChange }: FilterBarProps) => {
   const [activeFilters, setActiveFilters] = useState<string[]>([]);
   const [capacity, setCapacity] = useState<[number, number]>([0, 200]);
   const [isCapacityOpen, setIsCapacityOpen] = useState(false);
+  const [activeUtilities, setActiveUtilities] = useState<{
+    wifi: boolean;
+    availability: boolean;
+    power: boolean;
+  }>({
+    wifi: false,
+    availability: false,
+    power: false
+  });
 
   const toggleFilter = (filter: string) => {
     const isActive = activeFilters.includes(filter);
@@ -50,9 +60,25 @@ const FilterBar = ({ onFilterChange, onCapacityChange }: FilterBarProps) => {
     }
   };
 
-  const handleUtilityButtonClick = (utility: string) => {
+  const toggleUtility = (utility: string) => {
+    const newUtilities = { ...activeUtilities };
+    
+    switch(utility) {
+      case "WiFi":
+        newUtilities.wifi = !newUtilities.wifi;
+        break;
+      case "Availability":
+        newUtilities.availability = !newUtilities.availability;
+        break;
+      case "Power":
+        newUtilities.power = !newUtilities.power;
+        break;
+    }
+    
+    setActiveUtilities(newUtilities);
+    
     toast({
-      title: `${utility} Filter`,
+      title: `${utility} Filter ${newUtilities[utility.toLowerCase() as keyof typeof newUtilities] ? 'Enabled' : 'Disabled'}`,
       description: getUtilityDescription(utility),
     });
   };
@@ -125,27 +151,47 @@ const FilterBar = ({ onFilterChange, onCapacityChange }: FilterBarProps) => {
         </div>
 
         <div className="flex flex-wrap gap-2">
-          <button 
-            className="p-2 rounded-full bg-gray-100 hover:bg-gray-200 flex items-center justify-center"
-            onClick={() => handleUtilityButtonClick("WiFi")}
-            title="Show venues with WiFi"
-          >
-            <Wifi className="h-5 w-5 text-gray-600" />
-          </button>
-          <button 
-            className="p-2 rounded-full bg-gray-100 hover:bg-gray-200 flex items-center justify-center"
-            onClick={() => handleUtilityButtonClick("Availability")}
-            title="Filter by availability"
-          >
-            <Clock className="h-5 w-5 text-gray-600" />
-          </button>
-          <button 
-            className="p-2 rounded-full bg-gray-100 hover:bg-gray-200 flex items-center justify-center"
-            onClick={() => handleUtilityButtonClick("Power")}
-            title="Show venues with power outlets"
-          >
-            <Zap className="h-5 w-5 text-gray-600" />
-          </button>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <button 
+                className={`utility-button p-2 rounded-full ${activeUtilities.wifi ? 'active' : 'bg-gray-100 hover:bg-gray-200'} flex items-center justify-center transition-all`}
+                onClick={() => toggleUtility("WiFi")}
+              >
+                <Wifi className={`h-5 w-5 ${activeUtilities.wifi ? 'text-white' : 'text-gray-600'}`} />
+              </button>
+            </TooltipTrigger>
+            <TooltipContent>
+              <p>Show venues with WiFi</p>
+            </TooltipContent>
+          </Tooltip>
+          
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <button 
+                className={`utility-button p-2 rounded-full ${activeUtilities.availability ? 'active' : 'bg-gray-100 hover:bg-gray-200'} flex items-center justify-center transition-all`}
+                onClick={() => toggleUtility("Availability")}
+              >
+                <Clock className={`h-5 w-5 ${activeUtilities.availability ? 'text-white' : 'text-gray-600'}`} />
+              </button>
+            </TooltipTrigger>
+            <TooltipContent>
+              <p>Filter by availability</p>
+            </TooltipContent>
+          </Tooltip>
+          
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <button 
+                className={`utility-button p-2 rounded-full ${activeUtilities.power ? 'active' : 'bg-gray-100 hover:bg-gray-200'} flex items-center justify-center transition-all`}
+                onClick={() => toggleUtility("Power")}
+              >
+                <Zap className={`h-5 w-5 ${activeUtilities.power ? 'text-white' : 'text-gray-600'}`} />
+              </button>
+            </TooltipTrigger>
+            <TooltipContent>
+              <p>Show venues with power outlets</p>
+            </TooltipContent>
+          </Tooltip>
         </div>
       </div>
     </div>

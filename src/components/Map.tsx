@@ -3,7 +3,6 @@ import { useEffect, useRef } from "react";
 import L from "leaflet";
 import { VenueType } from "../data/venues";
 import { useIsMobile } from "@/hooks/use-mobile";
-import { MapPin } from "lucide-react";
 
 interface MapProps {
   venues: VenueType[];
@@ -20,7 +19,7 @@ const Map = ({ venues, activeVenueId, onMarkerClick }: MapProps) => {
     // Initialize map
     if (!mapRef.current) {
       mapRef.current = L.map('map', {
-        center: [34.052235, -118.243683], // Los Angeles
+        center: [34.052235, -118.243683], // Los Angeles as default
         zoom: 13,
         zoomControl: !isMobile,
         attributionControl: true,
@@ -33,6 +32,12 @@ const Map = ({ venues, activeVenueId, onMarkerClick }: MapProps) => {
       if (isMobile) {
         mapRef.current.zoomControl.setPosition('topright');
       }
+    }
+
+    // Calculate center of visible venues
+    if (venues.length > 0) {
+      const bounds = L.latLngBounds(venues.map(v => v.location.coordinates));
+      mapRef.current.fitBounds(bounds, { padding: [50, 50], maxZoom: 13 });
     }
 
     // Clear existing markers
@@ -48,26 +53,37 @@ const Map = ({ venues, activeVenueId, onMarkerClick }: MapProps) => {
       const el = document.createElement('div');
       el.className = `venue-marker ${isActive ? 'active' : ''}`;
       
-      // Create pulsing marker with enhanced styling
+      // Create enhanced marker with custom HTML for better visibility
+      const markerHtml = `
+        <div class="marker-container">
+          <div class="marker-pulse"></div>
+          <div class="marker-icon ${isActive ? 'active' : ''}"></div>
+        </div>
+      `;
+      
       const icon = L.divIcon({
-        html: el,
+        html: markerHtml,
         className: 'custom-marker',
-        iconSize: isActive ? [28, 28] : [20, 20],
-        iconAnchor: isActive ? [14, 14] : [10, 10]
+        iconSize: isActive ? [40, 40] : [30, 30],
+        iconAnchor: isActive ? [20, 20] : [15, 15]
       });
       
       const marker = L.marker(venue.location.coordinates, { 
         icon,
-        riseOnHover: true,  // Rise above other markers when hovered
-        title: venue.name   // Show tooltip on hover
+        riseOnHover: true,
+        title: venue.name
       }).addTo(mapRef.current!);
       
-      // Add tooltip with name
-      marker.bindTooltip(venue.name, {
-        permanent: false,
-        direction: 'top',
-        className: 'bg-white shadow rounded px-2 py-1 text-sm font-medium'
-      });
+      // Add tooltip with name and location
+      marker.bindTooltip(
+        `<div class="font-medium">${venue.name}</div>
+         <div class="text-xs">${venue.location.address}</div>`,
+        {
+          permanent: false,
+          direction: 'top',
+          className: 'bg-white shadow-lg rounded-lg px-3 py-2 text-sm font-medium'
+        }
+      );
       
       marker.on('click', () => {
         onMarkerClick(venue.id);
@@ -82,14 +98,15 @@ const Map = ({ venues, activeVenueId, onMarkerClick }: MapProps) => {
       if (activeVenue) {
         mapRef.current.setView(activeVenue.location.coordinates, 15, { animate: true, duration: 0.5 });
         
-        // Update marker style
+        // Update all markers to reflect active state
         Object.entries(markersRef.current).forEach(([id, marker]) => {
           const el = marker.getElement();
           if (el) {
+            const iconElement = el.querySelector('.marker-icon');
             if (id === activeVenueId) {
-              el.querySelector('.venue-marker')?.classList.add('active');
+              iconElement?.classList.add('active');
             } else {
-              el.querySelector('.venue-marker')?.classList.remove('active');
+              iconElement?.classList.remove('active');
             }
           }
         });

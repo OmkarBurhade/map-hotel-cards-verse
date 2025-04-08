@@ -15,13 +15,20 @@ const Index = () => {
   const [selectedVenue, setSelectedVenue] = useState<VenueType | null>(null);
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [activeFilters, setActiveFilters] = useState<string[]>([]);
-  const [searchLocation, setSearchLocation] = useState("Los Angeles, CA");
+  const [searchLocation, setSearchLocation] = useState("");
   const [capacityRange, setCapacityRange] = useState<[number, number]>([0, 200]);
   const isMobile = useIsMobile();
 
   useEffect(() => {
-    // Filter venues based on active filters and capacity range
+    // Apply all active filters
     let filtered = venues;
+    
+    // Apply location filter if search location is provided
+    if (searchLocation) {
+      filtered = filtered.filter(venue => 
+        venue.location.city.toLowerCase().includes(searchLocation.toLowerCase())
+      );
+    }
     
     // Apply tag filters if any are active
     if (activeFilters.length > 0) {
@@ -37,7 +44,7 @@ const Index = () => {
     );
     
     setFilteredVenues(filtered);
-  }, [activeFilters, capacityRange]);
+  }, [activeFilters, capacityRange, searchLocation]);
 
   const handleSearch = (location: string) => {
     setSearchLocation(location);
@@ -95,23 +102,30 @@ const Index = () => {
       
       <main className="container mx-auto px-4 py-6">
         <div className="text-lg font-medium mb-4">
-          {filteredVenues.length} gardens in {searchLocation}
+          {filteredVenues.length} gardens {searchLocation ? `in ${searchLocation}` : 'worldwide'}
         </div>
         
         <div className={`grid ${isMobile ? 'grid-cols-1' : 'grid-cols-12'} gap-6`}>
           <div className={`${isMobile ? 'order-2' : 'col-span-7 order-1'}`}>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              {filteredVenues.map((venue) => (
-                <div id={`venue-${venue.id}`} key={venue.id}>
-                  <VenueCard 
-                    venue={venue} 
-                    isActive={venue.id === activeVenueId}
-                    onHover={handleCardHover} 
-                    onClick={handleCardClick}
-                  />
-                </div>
-              ))}
-            </div>
+            {filteredVenues.length > 0 ? (
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {filteredVenues.map((venue) => (
+                  <div id={`venue-${venue.id}`} key={venue.id}>
+                    <VenueCard 
+                      venue={venue} 
+                      isActive={venue.id === activeVenueId}
+                      onHover={handleCardHover} 
+                      onClick={handleCardClick}
+                    />
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <div className="bg-white p-8 rounded-lg shadow-md text-center">
+                <h3 className="text-xl font-medium mb-2">No Venues Found</h3>
+                <p className="text-gray-500">Try adjusting your search criteria or filters</p>
+              </div>
+            )}
           </div>
           
           <div className={`${isMobile ? 'order-1 h-[350px] mb-4' : 'col-span-5 order-2 sticky top-24 h-[calc(100vh-150px)]'}`}>
