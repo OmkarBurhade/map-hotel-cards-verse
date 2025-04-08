@@ -13,19 +13,28 @@ const Index = () => {
   const [activeVenueId, setActiveVenueId] = useState<string | null>(null);
   const [activeFilters, setActiveFilters] = useState<string[]>([]);
   const [searchLocation, setSearchLocation] = useState("Los Angeles, CA");
+  const [capacityRange, setCapacityRange] = useState<[number, number]>([0, 200]);
   const isMobile = useIsMobile();
 
   useEffect(() => {
-    // Filter venues based on active filters
-    if (activeFilters.length === 0) {
-      setFilteredVenues(venues);
-    } else {
-      const filtered = venues.filter(venue => 
+    // Filter venues based on active filters and capacity range
+    let filtered = venues;
+    
+    // Apply tag filters if any are active
+    if (activeFilters.length > 0) {
+      filtered = filtered.filter(venue => 
         venue.tags.some(tag => activeFilters.includes(tag))
       );
-      setFilteredVenues(filtered);
     }
-  }, [activeFilters]);
+    
+    // Apply capacity filter
+    filtered = filtered.filter(venue => 
+      venue.details.capacity >= capacityRange[0] && 
+      venue.details.capacity <= capacityRange[1]
+    );
+    
+    setFilteredVenues(filtered);
+  }, [activeFilters, capacityRange]);
 
   const handleSearch = (location: string) => {
     setSearchLocation(location);
@@ -37,6 +46,10 @@ const Index = () => {
 
   const handleFilterChange = (filters: string[]) => {
     setActiveFilters(filters);
+  };
+
+  const handleCapacityChange = (capacity: [number, number]) => {
+    setCapacityRange(capacity);
   };
 
   const handleMarkerClick = (id: string) => {
@@ -54,7 +67,10 @@ const Index = () => {
   return (
     <div className="min-h-screen bg-gray-50">
       <Header onSearch={handleSearch} />
-      <FilterBar onFilterChange={handleFilterChange} />
+      <FilterBar 
+        onFilterChange={handleFilterChange} 
+        onCapacityChange={handleCapacityChange} 
+      />
       
       <main className="container mx-auto px-4 py-6">
         <div className="text-lg font-medium mb-4">

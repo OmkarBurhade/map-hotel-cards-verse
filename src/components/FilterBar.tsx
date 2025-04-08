@@ -1,14 +1,16 @@
 
 import { useState } from "react";
 import { venueTypes } from "../data/venues";
+import { Slider } from "@/components/ui/slider";
 
 interface FilterBarProps {
   onFilterChange: (filters: string[]) => void;
+  onCapacityChange?: (capacity: [number, number]) => void;
 }
 
-const FilterBar = ({ onFilterChange }: FilterBarProps) => {
+const FilterBar = ({ onFilterChange, onCapacityChange }: FilterBarProps) => {
   const [activeFilters, setActiveFilters] = useState<string[]>([]);
-  const [capacity, setCapacity] = useState<string>("Any");
+  const [capacity, setCapacity] = useState<[number, number]>([0, 200]);
 
   const toggleFilter = (filter: string) => {
     const isActive = activeFilters.includes(filter);
@@ -26,27 +28,29 @@ const FilterBar = ({ onFilterChange }: FilterBarProps) => {
     onFilterChange(newFilters);
   };
 
+  const handleCapacityChange = (values: number[]) => {
+    const capacityRange: [number, number] = [values[0], values[1]];
+    setCapacity(capacityRange);
+    if (onCapacityChange) {
+      onCapacityChange(capacityRange);
+    }
+  };
+
   return (
     <div className="bg-white py-4 border-b">
       <div className="container mx-auto px-4">
-        <div className="flex flex-wrap items-center gap-2">
-          <div className="relative mr-2">
-            <select
+        <div className="flex flex-wrap items-center gap-4 mb-4">
+          <div className="flex-grow max-w-xs">
+            <p className="text-sm font-medium mb-1">Capacity Range: {capacity[0]} - {capacity[1]} people</p>
+            <Slider 
+              defaultValue={[0, 200]} 
+              min={0} 
+              max={200} 
+              step={5}
               value={capacity}
-              onChange={(e) => setCapacity(e.target.value)}
-              className="bg-orange-100 text-orange-800 px-4 py-2 pr-8 rounded-full appearance-none cursor-pointer"
-            >
-              <option>Any</option>
-              <option>1-10</option>
-              <option>11-50</option>
-              <option>51-100</option>
-              <option>100+</option>
-            </select>
-            <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-orange-800">
-              <svg className="w-4 h-4 fill-current" viewBox="0 0 20 20">
-                <path d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"></path>
-              </svg>
-            </div>
+              onValueChange={handleCapacityChange}
+              className="py-4"
+            />
           </div>
 
           <div className="flex flex-wrap gap-2 overflow-x-auto pb-2 no-scrollbar">
@@ -71,7 +75,7 @@ const FilterBar = ({ onFilterChange }: FilterBarProps) => {
           </div>
         </div>
 
-        <div className="flex flex-wrap gap-2 mt-2">
+        <div className="flex flex-wrap gap-2">
           <button className="p-2 rounded-full bg-gray-100 hover:bg-gray-200">
             <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8.111 16.404a5.5 5.5 0 017.778 0M12 20h.01m-7.08-7.071c3.904-3.905 10.236-3.905 14.141 0M1.394 9.393c5.857-5.857 15.355-5.857 21.213 0" />
