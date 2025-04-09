@@ -15,18 +15,20 @@ const Index = () => {
   const [selectedVenue, setSelectedVenue] = useState<VenueType | null>(null);
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [activeFilters, setActiveFilters] = useState<string[]>([]);
-  const [searchLocation, setSearchLocation] = useState("");
+  const [searchQuery, setSearchQuery] = useState("");
   const [capacityRange, setCapacityRange] = useState<[number, number]>([0, 200]);
+  const [activeAmenities, setActiveAmenities] = useState<string[]>([]);
   const isMobile = useIsMobile();
 
   useEffect(() => {
     // Apply all active filters
     let filtered = venues;
     
-    // Apply location filter if search location is provided
-    if (searchLocation) {
+    // Apply search filter for both location and venue name
+    if (searchQuery) {
       filtered = filtered.filter(venue => 
-        venue.location.city.toLowerCase().includes(searchLocation.toLowerCase())
+        venue.location.city.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        venue.name.toLowerCase().includes(searchQuery.toLowerCase())
       );
     }
     
@@ -43,15 +45,24 @@ const Index = () => {
       venue.details.capacity <= capacityRange[1]
     );
     
+    // Apply amenity filters
+    if (activeAmenities.length > 0) {
+      filtered = filtered.filter(venue => 
+        activeAmenities.every(amenity => venue.details.amenities.includes(amenity))
+      );
+    }
+    
     setFilteredVenues(filtered);
-  }, [activeFilters, capacityRange, searchLocation]);
+  }, [activeFilters, capacityRange, searchQuery, activeAmenities]);
 
-  const handleSearch = (location: string) => {
-    setSearchLocation(location);
-    toast({
-      title: "Location updated",
-      description: `Searching for venues in ${location}`,
-    });
+  const handleSearch = (query: string) => {
+    setSearchQuery(query);
+    if (query) {
+      toast({
+        title: "Search updated",
+        description: `Showing results for "${query}"`,
+      });
+    }
   };
 
   const handleFilterChange = (filters: string[]) => {
@@ -60,6 +71,19 @@ const Index = () => {
 
   const handleCapacityChange = (capacity: [number, number]) => {
     setCapacityRange(capacity);
+  };
+
+  const handleAmenityToggle = (amenity: string) => {
+    setActiveAmenities(prev => 
+      prev.includes(amenity)
+        ? prev.filter(a => a !== amenity)
+        : [...prev, amenity]
+    );
+    
+    toast({
+      title: activeAmenities.includes(amenity) ? "Filter removed" : "Filter applied",
+      description: `${amenity} filter has been ${activeAmenities.includes(amenity) ? "removed" : "applied"}`,
+    });
   };
 
   const handleMarkerClick = (id: string) => {
@@ -101,8 +125,31 @@ const Index = () => {
       />
       
       <main className="container mx-auto px-4 py-6">
-        <div className="text-lg font-medium mb-4">
-          {filteredVenues.length} gardens {searchLocation ? `in ${searchLocation}` : 'worldwide'}
+        <div className="flex justify-between items-center mb-4">
+          <div className="text-lg font-medium">
+            {filteredVenues.length} gardens {searchQuery ? `matching "${searchQuery}"` : 'worldwide'}
+          </div>
+          
+          <div className="flex space-x-2">
+            <button 
+              className={`px-3 py-1 text-sm rounded-full border transition-colors ${activeAmenities.includes("wifi") ? "bg-purple-600 text-white border-purple-600" : "bg-white border-gray-300"}`}
+              onClick={() => handleAmenityToggle("wifi")}
+            >
+              WiFi
+            </button>
+            <button 
+              className={`px-3 py-1 text-sm rounded-full border transition-colors ${activeAmenities.includes("power") ? "bg-purple-600 text-white border-purple-600" : "bg-white border-gray-300"}`}
+              onClick={() => handleAmenityToggle("power")}
+            >
+              Power
+            </button>
+            <button 
+              className={`px-3 py-1 text-sm rounded-full border transition-colors ${activeAmenities.includes("pets") ? "bg-purple-600 text-white border-purple-600" : "bg-white border-gray-300"}`}
+              onClick={() => handleAmenityToggle("pets")}
+            >
+              Pet Friendly
+            </button>
+          </div>
         </div>
         
         <div className={`grid ${isMobile ? 'grid-cols-1' : 'grid-cols-12'} gap-6`}>

@@ -1,91 +1,114 @@
-
-import { Search } from "lucide-react";
+import { Search, Wifi, Clock, Zap, MapPin, Hotel, Garden } from "lucide-react";
 import { useState, useRef, useEffect } from "react";
-import { Command, CommandInput, CommandList, CommandEmpty, CommandGroup, CommandItem } from "@/components/ui/command";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import { Input } from "@/components/ui/input";
+import { venues } from "../data/venues";
 
 interface HeaderProps {
   onSearch: (location: string) => void;
 }
 
 const Header = ({ onSearch }: HeaderProps) => {
-  const [location, setLocation] = useState("");
+  const [searchTerm, setSearchTerm] = useState("");
   const [searchOpen, setSearchOpen] = useState(false);
-  const [suggestions, setSuggestions] = useState<string[]>([]);
-  const [debouncedLocation, setDebouncedLocation] = useState("");
+  const [suggestions, setSuggestions] = useState<{text: string, type: 'location' | 'venue'}[]>([]);
   const inputRef = useRef<HTMLInputElement>(null);
   
-  // International locations
+  // International locations plus Indian, Pakistani, Chinese locations
   const commonLocations = [
     // United States
-    "Los Angeles, CA", 
-    "New York, NY", 
-    "Chicago, IL", 
-    "San Francisco, CA", 
-    "Miami, FL",
-    "Seattle, WA",
-    "Austin, TX",
-    "Portland, OR",
-    // International
-    "Paris, France",
-    "Tokyo, Japan",
-    "London, UK",
-    "Barcelona, Spain",
-    "Sydney, Australia",
-    "Berlin, Germany",
-    "Amsterdam, Netherlands",
-    "Rome, Italy",
-    "Bangkok, Thailand",
-    "Rio de Janeiro, Brazil",
-    "Cape Town, South Africa",
-    "Dubai, UAE",
-    "Toronto, Canada",
-    "Mexico City, Mexico",
-    "Kyoto, Japan",
-    "Singapore"
+    "Los Angeles, CA", "New York, NY", "Chicago, IL", "San Francisco, CA", "Miami, FL",
+    "Seattle, WA", "Austin, TX", "Portland, OR",
+    // Europe
+    "Paris, France", "London, UK", "Barcelona, Spain", "Berlin, Germany", 
+    "Amsterdam, Netherlands", "Rome, Italy",
+    // Asia - India
+    "New Delhi, India", "Mumbai, India", "Bengaluru, India", "Kolkata, India", 
+    "Chennai, India", "Hyderabad, India", "Jaipur, India", "Goa, India",
+    // Asia - Pakistan
+    "Islamabad, Pakistan", "Karachi, Pakistan", "Lahore, Pakistan", 
+    "Faisalabad, Pakistan", "Peshawar, Pakistan", "Multan, Pakistan",
+    // Asia - China
+    "Beijing, China", "Shanghai, China", "Guangzhou, China", "Shenzhen, China",
+    "Hong Kong, China", "Chengdu, China", "Xi'an, China", "Hangzhou, China",
+    // Other Asia
+    "Tokyo, Japan", "Kyoto, Japan", "Bangkok, Thailand", "Singapore",
+    "Seoul, South Korea", "Dubai, UAE", "Istanbul, Turkey",
+    // Australia/Pacific
+    "Sydney, Australia", "Melbourne, Australia", "Auckland, New Zealand",
+    // Africa
+    "Cairo, Egypt", "Cape Town, South Africa", "Marrakech, Morocco", 
+    "Nairobi, Kenya", "Lagos, Nigeria",
+    // South America
+    "Rio de Janeiro, Brazil", "Buenos Aires, Argentina", "Lima, Peru", 
+    "Santiago, Chile", "Bogotá, Colombia",
+    // North America
+    "Toronto, Canada", "Montreal, Canada", "Vancouver, Canada", 
+    "Mexico City, Mexico", "Cancún, Mexico"
   ];
 
-  // Debounce search input to prevent too many updates
+  // Update suggestions when searchTerm changes
   useEffect(() => {
-    const timer = setTimeout(() => {
-      setDebouncedLocation(location);
-      if (location) {
-        onSearch(location);
-      }
-    }, 300);
-    
-    return () => clearTimeout(timer);
-  }, [location, onSearch]);
-  
-  // Update suggestions when location changes
-  useEffect(() => {
-    if (location) {
-      const filtered = commonLocations.filter(loc => 
-        loc.toLowerCase().includes(location.toLowerCase())
-      );
-      setSuggestions(filtered);
-    } else if (searchOpen) {
+    if (searchTerm.trim() === "") {
       // Show all common locations when input is empty but focused
-      setSuggestions(commonLocations);
-    } else {
-      setSuggestions([]);
+      if (searchOpen) {
+        const locationSuggestions = commonLocations.slice(0, 8).map(loc => ({
+          text: loc,
+          type: 'location' as const
+        }));
+        
+        const venueSuggestions = venues.slice(0, 4).map(venue => ({
+          text: venue.name,
+          type: 'venue' as const
+        }));
+        
+        setSuggestions([...locationSuggestions, ...venueSuggestions]);
+      } else {
+        setSuggestions([]);
+      }
+      return;
     }
-  }, [location, searchOpen]);
+    
+    const term = searchTerm.toLowerCase();
+    
+    // Filter locations
+    const filteredLocations = commonLocations
+      .filter(loc => loc.toLowerCase().includes(term))
+      .map(loc => ({ text: loc, type: 'location' as const }));
+      
+    // Filter venues by name
+    const filteredVenues = venues
+      .filter(venue => venue.name.toLowerCase().includes(term))
+      .map(venue => ({ text: venue.name, type: 'venue' as const }));
+    
+    // Combine and limit results
+    const combinedResults = [...filteredVenues.slice(0, 5), ...filteredLocations.slice(0, 10)];
+    setSuggestions(combinedResults);
+    
+    // If there's an exact match, trigger search
+    const exactLocationMatch = commonLocations.find(
+      loc => loc.toLowerCase() === term
+    );
+    
+    if (exactLocationMatch) {
+      onSearch(exactLocationMatch);
+    } else {
+      // Also search by input directly
+      onSearch(searchTerm);
+    }
+  }, [searchTerm, searchOpen, onSearch]);
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
-    if (location) {
-      onSearch(location);
+    if (searchTerm) {
+      onSearch(searchTerm);
     }
     setSearchOpen(false);
   };
 
-  const handleLocationChange = (value: string) => {
-    setLocation(value);
-  };
-
   const selectSuggestion = (suggestion: string) => {
-    setLocation(suggestion);
+    setSearchTerm(suggestion);
     onSearch(suggestion);
     setSearchOpen(false);
     
@@ -114,30 +137,37 @@ const Header = ({ onSearch }: HeaderProps) => {
             <div className="relative flex-1">
               <Popover open={searchOpen} onOpenChange={setSearchOpen}>
                 <PopoverTrigger asChild>
-                  <input
+                  <Input
                     ref={inputRef}
                     type="text"
-                    value={location}
-                    onChange={(e) => handleLocationChange(e.target.value)}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-l-full focus:outline-none focus:ring-2 focus:ring-green-500"
-                    placeholder="Search for a location"
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                    className="w-full px-4 py-2 rounded-l-full"
+                    placeholder="Search locations or venue names"
                     onFocus={() => setSearchOpen(true)}
                   />
                 </PopoverTrigger>
                 <PopoverContent className="p-0 w-[300px] md:w-[400px]" align="start">
                   <div className="max-h-[400px] overflow-auto rounded-md shadow-md bg-white">
                     {suggestions.length === 0 ? (
-                      <div className="p-4 text-center text-gray-500">No locations found</div>
+                      <div className="p-4 text-center text-gray-500">No results found</div>
                     ) : (
                       <ul className="location-suggestion-list py-2">
-                        {suggestions.map((suggestion) => (
+                        {suggestions.map((suggestion, index) => (
                           <li 
-                            key={suggestion}
-                            onClick={() => selectSuggestion(suggestion)}
+                            key={`${suggestion.text}-${index}`}
+                            onClick={() => selectSuggestion(suggestion.text)}
                             className="location-suggestion-item px-4 py-2 cursor-pointer hover:bg-gray-50 flex items-center"
                           >
-                            <Search className="h-4 w-4 mr-2 text-gray-400" />
-                            <span>{suggestion}</span>
+                            {suggestion.type === 'location' ? (
+                              <MapPin className="h-4 w-4 mr-2 text-gray-400" />
+                            ) : (
+                              <Garden className="h-4 w-4 mr-2 text-green-500" />
+                            )}
+                            <span>{suggestion.text}</span>
+                            <span className="ml-auto text-xs text-gray-400">
+                              {suggestion.type === 'location' ? 'Location' : 'Venue'}
+                            </span>
                           </li>
                         ))}
                       </ul>
@@ -159,10 +189,65 @@ const Header = ({ onSearch }: HeaderProps) => {
           </form>
         </div>
         
-        <div className="flex items-center mt-4 md:mt-0">
-          <a href="#" className="text-green-700 font-medium mr-4 hover:underline">
-            Become a Host
-          </a>
+        <div className="flex items-center space-x-2 mt-4 md:mt-0">
+          <TooltipProvider>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <button className="utility-button p-2 rounded-full border border-gray-300 hover:bg-gray-100 transition-colors">
+                  <Wifi className="h-5 w-5 text-gray-700" />
+                </button>
+              </TooltipTrigger>
+              <TooltipContent>
+                <p>Filter venues with WiFi</p>
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
+
+          <TooltipProvider>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <button className="utility-button p-2 rounded-full border border-gray-300 hover:bg-gray-100 transition-colors">
+                  <Clock className="h-5 w-5 text-gray-700" />
+                </button>
+              </TooltipTrigger>
+              <TooltipContent>
+                <p>Filter by availability time</p>
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
+
+          <TooltipProvider>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <button className="utility-button p-2 rounded-full border border-gray-300 hover:bg-gray-100 transition-colors">
+                  <Zap className="h-5 w-5 text-gray-700" />
+                </button>
+              </TooltipTrigger>
+              <TooltipContent>
+                <p>Filter venues with power outlets</p>
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
+
+          <TooltipProvider>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <button className="utility-button p-2 rounded-full border border-gray-300 hover:bg-gray-100 transition-colors">
+                  <Garden className="h-5 w-5 text-gray-700" />
+                </button>
+              </TooltipTrigger>
+              <TooltipContent>
+                <p>Filter venues with gardens</p>
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
+
+          <div className="hidden md:block ml-2">
+            <a href="#" className="text-green-700 font-medium hover:underline">
+              Become a Host
+            </a>
+          </div>
+          
           <button className="bg-white border border-gray-300 p-2 rounded-full hover:bg-gray-50 transition-colors">
             <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zm-4 7a7 7 0 00-7 7h14a7 7 0 00-7-7z" />

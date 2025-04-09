@@ -94,7 +94,7 @@
 }
 
 .marker-icon {
-  background-color: #D946EF;
+  background-color: #8B5CF6; /* Updated to purple */
   border-radius: 50%;
   border: 2px solid white;
   width: 18px;
@@ -109,16 +109,16 @@
 }
 
 .marker-icon.active {
-  background-color: #BF1A79;
+  background-color: #5B21B6; /* Darker purple when active */
   width: 24px;
   height: 24px;
   border: 3px solid white;
-  box-shadow: 0 0 16px rgba(209, 3, 148, 0.5);
+  box-shadow: 0 0 16px rgba(91, 33, 182, 0.7);
   z-index: 1000;
 }
 
 .marker-pulse {
-  background-color: rgba(217, 70, 239, 0.4);
+  background-color: rgba(139, 92, 246, 0.4); /* Purple with opacity */
   border-radius: 50%;
   height: 40px;
   width: 40px;
@@ -148,7 +148,7 @@
 
 /* Utility button active state */
 .utility-button.active {
-  background-color: #D946EF;
+  background-color: #8B5CF6;
   color: white;
 }
 
