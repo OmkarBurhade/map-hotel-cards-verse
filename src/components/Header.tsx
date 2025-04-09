@@ -1,4 +1,4 @@
-import { Search, Wifi, Clock, Zap, MapPin, Hotel, Garden } from "lucide-react";
+import { Search, Wifi, Clock, Zap, MapPin, Hotel, Flower2 } from "lucide-react";
 import { useState, useRef, useEffect } from "react";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
@@ -15,43 +15,30 @@ const Header = ({ onSearch }: HeaderProps) => {
   const [suggestions, setSuggestions] = useState<{text: string, type: 'location' | 'venue'}[]>([]);
   const inputRef = useRef<HTMLInputElement>(null);
   
-  // International locations plus Indian, Pakistani, Chinese locations
   const commonLocations = [
-    // United States
     "Los Angeles, CA", "New York, NY", "Chicago, IL", "San Francisco, CA", "Miami, FL",
     "Seattle, WA", "Austin, TX", "Portland, OR",
-    // Europe
     "Paris, France", "London, UK", "Barcelona, Spain", "Berlin, Germany", 
     "Amsterdam, Netherlands", "Rome, Italy",
-    // Asia - India
     "New Delhi, India", "Mumbai, India", "Bengaluru, India", "Kolkata, India", 
     "Chennai, India", "Hyderabad, India", "Jaipur, India", "Goa, India",
-    // Asia - Pakistan
     "Islamabad, Pakistan", "Karachi, Pakistan", "Lahore, Pakistan", 
     "Faisalabad, Pakistan", "Peshawar, Pakistan", "Multan, Pakistan",
-    // Asia - China
     "Beijing, China", "Shanghai, China", "Guangzhou, China", "Shenzhen, China",
     "Hong Kong, China", "Chengdu, China", "Xi'an, China", "Hangzhou, China",
-    // Other Asia
     "Tokyo, Japan", "Kyoto, Japan", "Bangkok, Thailand", "Singapore",
     "Seoul, South Korea", "Dubai, UAE", "Istanbul, Turkey",
-    // Australia/Pacific
     "Sydney, Australia", "Melbourne, Australia", "Auckland, New Zealand",
-    // Africa
     "Cairo, Egypt", "Cape Town, South Africa", "Marrakech, Morocco", 
     "Nairobi, Kenya", "Lagos, Nigeria",
-    // South America
     "Rio de Janeiro, Brazil", "Buenos Aires, Argentina", "Lima, Peru", 
     "Santiago, Chile", "Bogotá, Colombia",
-    // North America
     "Toronto, Canada", "Montreal, Canada", "Vancouver, Canada", 
     "Mexico City, Mexico", "Cancún, Mexico"
   ];
 
-  // Update suggestions when searchTerm changes
   useEffect(() => {
     if (searchTerm.trim() === "") {
-      // Show all common locations when input is empty but focused
       if (searchOpen) {
         const locationSuggestions = commonLocations.slice(0, 8).map(loc => ({
           text: loc,
@@ -72,21 +59,17 @@ const Header = ({ onSearch }: HeaderProps) => {
     
     const term = searchTerm.toLowerCase();
     
-    // Filter locations
     const filteredLocations = commonLocations
       .filter(loc => loc.toLowerCase().includes(term))
       .map(loc => ({ text: loc, type: 'location' as const }));
       
-    // Filter venues by name
     const filteredVenues = venues
       .filter(venue => venue.name.toLowerCase().includes(term))
       .map(venue => ({ text: venue.name, type: 'venue' as const }));
     
-    // Combine and limit results
     const combinedResults = [...filteredVenues.slice(0, 5), ...filteredLocations.slice(0, 10)];
     setSuggestions(combinedResults);
     
-    // If there's an exact match, trigger search
     const exactLocationMatch = commonLocations.find(
       loc => loc.toLowerCase() === term
     );
@@ -94,7 +77,6 @@ const Header = ({ onSearch }: HeaderProps) => {
     if (exactLocationMatch) {
       onSearch(exactLocationMatch);
     } else {
-      // Also search by input directly
       onSearch(searchTerm);
     }
   }, [searchTerm, searchOpen, onSearch]);
@@ -112,7 +94,6 @@ const Header = ({ onSearch }: HeaderProps) => {
     onSearch(suggestion);
     setSearchOpen(false);
     
-    // Remove focus from the input
     if (document.activeElement instanceof HTMLElement) {
       document.activeElement.blur();
     }
@@ -162,7 +143,7 @@ const Header = ({ onSearch }: HeaderProps) => {
                             {suggestion.type === 'location' ? (
                               <MapPin className="h-4 w-4 mr-2 text-gray-400" />
                             ) : (
-                              <Garden className="h-4 w-4 mr-2 text-green-500" />
+                              <Flower2 className="h-4 w-4 mr-2 text-green-500" />
                             )}
                             <span>{suggestion.text}</span>
                             <span className="ml-auto text-xs text-gray-400">
@@ -233,7 +214,7 @@ const Header = ({ onSearch }: HeaderProps) => {
             <Tooltip>
               <TooltipTrigger asChild>
                 <button className="utility-button p-2 rounded-full border border-gray-300 hover:bg-gray-100 transition-colors">
-                  <Garden className="h-5 w-5 text-gray-700" />
+                  <Flower2 className="h-5 w-5 text-gray-700" />
                 </button>
               </TooltipTrigger>
               <TooltipContent>
