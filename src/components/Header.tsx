@@ -1,4 +1,5 @@
-import { Search, Wifi, Clock, Zap, MapPin, Hotel, Flower2 } from "lucide-react";
+
+import { Search, Wifi, Clock, Zap, MapPin, Flower2 } from "lucide-react";
 import { useState, useRef, useEffect } from "react";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
@@ -7,9 +8,11 @@ import { venues } from "../data/venues";
 
 interface HeaderProps {
   onSearch: (location: string) => void;
+  onAmenityToggle: (amenity: string) => void;
+  activeAmenities: string[];
 }
 
-const Header = ({ onSearch }: HeaderProps) => {
+const Header = ({ onSearch, onAmenityToggle, activeAmenities }: HeaderProps) => {
   const [searchTerm, setSearchTerm] = useState("");
   const [searchOpen, setSearchOpen] = useState(false);
   const [suggestions, setSuggestions] = useState<{text: string, type: 'location' | 'venue'}[]>([]);
@@ -38,22 +41,9 @@ const Header = ({ onSearch }: HeaderProps) => {
   ];
 
   useEffect(() => {
+    // Only show suggestions when user has typed something
     if (searchTerm.trim() === "") {
-      if (searchOpen) {
-        const locationSuggestions = commonLocations.slice(0, 8).map(loc => ({
-          text: loc,
-          type: 'location' as const
-        }));
-        
-        const venueSuggestions = venues.slice(0, 4).map(venue => ({
-          text: venue.name,
-          type: 'venue' as const
-        }));
-        
-        setSuggestions([...locationSuggestions, ...venueSuggestions]);
-      } else {
-        setSuggestions([]);
-      }
+      setSuggestions([]);
       return;
     }
     
@@ -69,17 +59,7 @@ const Header = ({ onSearch }: HeaderProps) => {
     
     const combinedResults = [...filteredVenues.slice(0, 5), ...filteredLocations.slice(0, 10)];
     setSuggestions(combinedResults);
-    
-    const exactLocationMatch = commonLocations.find(
-      loc => loc.toLowerCase() === term
-    );
-    
-    if (exactLocationMatch) {
-      onSearch(exactLocationMatch);
-    } else {
-      onSearch(searchTerm);
-    }
-  }, [searchTerm, searchOpen, onSearch]);
+  }, [searchTerm]);
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
@@ -99,6 +79,9 @@ const Header = ({ onSearch }: HeaderProps) => {
     }
   };
 
+  // Helper to determine if an amenity is active
+  const isAmenityActive = (amenity: string) => activeAmenities.includes(amenity);
+
   return (
     <header className="bg-white shadow-sm sticky top-0 z-10">
       <div className="container mx-auto px-4 py-4 flex flex-col md:flex-row items-center justify-between">
@@ -113,19 +96,19 @@ const Header = ({ onSearch }: HeaderProps) => {
           </a>
         </div>
         
-        <div className="w-full md:w-auto md:flex-1 md:mx-8">
+        <div className="w-full md:w-auto md:flex-1 md:mx-8 max-w-2xl">
           <form onSubmit={handleSearch} className="flex items-center">
             <div className="relative flex-1">
-              <Popover open={searchOpen} onOpenChange={setSearchOpen}>
+              <Popover open={searchOpen && suggestions.length > 0} onOpenChange={setSearchOpen}>
                 <PopoverTrigger asChild>
                   <Input
                     ref={inputRef}
                     type="text"
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
-                    className="w-full px-4 py-2 rounded-l-full"
+                    className="w-full px-6 py-3 h-12 text-base rounded-l-full border-2 border-gray-300 focus:border-green-500"
                     placeholder="Search locations or venue names"
-                    onFocus={() => setSearchOpen(true)}
+                    onClick={() => setSearchOpen(searchTerm.trim() !== "")}
                   />
                 </PopoverTrigger>
                 <PopoverContent className="p-0 w-[300px] md:w-[400px]" align="start">
@@ -158,71 +141,19 @@ const Header = ({ onSearch }: HeaderProps) => {
               </Popover>
             </div>
             <div className="relative">
-              <select className="h-full px-4 py-2 border-t border-b border-gray-300 appearance-none focus:outline-none focus:ring-2 focus:ring-green-500 bg-white">
+              <select className="h-12 px-4 py-2 border-2 border-y-gray-300 border-r-0 border-l-0 appearance-none focus:outline-none focus:ring-2 focus:ring-green-500 bg-white text-base">
                 <option>Venue Rentals</option>
                 <option>Gardens</option>
                 <option>Parks</option>
               </select>
             </div>
-            <button type="submit" className="bg-green-600 text-white p-2 rounded-r-full hover:bg-green-700 transition-colors">
+            <button type="submit" className="bg-green-600 text-white px-5 py-3 h-12 rounded-r-full hover:bg-green-700 transition-colors">
               <Search className="h-5 w-5" />
             </button>
           </form>
         </div>
         
         <div className="flex items-center space-x-2 mt-4 md:mt-0">
-          <TooltipProvider>
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <button className="utility-button p-2 rounded-full border border-gray-300 hover:bg-gray-100 transition-colors">
-                  <Wifi className="h-5 w-5 text-gray-700" />
-                </button>
-              </TooltipTrigger>
-              <TooltipContent>
-                <p>Filter venues with WiFi</p>
-              </TooltipContent>
-            </Tooltip>
-          </TooltipProvider>
-
-          <TooltipProvider>
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <button className="utility-button p-2 rounded-full border border-gray-300 hover:bg-gray-100 transition-colors">
-                  <Clock className="h-5 w-5 text-gray-700" />
-                </button>
-              </TooltipTrigger>
-              <TooltipContent>
-                <p>Filter by availability time</p>
-              </TooltipContent>
-            </Tooltip>
-          </TooltipProvider>
-
-          <TooltipProvider>
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <button className="utility-button p-2 rounded-full border border-gray-300 hover:bg-gray-100 transition-colors">
-                  <Zap className="h-5 w-5 text-gray-700" />
-                </button>
-              </TooltipTrigger>
-              <TooltipContent>
-                <p>Filter venues with power outlets</p>
-              </TooltipContent>
-            </Tooltip>
-          </TooltipProvider>
-
-          <TooltipProvider>
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <button className="utility-button p-2 rounded-full border border-gray-300 hover:bg-gray-100 transition-colors">
-                  <Flower2 className="h-5 w-5 text-gray-700" />
-                </button>
-              </TooltipTrigger>
-              <TooltipContent>
-                <p>Filter venues with gardens</p>
-              </TooltipContent>
-            </Tooltip>
-          </TooltipProvider>
-
           <div className="hidden md:block ml-2">
             <a href="#" className="text-green-700 font-medium hover:underline">
               Become a Host

@@ -5,6 +5,7 @@ import FilterBar from "../components/FilterBar";
 import VenueCard from "../components/VenueCard";
 import Map from "../components/Map";
 import VenuePopup from "../components/VenuePopup";
+import UtilityButtons from "../components/UtilityButtons";
 import { venues, VenueType } from "../data/venues";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { toast } from "@/hooks/use-toast";
@@ -58,10 +59,20 @@ const Index = () => {
   const handleSearch = (query: string) => {
     setSearchQuery(query);
     if (query) {
-      toast({
-        title: "Search updated",
-        description: `Showing results for "${query}"`,
-      });
+      // Find exact venue match
+      const exactVenueMatch = venues.find(
+        venue => venue.name.toLowerCase() === query.toLowerCase()
+      );
+      
+      if (exactVenueMatch) {
+        setSelectedVenue(exactVenueMatch);
+        setIsPopupOpen(true);
+      } else {
+        toast({
+          title: "Search updated",
+          description: `Showing results for "${query}"`,
+        });
+      }
     }
   };
 
@@ -80,9 +91,11 @@ const Index = () => {
         : [...prev, amenity]
     );
     
+    const isAdding = !activeAmenities.includes(amenity);
+    
     toast({
-      title: activeAmenities.includes(amenity) ? "Filter removed" : "Filter applied",
-      description: `${amenity} filter has been ${activeAmenities.includes(amenity) ? "removed" : "applied"}`,
+      title: isAdding ? "Filter applied" : "Filter removed",
+      description: `${amenity} filter has been ${isAdding ? "applied" : "removed"}`,
     });
   };
 
@@ -118,7 +131,12 @@ const Index = () => {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <Header onSearch={handleSearch} />
+      <Header 
+        onSearch={handleSearch} 
+        onAmenityToggle={handleAmenityToggle}
+        activeAmenities={activeAmenities}
+      />
+      
       <FilterBar 
         onFilterChange={handleFilterChange} 
         onCapacityChange={handleCapacityChange} 
@@ -130,26 +148,11 @@ const Index = () => {
             {filteredVenues.length} gardens {searchQuery ? `matching "${searchQuery}"` : 'worldwide'}
           </div>
           
-          <div className="flex space-x-2">
-            <button 
-              className={`px-3 py-1 text-sm rounded-full border transition-colors ${activeAmenities.includes("wifi") ? "bg-purple-600 text-white border-purple-600" : "bg-white border-gray-300"}`}
-              onClick={() => handleAmenityToggle("wifi")}
-            >
-              WiFi
-            </button>
-            <button 
-              className={`px-3 py-1 text-sm rounded-full border transition-colors ${activeAmenities.includes("power") ? "bg-purple-600 text-white border-purple-600" : "bg-white border-gray-300"}`}
-              onClick={() => handleAmenityToggle("power")}
-            >
-              Power
-            </button>
-            <button 
-              className={`px-3 py-1 text-sm rounded-full border transition-colors ${activeAmenities.includes("pets") ? "bg-purple-600 text-white border-purple-600" : "bg-white border-gray-300"}`}
-              onClick={() => handleAmenityToggle("pets")}
-            >
-              Pet Friendly
-            </button>
-          </div>
+          {/* Utility buttons moved here from header */}
+          <UtilityButtons 
+            activeAmenities={activeAmenities} 
+            onAmenityToggle={handleAmenityToggle}
+          />
         </div>
         
         <div className={`grid ${isMobile ? 'grid-cols-1' : 'grid-cols-12'} gap-6`}>
