@@ -36,8 +36,17 @@ const Map = ({ venues, activeVenueId, onMarkerClick }: MapProps) => {
 
     // Calculate center of visible venues
     if (venues.length > 0) {
-      const bounds = L.latLngBounds(venues.map(v => v.location.coordinates));
-      mapRef.current.fitBounds(bounds, { padding: [50, 50], maxZoom: 3 });
+      try {
+        const bounds = L.latLngBounds(venues.map(v => v.location.coordinates));
+        mapRef.current.fitBounds(bounds, { 
+          padding: [50, 50], 
+          maxZoom: venues.some(v => v.location.city.includes("International")) ? 2 : 13 
+        });
+      } catch (e) {
+        console.error("Error setting map bounds:", e);
+        // Fallback to global view if there's an error with bounds
+        mapRef.current.setView([20, 0], 2);
+      }
     }
 
     // Clear existing markers
@@ -97,7 +106,11 @@ const Map = ({ venues, activeVenueId, onMarkerClick }: MapProps) => {
     if (activeVenueId) {
       const activeVenue = venues.find(v => v.id === activeVenueId);
       if (activeVenue) {
-        mapRef.current.setView(activeVenue.location.coordinates, 15, { animate: true, duration: 0.5 });
+        // Set appropriate zoom level based on whether it's an international venue
+        const isInternational = activeVenue.location.distance.includes("International");
+        const zoomLevel = isInternational ? 4 : 15;
+        
+        mapRef.current.setView(activeVenue.location.coordinates, zoomLevel, { animate: true, duration: 0.5 });
         
         // Update all markers to reflect active state
         Object.entries(markersRef.current).forEach(([id, marker]) => {
