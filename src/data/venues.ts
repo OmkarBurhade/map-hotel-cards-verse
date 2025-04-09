@@ -1,3 +1,4 @@
+
 export interface VenueType {
   id: string;
   name: string;
@@ -736,4 +737,232 @@ export const venues: VenueType[] = [
       reviews: 48,
       rating: 5,
       squareFeet: 34000,
-      capacity:
+      capacity: 120,
+      amenities: ["wifi", "power", "pets"]
+    },
+    tags: ["Native Garden", "Animals", "Kid Friendly"],
+    image: "https://images.unsplash.com/photo-1585320806297-9794b3e4eeae?ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80",
+    isFavorite: true
+  },
+  // Adding more international gardens
+  {
+    id: "33",
+    name: "Lotus Garden Retreat",
+    location: {
+      address: "45 Nehru Road",
+      city: "New Delhi, India",
+      distance: "(International)",
+      coordinates: [28.6139, 77.2090]
+    },
+    details: {
+      privateExperiences: 5,
+      events: 8,
+      reviews: 62,
+      rating: 5,
+      squareFeet: 30000,
+      capacity: 110,
+      amenities: ["wifi", "power", "pets"]
+    },
+    tags: ["Meditation", "Powerful", "Native Garden"],
+    image: "https://images.unsplash.com/photo-1582972236019-ea4af5ffe587?ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80",
+    isFavorite: true
+  },
+  {
+    id: "34",
+    name: "Mumbai Botanical Gardens",
+    location: {
+      address: "78 Marine Drive",
+      city: "Mumbai, India",
+      distance: "(International)",
+      coordinates: [19.0760, 72.8777]
+    },
+    details: {
+      privateExperiences: 4,
+      events: 10,
+      reviews: 85,
+      rating: 5,
+      squareFeet: 45000,
+      capacity: 200,
+      amenities: ["wifi", "power"]
+    },
+    tags: ["Tropical", "Native Garden", "Meditation"],
+    image: "https://images.unsplash.com/photo-1591331535053-a3d749fccba7?ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80",
+    isFavorite: false
+  },
+  {
+    id: "35",
+    name: "Lahore Garden Resort",
+    location: {
+      address: "23 Green Avenue",
+      city: "Lahore, Pakistan",
+      distance: "(International)",
+      coordinates: [31.5204, 74.3587]
+    },
+    details: {
+      privateExperiences: 3,
+      events: 5,
+      reviews: 42,
+      rating: 4,
+      squareFeet: 28000,
+      capacity: 90,
+      amenities: ["wifi", "pets"]
+    },
+    tags: ["Native Garden", "Edible Garden", "Meditation"],
+    image: "https://images.unsplash.com/photo-1592318254908-0cbc63b8a394?ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80",
+    isFavorite: true
+  },
+  {
+    id: "36",
+    name: "Karachi Coastal Gardens",
+    location: {
+      address: "56 Clifton Road",
+      city: "Karachi, Pakistan",
+      distance: "(International)",
+      coordinates: [24.8607, 67.0011]
+    },
+    details: {
+      privateExperiences: 2,
+      events: 4,
+      reviews: 37,
+      rating: 4,
+      squareFeet: 20000,
+      capacity: 70,
+      amenities: ["wifi", "power"]
+    },
+    tags: ["Tropical", "Leave the City", "Dog Friendly"],
+    image: "https://images.unsplash.com/photo-1585553616824-adce2a8e5544?ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80",
+    isFavorite: false
+  },
+  {
+    id: "37",
+    name: "Beijing Harmony Gardens",
+    location: {
+      address: "89 Forbidden City Road",
+      city: "Beijing, China",
+      distance: "(International)",
+      coordinates: [39.9042, 116.4074]
+    },
+    details: {
+      privateExperiences: 6,
+      events: 9,
+      reviews: 78,
+      rating: 5,
+      squareFeet: 50000,
+      capacity: 180,
+      amenities: ["wifi", "power", "pets"]
+    },
+    tags: ["Meditation", "Native Garden", "Powerful"],
+    image: "https://images.unsplash.com/photo-1583565767829-593f0ee5ad36?ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80",
+    isFavorite: true
+  },
+  {
+    id: "38",
+    name: "Shanghai Garden Hotel",
+    location: {
+      address: "34 Bund Street",
+      city: "Shanghai, China",
+      distance: "(International)",
+      coordinates: [31.2304, 121.4737]
+    },
+    details: {
+      privateExperiences: 5,
+      events: 7,
+      reviews: 65,
+      rating: 5,
+      squareFeet: 42000,
+      capacity: 150,
+      amenities: ["wifi", "power"]
+    },
+    tags: ["Tropical", "Meditation", "Leave the City"],
+    image: "https://images.unsplash.com/photo-1596415795163-d481fc8f402f?ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80",
+    isFavorite: false
+  },
+  {
+    id: "39",
+    name: "Kyoto Zen Gardens",
+    location: {
+      address: "12 Bamboo Forest Road",
+      city: "Kyoto, Japan",
+      distance: "(International)",
+      coordinates: [35.0116, 135.7681]
+    },
+    details: {
+      privateExperiences: 4,
+      events: 3,
+      reviews: 92,
+      rating: 5,
+      squareFeet: 35000,
+      capacity: 100,
+      amenities: ["wifi", "pets"]
+    },
+    tags: ["Meditation", "Powerful", "Native Garden"],
+    image: "https://images.unsplash.com/photo-1580651315530-69c8e0026377?ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80",
+    isFavorite: true
+  },
+  {
+    id: "40",
+    name: "Bangkok Tropical Haven",
+    location: {
+      address: "78 Riverside Road",
+      city: "Bangkok, Thailand",
+      distance: "(International)",
+      coordinates: [13.7563, 100.5018]
+    },
+    details: {
+      privateExperiences: 5,
+      events: 8,
+      reviews: 56,
+      rating: 4,
+      squareFeet: 38000,
+      capacity: 130,
+      amenities: ["wifi", "power", "pets"]
+    },
+    tags: ["Tropical", "Powerful", "Animals"],
+    image: "https://images.unsplash.com/photo-1576747236379-931c1c051adf?ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80",
+    isFavorite: false
+  },
+  {
+    id: "41",
+    name: "Cape Town Botanical Gardens",
+    location: {
+      address: "56 Mountain View Road",
+      city: "Cape Town, South Africa",
+      distance: "(International)",
+      coordinates: [-33.9249, 18.4241]
+    },
+    details: {
+      privateExperiences: 3,
+      events: 6,
+      reviews: 48,
+      rating: 5,
+      squareFeet: 40000,
+      capacity: 140,
+      amenities: ["wifi", "power"]
+    },
+    tags: ["Native Garden", "Leave the City", "Animals"],
+    image: "https://images.unsplash.com/photo-1586280268958-9483002d016a?ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80",
+    isFavorite: true
+  },
+  {
+    id: "42",
+    name: "Sydney Harbour Gardens",
+    location: {
+      address: "23 Opera House Street",
+      city: "Sydney, Australia",
+      distance: "(International)",
+      coordinates: [-33.8688, 151.2093]
+    },
+    details: {
+      privateExperiences: 6,
+      events: 9,
+      reviews: 72,
+      rating: 5,
+      squareFeet: 45000,
+      capacity: 160,
+      amenities: ["wifi", "power", "pets"]
+    },
+    tags: ["Native Garden", "Tropical", "Kid Friendly"],
+    image: "https://images.unsplash.com/photo-1590973598891-ab737a1f71c9?ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80",
+    isFavorite: false
+  }
+];
