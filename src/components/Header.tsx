@@ -49,15 +49,31 @@ const Header = ({ onSearch, onAmenityToggle, activeAmenities }: HeaderProps) => 
     
     const term = searchTerm.toLowerCase();
     
-    const filteredLocations = commonLocations
-      .filter(loc => loc.toLowerCase().includes(term))
+    // Find exact matches first, then partial matches
+    const exactLocationMatches = commonLocations
+      .filter(loc => loc.toLowerCase() === term)
       .map(loc => ({ text: loc, type: 'location' as const }));
       
-    const filteredVenues = venues
-      .filter(venue => venue.name.toLowerCase().includes(term))
+    const exactVenueMatches = venues
+      .filter(venue => venue.name.toLowerCase() === term)
       .map(venue => ({ text: venue.name, type: 'venue' as const }));
     
-    const combinedResults = [...filteredVenues.slice(0, 5), ...filteredLocations.slice(0, 10)];
+    const partialLocationMatches = commonLocations
+      .filter(loc => loc.toLowerCase().includes(term) && loc.toLowerCase() !== term)
+      .map(loc => ({ text: loc, type: 'location' as const }));
+      
+    const partialVenueMatches = venues
+      .filter(venue => venue.name.toLowerCase().includes(term) && venue.name.toLowerCase() !== term)
+      .map(venue => ({ text: venue.name, type: 'venue' as const }));
+    
+    // Combine results with exact matches first
+    const combinedResults = [
+      ...exactVenueMatches,
+      ...exactLocationMatches,
+      ...partialVenueMatches.slice(0, 5),
+      ...partialLocationMatches.slice(0, 10)
+    ];
+    
     setSuggestions(combinedResults);
   }, [searchTerm]);
 
@@ -105,10 +121,20 @@ const Header = ({ onSearch, onAmenityToggle, activeAmenities }: HeaderProps) => 
                     ref={inputRef}
                     type="text"
                     value={searchTerm}
-                    onChange={(e) => setSearchTerm(e.target.value)}
+                    onChange={(e) => {
+                      setSearchTerm(e.target.value);
+                      if (e.target.value.trim() !== "") {
+                        setSearchOpen(true);
+                      } else {
+                        setSearchOpen(false);
+                      }
+                    }}
+                    onClick={() => {
+                      // Don't open suggestions when just clicked, need to type first
+                      setSearchOpen(searchTerm.trim() !== "");
+                    }}
                     className="w-full px-6 py-3 h-12 text-base rounded-l-full border-2 border-gray-300 focus:border-green-500"
                     placeholder="Search locations or venue names"
-                    onClick={() => setSearchOpen(searchTerm.trim() !== "")}
                   />
                 </PopoverTrigger>
                 <PopoverContent className="p-0 w-[300px] md:w-[400px]" align="start">
