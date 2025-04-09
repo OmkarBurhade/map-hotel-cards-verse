@@ -36,8 +36,9 @@ export const venueTypes = [
   "All Filters"
 ];
 
-// Sample venue data plus additional hotels
+// Sample venue data plus international gardens
 export const venues: VenueType[] = [
+  // Original venues
   {
     id: "1",
     name: "The Healing Garden",
@@ -736,320 +737,232 @@ export const venues: VenueType[] = [
       reviews: 48,
       rating: 5,
       squareFeet: 34000,
-      capacity: 125,
-      amenities: ["wifi", "power"]
+      capacity: 120,
+      amenities: ["wifi", "power", "pets"]
     },
     tags: ["Native Garden", "Animals", "Kid Friendly"],
-    image: "https://images.unsplash.com/photo-1566737236500-c8ac43014a67?ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80",
+    image: "https://images.unsplash.com/photo-1585320806297-9794b3e4eeae?ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80",
     isFavorite: true
   },
+  // Adding more international gardens
   {
     id: "33",
-    name: "Sunflower Garden Hotel",
+    name: "Lotus Garden Retreat",
     location: {
-      address: "987 Sunny Road",
-      city: "Los Angeles, CA",
-      distance: "(1.7mi)",
-      coordinates: [34.053260, -118.275708]
-    },
-    details: {
-      privateExperiences: 2,
-      events: 3,
-      reviews: 25,
-      rating: 4,
-      squareFeet: 16000,
-      capacity: 60,
-      amenities: ["wifi"]
-    },
-    tags: ["Edible Garden", "Kid Friendly", "Tropical"],
-    image: "https://images.unsplash.com/photo-1589923188900-1a53b21c655a?ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80",
-    isFavorite: false
-  },
-  {
-    id: "34",
-    name: "Four Seasons Garden Hotel",
-    location: {
-      address: "321 Weather Lane",
-      city: "Los Angeles, CA",
-      distance: "(4.8mi)",
-      coordinates: [34.074261, -118.235709]
+      address: "45 Nehru Road",
+      city: "New Delhi, India",
+      distance: "(International)",
+      coordinates: [28.6139, 77.2090]
     },
     details: {
       privateExperiences: 5,
-      events: 7,
-      reviews: 61,
+      events: 8,
+      reviews: 62,
       rating: 5,
-      squareFeet: 37000,
-      capacity: 140,
+      squareFeet: 30000,
+      capacity: 110,
       amenities: ["wifi", "power", "pets"]
     },
-    tags: ["Native Garden", "Orchard", "Leave the City"],
-    image: "https://images.unsplash.com/photo-1566737236500-c8ac43014a67?ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80",
+    tags: ["Meditation", "Powerful", "Native Garden"],
+    image: "https://images.unsplash.com/photo-1582972236019-ea4af5ffe587?ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80",
     isFavorite: true
   },
   {
-    id: "35",
-    name: "Riverside Garden Hotel",
+    id: "34",
+    name: "Mumbai Botanical Gardens",
     location: {
-      address: "654 Stream Boulevard",
-      city: "Los Angeles, CA",
-      distance: "(6.9mi)",
-      coordinates: [34.046262, -118.245710]
+      address: "78 Marine Drive",
+      city: "Mumbai, India",
+      distance: "(International)",
+      coordinates: [19.0760, 72.8777]
+    },
+    details: {
+      privateExperiences: 4,
+      events: 10,
+      reviews: 85,
+      rating: 5,
+      squareFeet: 45000,
+      capacity: 200,
+      amenities: ["wifi", "power"]
+    },
+    tags: ["Tropical", "Native Garden", "Meditation"],
+    image: "https://images.unsplash.com/photo-1591331535053-a3d749fccba7?ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80",
+    isFavorite: false
+  },
+  {
+    id: "35",
+    name: "Lahore Garden Resort",
+    location: {
+      address: "23 Green Avenue",
+      city: "Lahore, Pakistan",
+      distance: "(International)",
+      coordinates: [31.5204, 74.3587]
     },
     details: {
       privateExperiences: 3,
       events: 5,
-      reviews: 39,
+      reviews: 42,
       rating: 4,
-      squareFeet: 25000,
-      capacity: 95,
+      squareFeet: 28000,
+      capacity: 90,
       amenities: ["wifi", "pets"]
     },
-    tags: ["Dog Friendly", "Meditation", "Native Garden"],
-    image: "https://images.unsplash.com/photo-1584890132050-13cabe1a2e5c?ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80",
-    isFavorite: false
-  },
-  {
-    id: "36",
-    name: "Sacred Grove Hotel",
-    location: {
-      address: "789 Ancient Path",
-      city: "Los Angeles, CA",
-      distance: "(3.5mi)",
-      coordinates: [34.065263, -118.255711]
-    },
-    details: {
-      privateExperiences: 4,
-      events: 6,
-      reviews: 52,
-      rating: 5,
-      squareFeet: 32000,
-      capacity: 115,
-      amenities: ["wifi", "power"]
-    },
-    tags: ["Powerful", "Meditation", "Native Garden"],
-    image: "https://images.unsplash.com/photo-1571003123894-246247acff13?ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80",
+    tags: ["Native Garden", "Edible Garden", "Meditation"],
+    image: "https://images.unsplash.com/photo-1592318254908-0cbc63b8a394?ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80",
     isFavorite: true
   },
   {
-    id: "37",
-    name: "Zen Garden Hotel",
+    id: "36",
+    name: "Karachi Coastal Gardens",
     location: {
-      address: "123 Harmony Way",
-      city: "Los Angeles, CA",
-      distance: "(5.9mi)",
-      coordinates: [34.036264, -118.265712]
+      address: "56 Clifton Road",
+      city: "Karachi, Pakistan",
+      distance: "(International)",
+      coordinates: [24.8607, 67.0011]
     },
     details: {
-      privateExperiences: 5,
+      privateExperiences: 2,
       events: 4,
-      reviews: 45,
+      reviews: 37,
+      rating: 4,
+      squareFeet: 20000,
+      capacity: 70,
+      amenities: ["wifi", "power"]
+    },
+    tags: ["Tropical", "Leave the City", "Dog Friendly"],
+    image: "https://images.unsplash.com/photo-1585553616824-adce2a8e5544?ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80",
+    isFavorite: false
+  },
+  {
+    id: "37",
+    name: "Beijing Harmony Gardens",
+    location: {
+      address: "89 Forbidden City Road",
+      city: "Beijing, China",
+      distance: "(International)",
+      coordinates: [39.9042, 116.4074]
+    },
+    details: {
+      privateExperiences: 6,
+      events: 9,
+      reviews: 78,
       rating: 5,
-      squareFeet: 27000,
-      capacity: 90,
+      squareFeet: 50000,
+      capacity: 180,
       amenities: ["wifi", "power", "pets"]
     },
-    tags: ["Meditation", "Powerful", "Leave the City"],
-    image: "https://images.unsplash.com/photo-1576013551627-0ae7d1d006c4?ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80",
+    tags: ["Meditation", "Native Garden", "Powerful"],
+    image: "https://images.unsplash.com/photo-1583565767829-593f0ee5ad36?ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80",
     isFavorite: true
   },
   {
     id: "38",
-    name: "Botanic Garden Hotel",
+    name: "Shanghai Garden Hotel",
     location: {
-      address: "456 Plant Avenue",
-      city: "Los Angeles, CA",
-      distance: "(2.4mi)",
-      coordinates: [34.057265, -118.275713]
+      address: "34 Bund Street",
+      city: "Shanghai, China",
+      distance: "(International)",
+      coordinates: [31.2304, 121.4737]
     },
     details: {
-      privateExperiences: 3,
-      events: 5,
-      reviews: 36,
-      rating: 4,
-      squareFeet: 23000,
-      capacity: 85,
-      amenities: ["wifi", "pets"]
+      privateExperiences: 5,
+      events: 7,
+      reviews: 65,
+      rating: 5,
+      squareFeet: 42000,
+      capacity: 150,
+      amenities: ["wifi", "power"]
     },
-    tags: ["Native Garden", "Edible Garden", "Tropical"],
-    image: "https://images.unsplash.com/photo-1598010130946-a769af701e0b?ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80",
+    tags: ["Tropical", "Meditation", "Leave the City"],
+    image: "https://images.unsplash.com/photo-1596415795163-d481fc8f402f?ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80",
     isFavorite: false
   },
   {
     id: "39",
-    name: "Waterfall Gardens",
+    name: "Kyoto Zen Gardens",
     location: {
-      address: "789 Cascade Drive",
-      city: "Los Angeles, CA",
-      distance: "(7.1mi)",
-      coordinates: [34.071266, -118.245714]
+      address: "12 Bamboo Forest Road",
+      city: "Kyoto, Japan",
+      distance: "(International)",
+      coordinates: [35.0116, 135.7681]
     },
     details: {
       privateExperiences: 4,
-      events: 7,
-      reviews: 54,
+      events: 3,
+      reviews: 92,
       rating: 5,
       squareFeet: 35000,
-      capacity: 130,
-      amenities: ["wifi", "power"]
+      capacity: 100,
+      amenities: ["wifi", "pets"]
     },
-    tags: ["Powerful", "Leave the City", "Dog Friendly"],
-    image: "https://images.unsplash.com/photo-1588354301499-a9a7e0894327?ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80",
+    tags: ["Meditation", "Powerful", "Native Garden"],
+    image: "https://images.unsplash.com/photo-1580651315530-69c8e0026377?ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80",
     isFavorite: true
   },
   {
     id: "40",
-    name: "Garden of Light Hotel",
+    name: "Bangkok Tropical Haven",
     location: {
-      address: "123 Sunshine Road",
-      city: "Los Angeles, CA",
-      distance: "(3.7mi)",
-      coordinates: [34.043267, -118.235715]
+      address: "78 Riverside Road",
+      city: "Bangkok, Thailand",
+      distance: "(International)",
+      coordinates: [13.7563, 100.5018]
     },
     details: {
-      privateExperiences: 3,
-      events: 4,
-      reviews: 29,
+      privateExperiences: 5,
+      events: 8,
+      reviews: 56,
       rating: 4,
-      squareFeet: 20000,
-      capacity: 75,
-      amenities: ["wifi", "pets"]
+      squareFeet: 38000,
+      capacity: 130,
+      amenities: ["wifi", "power", "pets"]
     },
-    tags: ["Tropical", "Kid Friendly", "Meditation"],
-    image: "https://images.unsplash.com/photo-1570592782092-a8e5282e6b6f?ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80",
+    tags: ["Tropical", "Powerful", "Animals"],
+    image: "https://images.unsplash.com/photo-1576747236379-931c1c051adf?ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80",
     isFavorite: false
   },
   {
     id: "41",
-    name: "Whispering Pines Hotel",
+    name: "Cape Town Botanical Gardens",
     location: {
-      address: "456 Forest Trail",
-      city: "Los Angeles, CA",
-      distance: "(6.6mi)",
-      coordinates: [34.062268, -118.225716]
+      address: "56 Mountain View Road",
+      city: "Cape Town, South Africa",
+      distance: "(International)",
+      coordinates: [-33.9249, 18.4241]
     },
     details: {
-      privateExperiences: 5,
+      privateExperiences: 3,
       events: 6,
-      reviews: 47,
+      reviews: 48,
       rating: 5,
-      squareFeet: 33000,
-      capacity: 120,
-      amenities: ["wifi", "power", "pets"]
+      squareFeet: 40000,
+      capacity: 140,
+      amenities: ["wifi", "power"]
     },
-    tags: ["Leave the City", "Native Garden", "Powerful"],
-    image: "https://images.unsplash.com/photo-1587254259209-6e8cc33738ce?ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80",
+    tags: ["Native Garden", "Leave the City", "Animals"],
+    image: "https://images.unsplash.com/photo-1586280268958-9483002d016a?ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80",
     isFavorite: true
   },
   {
     id: "42",
-    name: "Sunset Rose Hotel",
+    name: "Sydney Harbour Gardens",
     location: {
-      address: "789 Flower Boulevard",
-      city: "Los Angeles, CA",
-      distance: "(1.9mi)",
-      coordinates: [34.049269, -118.255717]
+      address: "23 Opera House Street",
+      city: "Sydney, Australia",
+      distance: "(International)",
+      coordinates: [-33.8688, 151.2093]
     },
     details: {
-      privateExperiences: 2,
-      events: 3,
-      reviews: 26,
-      rating: 4,
-      squareFeet: 17000,
-      capacity: 65,
-      amenities: ["wifi"]
-    },
-    tags: ["Native Garden", "Kid Friendly"],
-    image: "https://images.unsplash.com/photo-1578010897928-a93aa82d67e7?ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80",
-    isFavorite: false
-  },
-  {
-    id: "43",
-    name: "Wildlife Garden Hotel",
-    location: {
-      address: "123 Animal Path",
-      city: "Los Angeles, CA",
-      distance: "(5.4mi)",
-      coordinates: [34.068270, -118.265718]
-    },
-    details: {
-      privateExperiences: 4,
-      events: 5,
-      reviews: 43,
+      privateExperiences: 6,
+      events: 9,
+      reviews: 72,
       rating: 5,
-      squareFeet: 30000,
-      capacity: 110,
-      amenities: ["wifi", "power"]
-    },
-    tags: ["Animals", "Dog Friendly", "Leave the City"],
-    image: "https://images.unsplash.com/photo-1588144673206-bb28bd126a90?ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80",
-    isFavorite: true
-  },
-  {
-    id: "44",
-    name: "Herb Garden Inn",
-    location: {
-      address: "456 Spice Lane",
-      city: "Los Angeles, CA",
-      distance: "(4.1mi)",
-      coordinates: [34.040271, -118.245719]
-    },
-    details: {
-      privateExperiences: 3,
-      events: 4,
-      reviews: 32,
-      rating: 4,
-      squareFeet: 22000,
-      capacity: 80,
-      amenities: ["wifi", "pets"]
-    },
-    tags: ["Edible Garden", "Native Garden", "Kid Friendly"],
-    image: "https://images.unsplash.com/photo-1590856029826-c7a73142bbf1?ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80",
-    isFavorite: false
-  },
-  {
-    id: "45",
-    name: "Nature's Glory Hotel",
-    location: {
-      address: "789 Wilderness Road",
-      city: "Los Angeles, CA",
-      distance: "(7.5mi)",
-      coordinates: [34.073272, -118.235720]
-    },
-    details: {
-      privateExperiences: 5,
-      events: 7,
-      reviews: 59,
-      rating: 5,
-      squareFeet: 38000,
-      capacity: 145,
+      squareFeet: 45000,
+      capacity: 160,
       amenities: ["wifi", "power", "pets"]
     },
-    tags: ["Powerful", "Leave the City", "Native Garden"],
-    image: "https://images.unsplash.com/photo-1563080351-bbcd95bdf635?ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80",
-    isFavorite: true
-  },
-  {
-    id: "46",
-    name: "Magnolia Garden Hotel",
-    location: {
-      address: "123 Southern Lane",
-      city: "Los Angeles, CA",
-      distance: "(2.7mi)",
-      coordinates: [34.055273, -118.255721]
-    },
-    details: {
-      privateExperiences: 3,
-      events: 5,
-      reviews: 38,
-      rating: 4,
-      squareFeet: 26000,
-      capacity: 95,
-      amenities: ["wifi", "pets"]
-    },
-    tags: ["Tropical", "Kid Friendly", "Native Garden"],
-    image: "https://images.unsplash.com/photo-1528914137830-c85ee162f588?ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80",
+    tags: ["Native Garden", "Tropical", "Kid Friendly"],
+    image: "https://images.unsplash.com/photo-1590973598891-ab737a1f71c9?ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80",
     isFavorite: false
   }
 ];
-

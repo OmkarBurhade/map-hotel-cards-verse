@@ -10,6 +10,10 @@ interface MapProps {
   onMarkerClick: (id: string) => void;
 }
 
+// Los Angeles coordinates
+const LOS_ANGELES_COORDINATES: [number, number] = [34.0522, -118.2437];
+const DEFAULT_ZOOM = 11;
+
 const Map = ({ venues, activeVenueId, onMarkerClick }: MapProps) => {
   const mapRef = useRef<L.Map | null>(null);
   const markersRef = useRef<{ [key: string]: L.Marker }>({});
@@ -19,8 +23,8 @@ const Map = ({ venues, activeVenueId, onMarkerClick }: MapProps) => {
     // Initialize map
     if (!mapRef.current) {
       mapRef.current = L.map('map', {
-        center: [34.052235, -118.243683], // Los Angeles as default
-        zoom: 13,
+        center: LOS_ANGELES_COORDINATES,
+        zoom: DEFAULT_ZOOM,
         zoomControl: !isMobile,
         attributionControl: true,
       });
@@ -34,10 +38,51 @@ const Map = ({ venues, activeVenueId, onMarkerClick }: MapProps) => {
       }
     }
 
-    // Calculate center of visible venues
-    if (venues.length > 0) {
-      const bounds = L.latLngBounds(venues.map(v => v.location.coordinates));
-      mapRef.current.fitBounds(bounds, { padding: [50, 50], maxZoom: 13 });
+    // Always default to Los Angeles first
+    if (venues.length === 0 || (venues.length > 0 && !activeVenueId)) {
+      mapRef.current.setView(LOS_ANGELES_COORDINATES, DEFAULT_ZOOM);
+    }
+    // Calculate center of visible venues if there are any and an active venue is selected
+    else if (venues.length > 0) {
+      try {
+        if (activeVenueId) {
+          const activeVenue = venues.find(v => v.id === activeVenueId);
+          if (activeVenue) {
+            // Set appropriate zoom level based on whether it's an international venue
+            const isInternational = activeVenue.location.distance.includes("International");
+            const zoomLevel = isInternational ? 4 : 15;
+            
+            mapRef.current.setView(activeVenue.location.coordinates, zoomLevel, { animate: true, duration: 0.5 });
+          } else {
+            // Filter only Los Angeles venues if available
+            const laVenues = venues.filter(v => v.location.city.includes("Los Angeles"));
+            if (laVenues.length > 0) {
+              const bounds = L.latLngBounds(laVenues.map(v => v.location.coordinates));
+              mapRef.current.fitBounds(bounds, { padding: [50, 50], maxZoom: 13 });
+            } else {
+              // If no LA venues, fit to available venues
+              const bounds = L.latLngBounds(venues.map(v => v.location.coordinates));
+              mapRef.current.fitBounds(bounds, { 
+                padding: [50, 50], 
+                maxZoom: venues.some(v => v.location.city.includes("International")) ? 2 : 13 
+              });
+            }
+          }
+        } else {
+          // Focus on Los Angeles venues if available
+          const laVenues = venues.filter(v => v.location.city.includes("Los Angeles"));
+          if (laVenues.length > 0) {
+            const bounds = L.latLngBounds(laVenues.map(v => v.location.coordinates));
+            mapRef.current.fitBounds(bounds, { padding: [50, 50], maxZoom: 13 });
+          } else {
+            mapRef.current.setView(LOS_ANGELES_COORDINATES, DEFAULT_ZOOM);
+          }
+        }
+      } catch (e) {
+        console.error("Error setting map bounds:", e);
+        // Fallback to Los Angeles view
+        mapRef.current.setView(LOS_ANGELES_COORDINATES, DEFAULT_ZOOM);
+      }
     }
 
     // Clear existing markers
@@ -77,7 +122,8 @@ const Map = ({ venues, activeVenueId, onMarkerClick }: MapProps) => {
       // Add tooltip with name and location
       marker.bindTooltip(
         `<div class="font-medium">${venue.name}</div>
-         <div class="text-xs">${venue.location.address}</div>`,
+         <div class="text-xs">${venue.location.address}</div>
+         <div class="text-xs">${venue.location.city}</div>`,
         {
           permanent: false,
           direction: 'top',
@@ -96,7 +142,11 @@ const Map = ({ venues, activeVenueId, onMarkerClick }: MapProps) => {
     if (activeVenueId) {
       const activeVenue = venues.find(v => v.id === activeVenueId);
       if (activeVenue) {
-        mapRef.current.setView(activeVenue.location.coordinates, 15, { animate: true, duration: 0.5 });
+        // Set appropriate zoom level based on whether it's an international venue
+        const isInternational = activeVenue.location.distance.includes("International");
+        const zoomLevel = isInternational ? 4 : 15;
+        
+        mapRef.current.setView(activeVenue.location.coordinates, zoomLevel, { animate: true, duration: 0.5 });
         
         // Update all markers to reflect active state
         Object.entries(markersRef.current).forEach(([id, marker]) => {
