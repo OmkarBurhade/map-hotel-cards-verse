@@ -38,23 +38,51 @@ const Map = ({ venues, activeVenueId, onMarkerClick }: MapProps) => {
       }
     }
 
-    // Calculate center of visible venues if there are any
-    if (venues.length > 0) {
+    // Always default to Los Angeles first
+    if (venues.length === 0 || (venues.length > 0 && !activeVenueId)) {
+      mapRef.current.setView(LOS_ANGELES_COORDINATES, DEFAULT_ZOOM);
+    }
+    // Calculate center of visible venues if there are any and an active venue is selected
+    else if (venues.length > 0) {
       try {
-        // If we have filtered venues, fit the map to show them
-        const bounds = L.latLngBounds(venues.map(v => v.location.coordinates));
-        mapRef.current.fitBounds(bounds, { 
-          padding: [50, 50], 
-          maxZoom: venues.some(v => v.location.city.includes("International")) ? 2 : 13 
-        });
+        if (activeVenueId) {
+          const activeVenue = venues.find(v => v.id === activeVenueId);
+          if (activeVenue) {
+            // Set appropriate zoom level based on whether it's an international venue
+            const isInternational = activeVenue.location.distance.includes("International");
+            const zoomLevel = isInternational ? 4 : 15;
+            
+            mapRef.current.setView(activeVenue.location.coordinates, zoomLevel, { animate: true, duration: 0.5 });
+          } else {
+            // Filter only Los Angeles venues if available
+            const laVenues = venues.filter(v => v.location.city.includes("Los Angeles"));
+            if (laVenues.length > 0) {
+              const bounds = L.latLngBounds(laVenues.map(v => v.location.coordinates));
+              mapRef.current.fitBounds(bounds, { padding: [50, 50], maxZoom: 13 });
+            } else {
+              // If no LA venues, fit to available venues
+              const bounds = L.latLngBounds(venues.map(v => v.location.coordinates));
+              mapRef.current.fitBounds(bounds, { 
+                padding: [50, 50], 
+                maxZoom: venues.some(v => v.location.city.includes("International")) ? 2 : 13 
+              });
+            }
+          }
+        } else {
+          // Focus on Los Angeles venues if available
+          const laVenues = venues.filter(v => v.location.city.includes("Los Angeles"));
+          if (laVenues.length > 0) {
+            const bounds = L.latLngBounds(laVenues.map(v => v.location.coordinates));
+            mapRef.current.fitBounds(bounds, { padding: [50, 50], maxZoom: 13 });
+          } else {
+            mapRef.current.setView(LOS_ANGELES_COORDINATES, DEFAULT_ZOOM);
+          }
+        }
       } catch (e) {
         console.error("Error setting map bounds:", e);
         // Fallback to Los Angeles view
         mapRef.current.setView(LOS_ANGELES_COORDINATES, DEFAULT_ZOOM);
       }
-    } else {
-      // If no venues (empty search), focus on Los Angeles
-      mapRef.current.setView(LOS_ANGELES_COORDINATES, DEFAULT_ZOOM);
     }
 
     // Clear existing markers
