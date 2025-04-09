@@ -21,6 +21,14 @@ const Index = () => {
   const [activeAmenities, setActiveAmenities] = useState<string[]>([]);
   const isMobile = useIsMobile();
 
+  // Filter Los Angeles venues on initial load
+  useEffect(() => {
+    const laVenues = venues.filter(venue => venue.location.city.includes("Los Angeles"));
+    if (laVenues.length > 0) {
+      setFilteredVenues(laVenues);
+    }
+  }, []);
+
   useEffect(() => {
     // Apply all active filters
     let filtered = venues;
@@ -30,6 +38,11 @@ const Index = () => {
       filtered = filtered.filter(venue => 
         venue.location.city.toLowerCase().includes(searchQuery.toLowerCase()) ||
         venue.name.toLowerCase().includes(searchQuery.toLowerCase())
+      );
+    } else {
+      // When no search query, default to Los Angeles venues
+      filtered = filtered.filter(venue => 
+        venue.location.city.includes("Los Angeles")
       );
     }
     
@@ -160,17 +173,21 @@ const Index = () => {
         onCapacityChange={handleCapacityChange} 
       />
       
-      <main className="container mx-auto px-4 py-6">
-        <div className="flex justify-between items-center mb-4">
-          <div className="text-lg font-medium">
-            {filteredVenues.length} gardens {searchQuery ? `matching "${searchQuery}"` : 'worldwide'}
-          </div>
-          
-          {/* Utility buttons moved here from header */}
+      <div className="container mx-auto px-4 py-2">
+        {/* Move utility buttons below filters */}
+        <div className="flex justify-end mb-4">
           <UtilityButtons 
             activeAmenities={activeAmenities} 
             onAmenityToggle={handleAmenityToggle}
           />
+        </div>
+      </div>
+      
+      <main className="container mx-auto px-4 py-2">
+        <div className="flex justify-between items-center mb-4">
+          <div className="text-lg font-medium">
+            {filteredVenues.length} gardens {searchQuery ? `matching "${searchQuery}"` : 'in Los Angeles'}
+          </div>
         </div>
         
         <div className={`grid ${isMobile ? 'grid-cols-1' : 'grid-cols-12'} gap-6`}>
