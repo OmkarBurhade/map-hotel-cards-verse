@@ -58,19 +58,37 @@ const Index = () => {
 
   const handleSearch = (query: string) => {
     setSearchQuery(query);
-    if (query) {
-      // Find exact venue match
-      const exactVenueMatch = venues.find(
-        venue => venue.name.toLowerCase() === query.toLowerCase()
+    
+    // Find exact venue match
+    const exactVenueMatch = venues.find(
+      venue => venue.name.toLowerCase() === query.toLowerCase()
+    );
+    
+    if (exactVenueMatch) {
+      // If exact venue match found, select it and open popup
+      setSelectedVenue(exactVenueMatch);
+      setActiveVenueId(exactVenueMatch.id);
+      setIsPopupOpen(true);
+      toast({
+        title: "Garden found",
+        description: `Showing details for "${exactVenueMatch.name}"`,
+      });
+    } else {
+      // Check if it's a location search
+      const locationSearch = query.toLowerCase();
+      const locationMatches = venues.filter(venue => 
+        venue.location.city.toLowerCase().includes(locationSearch)
       );
       
-      if (exactVenueMatch) {
-        setSelectedVenue(exactVenueMatch);
-        setIsPopupOpen(true);
-      } else {
+      if (locationMatches.length > 0) {
         toast({
-          title: "Search updated",
-          description: `Showing results for "${query}"`,
+          title: "Search results",
+          description: `Found ${locationMatches.length} gardens in "${query}"`,
+        });
+      } else if (query) {
+        toast({
+          title: "No exact matches",
+          description: `Showing all gardens matching "${query}"`,
         });
       }
     }
