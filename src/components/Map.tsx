@@ -19,8 +19,8 @@ const Map = ({ venues, activeVenueId, onMarkerClick }: MapProps) => {
     // Initialize map
     if (!mapRef.current) {
       mapRef.current = L.map('map', {
-        center: [34.052235, -118.243683], // Los Angeles as default
-        zoom: 13,
+        center: [20, 0], // More centralized global view
+        zoom: 2, // Zoomed out to show more of the world
         zoomControl: !isMobile,
         attributionControl: true,
       });
@@ -37,7 +37,7 @@ const Map = ({ venues, activeVenueId, onMarkerClick }: MapProps) => {
     // Calculate center of visible venues
     if (venues.length > 0) {
       const bounds = L.latLngBounds(venues.map(v => v.location.coordinates));
-      mapRef.current.fitBounds(bounds, { padding: [50, 50], maxZoom: 13 });
+      mapRef.current.fitBounds(bounds, { padding: [50, 50], maxZoom: 3 });
     }
 
     // Clear existing markers
@@ -77,7 +77,8 @@ const Map = ({ venues, activeVenueId, onMarkerClick }: MapProps) => {
       // Add tooltip with name and location
       marker.bindTooltip(
         `<div class="font-medium">${venue.name}</div>
-         <div class="text-xs">${venue.location.address}</div>`,
+         <div class="text-xs">${venue.location.address}</div>
+         <div class="text-xs">${venue.location.city}</div>`,
         {
           permanent: false,
           direction: 'top',
