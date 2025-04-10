@@ -12,7 +12,7 @@ interface MapProps {
 
 // Los Angeles coordinates
 const LOS_ANGELES_COORDINATES: [number, number] = [34.0522, -118.2437];
-const DEFAULT_ZOOM = 15;
+const DEFAULT_ZOOM = 14;
 
 const Map = ({ venues, activeVenueId, onMarkerClick }: MapProps) => {
   const mapRef = useRef<L.Map | null>(null);

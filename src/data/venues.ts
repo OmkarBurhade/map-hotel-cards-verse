@@ -422,7 +422,7 @@ export const venues: VenueType[] = [
       rating: 4,
       squareFeet: 17000,
       capacity: 65,
-      amenities: ["wifi"],
+      amenities: ["wifi","clock"],
     },
     tags: ["Native Garden", "Kid Friendly"],
     image:
