@@ -18,16 +18,17 @@ export const useVenueFilter = () => {
     let filtered = venues;
     
     // Apply search filter for both location and venue name
-    if (searchQuery) {
+    if (searchQuery && searchQuery.trim() !== "") {
       filtered = filtered.filter(venue => 
         venue.location.city.toLowerCase().includes(searchQuery.toLowerCase()) ||
         venue.name.toLowerCase().includes(searchQuery.toLowerCase())
       );
     } else {
-      // When no search query, default to Los Angeles venues
-      filtered = filtered.filter(venue => 
-        venue.location.city.includes("Los Angeles")
-      );
+      // When no search query, show random 10 hotels/gardens 
+      // Shuffle the venues array to get random results
+      const shuffled = [...venues].sort(() => 0.5 - Math.random());
+      // Get 10 random venues
+      filtered = shuffled.slice(0, 10);
     }
     
     // Apply tag filters if any are active
@@ -54,6 +55,11 @@ export const useVenueFilter = () => {
   }, [activeFilters, capacityRange, searchQuery, activeAmenities, setFilteredVenues]);
 
   const handleSearch = (query: string) => {
+    // If query is empty, just return without showing any toast
+    if (!query || query.trim() === "") {
+      return;
+    }
+    
     // Find exact venue match
     const exactVenueMatch = venues.find(
       venue => venue.name.toLowerCase() === query.toLowerCase()

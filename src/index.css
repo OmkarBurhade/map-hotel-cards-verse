@@ -1,9 +1,10 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
 
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
 
 @layer base {
   :root {
@@ -94,7 +95,8 @@
 }
 
 .marker-icon {
-  background-color: #8B5CF6; /* Updated to purple */
+  background-color: #8B5CF6;
+  /* Updated to purple */
   border-radius: 50%;
   border: 2px solid white;
   width: 18px;
@@ -109,7 +111,8 @@
 }
 
 .marker-icon.active {
-  background-color: #5B21B6; /* Darker purple when active */
+  background-color: #5B21B6;
+  /* Darker purple when active */
   width: 24px;
   height: 24px;
   border: 3px solid white;
@@ -118,7 +121,8 @@
 }
 
 .marker-pulse {
-  background-color: rgba(139, 92, 246, 0.4); /* Purple with opacity */
+  background-color: rgba(139, 92, 246, 0.4);
+  /* Purple with opacity */
   border-radius: 50%;
   height: 40px;
   width: 40px;
@@ -136,10 +140,12 @@
     transform: translate(-50%, -50%) scale(0.5);
     opacity: 1;
   }
+
   70% {
     transform: translate(-50%, -50%) scale(2);
     opacity: 0;
   }
+
   100% {
     transform: translate(-50%, -50%) scale(2.5);
     opacity: 0;

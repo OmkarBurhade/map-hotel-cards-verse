@@ -6,7 +6,7 @@ const SearchResultsInfo = () => {
   
   return (
     <div className="text-lg font-medium mb-4">
-      {filteredVenues.length} gardens {searchQuery ? `matching "${searchQuery}"` : 'in Los Angeles'}
+      {filteredVenues.length} {searchQuery ? `gardens matching "${searchQuery}"` : 'popular gardens worldwide'}
     </div>
   );
 };
