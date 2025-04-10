@@ -17,16 +17,17 @@ const IndexContent = () => {
   const [selectedVenue, setSelectedVenue] = useState<VenueType | null>(null);
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const isMobile = useIsMobile();
-  
-  const { 
-    setSearchQuery, 
-    setActiveFilters, 
+
+  const {
+    setSearchQuery,
+    setActiveFilters,
     setCapacityRange,
-    activeAmenities, 
+    activeAmenities,
     setActiveAmenities,
     filteredVenues
   } = useSearch();
-  
+  console.log(activeAmenities);
+
   const { handleSearch } = useVenueFilter();
 
   // Filter Los Angeles venues on initial load
@@ -40,12 +41,12 @@ const IndexContent = () => {
   const handleSearchSubmit = (query: string) => {
     setSearchQuery(query);
     handleSearch(query);
-    
+
     // Find exact venue match
     const exactVenueMatch = venues.find(
       venue => venue.name.toLowerCase() === query.toLowerCase()
     );
-    
+
     if (exactVenueMatch) {
       // If exact venue match found, select it and open popup
       setSelectedVenue(exactVenueMatch);
@@ -63,12 +64,13 @@ const IndexContent = () => {
   };
 
   const handleAmenityToggle = (amenity: string) => {
-    setActiveAmenities(prev => 
-      prev.includes(amenity)
-        ? prev.filter(a => a !== amenity)
-        : [...prev, amenity]
-    );
+    setActiveAmenities([
+      ...activeAmenities.includes(amenity)
+        ? activeAmenities.filter(a => a !== amenity)
+        : [...activeAmenities, amenity]
+    ]);
   };
+
 
   const handleMarkerClick = (id: string) => {
     setActiveVenueId(id);
@@ -77,7 +79,7 @@ const IndexContent = () => {
       setSelectedVenue(venue);
       setIsPopupOpen(true);
     }
-    
+
     const element = document.getElementById(`venue-${id}`);
     if (element) {
       element.scrollIntoView({ behavior: "smooth", block: "center" });
@@ -102,44 +104,36 @@ const IndexContent = () => {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <Header 
-        onSearch={handleSearchSubmit} 
+      <Header
+        onSearch={handleSearchSubmit}
         onAmenityToggle={handleAmenityToggle}
         activeAmenities={activeAmenities}
       />
-      
-      <FilterBar 
-        onFilterChange={handleFilterChange} 
-        onCapacityChange={handleCapacityChange} 
+
+      <FilterBar
+        onFilterChange={handleFilterChange}
+        onCapacityChange={handleCapacityChange}
       />
-      
-      <div className="container mx-auto px-4 py-2">
-        {/* Move utility buttons below filters */}
-        <div className="flex justify-end mb-4">
-          <UtilityButtons 
-            activeAmenities={activeAmenities} 
-            onAmenityToggle={handleAmenityToggle}
-          />
-        </div>
-      </div>
-      
+
+
+
       <main className="container mx-auto px-4 py-2">
         <div className="flex justify-between items-center mb-4">
           <SearchResultsInfo />
         </div>
-        
+
         <div className={`grid ${isMobile ? 'grid-cols-1' : 'grid-cols-12'} gap-6`}>
           <div className={`${isMobile ? 'order-2' : 'col-span-7 order-1'}`}>
-            <VenueList 
+            <VenueList
               activeVenueId={activeVenueId}
               onVenueHover={handleCardHover}
               onVenueClick={handleCardClick}
             />
           </div>
-          
+
           <div className={`${isMobile ? 'order-1 h-[350px] mb-4' : 'col-span-5 order-2 sticky top-24 h-[calc(100vh-150px)]'}`}>
-            <Map 
-              venues={filteredVenues} 
+            <Map
+              venues={filteredVenues}
               activeVenueId={activeVenueId}
               onMarkerClick={handleMarkerClick}
             />
@@ -147,7 +141,7 @@ const IndexContent = () => {
         </div>
       </main>
 
-      <VenuePopup 
+      <VenuePopup
         venue={selectedVenue}
         isOpen={isPopupOpen}
         onClose={handleClosePopup}
