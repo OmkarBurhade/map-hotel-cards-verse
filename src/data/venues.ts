@@ -41,12 +41,12 @@ export const venues: VenueType[] = [
   
   {
     id: "26",
-    name: "Stone Bridge Gardens",
+    name: "Cedar Hill Resort",
     location: {
-      address: "321 Rocky Road",
-      city: "Los Angeles, CA",
+      address: "101 Cedar Creek Rd",
+      city: "San Diego, CA",
       distance: "(5.5mi)",
-      coordinates: [34.038253, -118.271701],
+      coordinates: [32.715736, -117.161087],
     },
     details: {
       privateExperiences: 3,
@@ -64,12 +64,12 @@ export const venues: VenueType[] = [
   },
   {
     id: "27",
-    name: "Enchanted Garden Resort",
+    name: "Golden Leaf Retreat",
     location: {
-      address: "654 Fairy Lane",
-      city: "Los Angeles, CA",
+      address: "202 Golden Lane",
+      city: "Pasadena, CA",
       distance: "(3.1mi)",
-      coordinates: [34.056254, -118.281702],
+      coordinates: [34.147785, -118.144516],
     },
     details: {
       privateExperiences: 5,
@@ -87,12 +87,12 @@ export const venues: VenueType[] = [
   },
   {
     id: "28",
-    name: "Orchard View Inn",
+    name: "Pinecone Grove Inn",
     location: {
-      address: "987 Fruit Tree Way",
-      city: "Los Angeles, CA",
+      address: "303 Pine Street",
+      city: "Santa Monica, CA",
       distance: "(7.4mi)",
-      coordinates: [34.072255, -118.231703],
+      coordinates: [34.019454, -118.491191],
     },
     details: {
       privateExperiences: 3,
@@ -110,12 +110,12 @@ export const venues: VenueType[] = [
   },
   {
     id: "29",
-    name: "Maple Tree Hotel",
+    name: "Amberwood Hotel",
     location: {
-      address: "456 Autumn Avenue",
-      city: "Los Angeles, CA",
+      address: "404 Amber Way",
+      city: "Burbank, CA",
       distance: "(2.6mi)",
-      coordinates: [34.045256, -118.241704],
+      coordinates: [34.180839, -118.308968],
     },
     details: {
       privateExperiences: 4,
@@ -133,12 +133,12 @@ export const venues: VenueType[] = [
   },
   {
     id: "30",
-    name: "The Taj Mahal Palace, Mumbai",
+    name: "The Oberoi Rajvilas, Jaipur",
     location: {
-      address: "Apollo Bandar, Colaba, Mumbai, Maharashtra 400001",
-      city: "Mumbai",
+      address: "Goner Road, Paldi Meena, Jaipur, Rajasthan 302031",
+      city: "Jaipur",
       distance: "(187km)",
-      coordinates: [18.921664368635, 72.8332021294478],
+      coordinates: [26.912434, 75.787271],
     },
     details: {
       privateExperiences: 5,
@@ -156,12 +156,12 @@ export const venues: VenueType[] = [
   },
   {
     id: "31",
-    name: "Willowbrook Gardens",
+    name: "Rosehill Gardens",
     location: {
-      address: "123 Willow Lane",
-      city: "Los Angeles, CA",
+      address: "505 Rose Lane",
+      city: "Glendale, CA",
       distance: "(3.9mi)",
-      coordinates: [34.039258, -118.255706],
+      coordinates: [34.142508, -118.255075],
     },
     details: {
       privateExperiences: 3,
@@ -179,12 +179,12 @@ export const venues: VenueType[] = [
   },
   {
     id: "32",
-    name: "Meadowlark Hotel",
+    name: "Morningstar Hotel",
     location: {
-      address: "654 Songbird Avenue",
-      city: "Los Angeles, CA",
+      address: "606 Dawn Drive",
+      city: "Culver City, CA",
       distance: "(5.2mi)",
-      coordinates: [34.060259, -118.265707],
+      coordinates: [34.021122, -118.396466],
     },
     details: {
       privateExperiences: 4,
@@ -202,12 +202,12 @@ export const venues: VenueType[] = [
   },
   {
     id: "33",
-    name: "Sunflower Garden Hotel",
+    name: "Sunridge Garden Hotel",
     location: {
-      address: "987 Sunny Road",
-      city: "Los Angeles, CA",
+      address: "707 Sunset Blvd",
+      city: "Santa Clarita, CA",
       distance: "(1.7mi)",
-      coordinates: [34.05326, -118.275708],
+      coordinates: [34.391664, -118.542586],
     },
     details: {
       privateExperiences: 2,
@@ -225,12 +225,12 @@ export const venues: VenueType[] = [
   },
   {
     id: "34",
-    name: "Four Seasons Garden Hotel",
+    name: "Evergreen Seasons Resort",
     location: {
-      address: "321 Weather Lane",
-      city: "Los Angeles, CA",
+      address: "808 Evergreen Rd",
+      city: "Irvine, CA",
       distance: "(4.8mi)",
-      coordinates: [34.074261, -118.235709],
+      coordinates: [33.684567, -117.826505],
     },
     details: {
       privateExperiences: 5,
@@ -248,12 +248,12 @@ export const venues: VenueType[] = [
   },
   {
     id: "35",
-    name: "Riverside Garden Hotel",
+    name: "Crystal River Hotel",
     location: {
-      address: "654 Stream Boulevard",
-      city: "Los Angeles, CA",
+      address: "909 Riverbend Ln",
+      city: "Anaheim, CA",
       distance: "(6.9mi)",
-      coordinates: [34.046262, -118.24571],
+      coordinates: [33.836593, -117.914301],
     },
     details: {
       privateExperiences: 3,
@@ -271,12 +271,12 @@ export const venues: VenueType[] = [
   },
   {
     id: "36",
-    name: "Sacred Grove Hotel",
+    name: "Whispering Woods Hotel",
     location: {
-      address: "789 Ancient Path",
-      city: "Los Angeles, CA",
+      address: "111 Forest Path",
+      city: "Ventura, CA",
       distance: "(3.5mi)",
-      coordinates: [34.065263, -118.255711],
+      coordinates: [34.280494, -119.294504],
     },
     details: {
       privateExperiences: 4,
@@ -294,12 +294,12 @@ export const venues: VenueType[] = [
   },
   {
     id: "37",
-    name: "Zen Garden Hotel",
+    name: "Tranquil Haven Hotel",
     location: {
-      address: "123 Harmony Way",
-      city: "Los Angeles, CA",
+      address: "222 Zen Street",
+      city: "Riverside, CA",
       distance: "(5.9mi)",
-      coordinates: [34.036264, -118.265712],
+      coordinates: [33.980601, -117.375494],
     },
     details: {
       privateExperiences: 5,
@@ -317,12 +317,12 @@ export const venues: VenueType[] = [
   },
   {
     id: "38",
-    name: "Botanic Garden Hotel",
+    name: "Flora Park Hotel",
     location: {
-      address: "456 Plant Avenue",
-      city: "Los Angeles, CA",
+      address: "333 Bloom Avenue",
+      city: "Fresno, CA",
       distance: "(2.4mi)",
-      coordinates: [34.057265, -118.275713],
+      coordinates: [36.737797, -119.787125],
     },
     details: {
       privateExperiences: 3,
@@ -340,12 +340,12 @@ export const venues: VenueType[] = [
   },
   {
     id: "39",
-    name: "Waterfall Gardens",
+    name: "Cascade Grove Retreat",
     location: {
-      address: "789 Cascade Drive",
-      city: "Los Angeles, CA",
+      address: "444 Falls Court",
+      city: "Palm Springs, CA",
       distance: "(7.1mi)",
-      coordinates: [34.071266, -118.245714],
+      coordinates: [33.830296, -116.545292],
     },
     details: {
       privateExperiences: 4,

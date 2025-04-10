@@ -18,6 +18,7 @@ const VenueCard = ({ venue, isActive, onHover, onClick }: VenueCardProps) => {
     e.stopPropagation(); // Prevent card click when clicking the heart
     setIsFavorite(!isFavorite);
   };
+  console.log(venue);
 
   return (
     <div
