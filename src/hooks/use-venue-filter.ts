@@ -24,10 +24,11 @@ export const useVenueFilter = () => {
         venue.name.toLowerCase().includes(searchQuery.toLowerCase())
       );
     } else {
-      // When no search query, default to Los Angeles venues
-      filtered = filtered.filter(venue => 
-        venue.location.city.includes("Los Angeles")
-      );
+      // When no search query, show random 10 hotels/gardens 
+      // Shuffle the venues array to get random results
+      const shuffled = [...venues].sort(() => 0.5 - Math.random());
+      // Get 10 random venues
+      filtered = shuffled.slice(0, 10);
     }
     
     // Apply tag filters if any are active
