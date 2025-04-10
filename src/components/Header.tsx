@@ -15,28 +15,28 @@ interface HeaderProps {
 const Header = ({ onSearch, onAmenityToggle, activeAmenities }: HeaderProps) => {
   const [searchTerm, setSearchTerm] = useState("");
   const [searchOpen, setSearchOpen] = useState(false);
-  const [suggestions, setSuggestions] = useState<{text: string, type: 'location' | 'venue'}[]>([]);
+  const [suggestions, setSuggestions] = useState<{ text: string, type: 'location' | 'venue' }[]>([]);
   const inputRef = useRef<HTMLInputElement>(null);
-  
+
   const commonLocations = [
     "Los Angeles, CA", "New York, NY", "Chicago, IL", "San Francisco, CA", "Miami, FL",
     "Seattle, WA", "Austin, TX", "Portland, OR",
-    "Paris, France", "London, UK", "Barcelona, Spain", "Berlin, Germany", 
+    "Paris, France", "London, UK", "Barcelona, Spain", "Berlin, Germany",
     "Amsterdam, Netherlands", "Rome, Italy",
-    "New Delhi, India", "Mumbai, India", "Bengaluru, India", "Kolkata, India", 
+    "New Delhi, India", "Mumbai, India", "Bengaluru, India", "Kolkata, India",
     "Chennai, India", "Hyderabad, India", "Jaipur, India", "Goa, India",
-    "Islamabad, Pakistan", "Karachi, Pakistan", "Lahore, Pakistan", 
+    "Islamabad, Pakistan", "Karachi, Pakistan", "Lahore, Pakistan",
     "Faisalabad, Pakistan", "Peshawar, Pakistan", "Multan, Pakistan",
     "Beijing, China", "Shanghai, China", "Guangzhou, China", "Shenzhen, China",
     "Hong Kong, China", "Chengdu, China", "Xi'an, China", "Hangzhou, China",
     "Tokyo, Japan", "Kyoto, Japan", "Bangkok, Thailand", "Singapore",
     "Seoul, South Korea", "Dubai, UAE", "Istanbul, Turkey",
     "Sydney, Australia", "Melbourne, Australia", "Auckland, New Zealand",
-    "Cairo, Egypt", "Cape Town, South Africa", "Marrakech, Morocco", 
+    "Cairo, Egypt", "Cape Town, South Africa", "Marrakech, Morocco",
     "Nairobi, Kenya", "Lagos, Nigeria",
-    "Rio de Janeiro, Brazil", "Buenos Aires, Argentina", "Lima, Peru", 
+    "Rio de Janeiro, Brazil", "Buenos Aires, Argentina", "Lima, Peru",
     "Santiago, Chile", "Bogotá, Colombia",
-    "Toronto, Canada", "Montreal, Canada", "Vancouver, Canada", 
+    "Toronto, Canada", "Montreal, Canada", "Vancouver, Canada",
     "Mexico City, Mexico", "Cancún, Mexico"
   ];
 
@@ -46,26 +46,26 @@ const Header = ({ onSearch, onAmenityToggle, activeAmenities }: HeaderProps) => 
       setSuggestions([]);
       return;
     }
-    
+
     const term = searchTerm.toLowerCase();
-    
+
     // Find exact matches first, then partial matches
     const exactLocationMatches = commonLocations
       .filter(loc => loc.toLowerCase() === term)
       .map(loc => ({ text: loc, type: 'location' as const }));
-      
+
     const exactVenueMatches = venues
       .filter(venue => venue.name.toLowerCase() === term)
       .map(venue => ({ text: venue.name, type: 'venue' as const }));
-    
+
     const partialLocationMatches = commonLocations
       .filter(loc => loc.toLowerCase().includes(term) && loc.toLowerCase() !== term)
       .map(loc => ({ text: loc, type: 'location' as const }));
-      
+
     const partialVenueMatches = venues
       .filter(venue => venue.name.toLowerCase().includes(term) && venue.name.toLowerCase() !== term)
       .map(venue => ({ text: venue.name, type: 'venue' as const }));
-    
+
     // Combine results with exact matches first
     const combinedResults = [
       ...exactVenueMatches,
@@ -73,7 +73,7 @@ const Header = ({ onSearch, onAmenityToggle, activeAmenities }: HeaderProps) => 
       ...partialVenueMatches.slice(0, 5),
       ...partialLocationMatches.slice(0, 10)
     ];
-    
+
     setSuggestions(combinedResults);
   }, [searchTerm]);
 
@@ -89,7 +89,7 @@ const Header = ({ onSearch, onAmenityToggle, activeAmenities }: HeaderProps) => 
     setSearchTerm(suggestion);
     onSearch(suggestion);
     setSearchOpen(false);
-    
+
     if (document.activeElement instanceof HTMLElement) {
       document.activeElement.blur();
     }
@@ -111,7 +111,7 @@ const Header = ({ onSearch, onAmenityToggle, activeAmenities }: HeaderProps) => 
             </div>
           </a>
         </div>
-        
+
         <div className="w-full md:w-auto md:flex-1 md:mx-8 max-w-2xl">
           <form onSubmit={handleSearch} className="flex items-center">
             <div className="relative flex-1">
@@ -144,7 +144,7 @@ const Header = ({ onSearch, onAmenityToggle, activeAmenities }: HeaderProps) => 
                     ) : (
                       <ul className="location-suggestion-list py-2">
                         {suggestions.map((suggestion, index) => (
-                          <li 
+                          <li
                             key={`${suggestion.text}-${index}`}
                             onClick={() => selectSuggestion(suggestion.text)}
                             className="location-suggestion-item px-4 py-2 cursor-pointer hover:bg-gray-50 flex items-center"
@@ -178,14 +178,14 @@ const Header = ({ onSearch, onAmenityToggle, activeAmenities }: HeaderProps) => 
             </button>
           </form>
         </div>
-        
+
         <div className="flex items-center space-x-2 mt-4 md:mt-0">
           <div className="hidden md:block ml-2">
             <a href="#" className="text-green-700 font-medium hover:underline">
               Become a Host
             </a>
           </div>
-          
+
           <button className="bg-white border border-gray-300 p-2 rounded-full hover:bg-gray-50 transition-colors">
             <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zm-4 7a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
