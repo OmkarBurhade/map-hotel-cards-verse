@@ -433,7 +433,7 @@ export const venues: VenueType[] = [
     isFavorite: true,
   },
   {
-<<<<<<< HEAD
+
     id: "28",
     name: "Pinecone Grove Inn",
     location: {
