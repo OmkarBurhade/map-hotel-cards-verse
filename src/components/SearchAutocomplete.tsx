@@ -1,18 +1,8 @@
 
 import { useState, useRef, useEffect } from "react";
 import { MapPin, Flower2, Search } from "lucide-react";
-import { 
-  Command,
-  CommandEmpty,
-  CommandGroup,
-  CommandInput,
-  CommandItem,
-  CommandList,
-} from "@/components/ui/command";
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
-import { venues } from "../data/venues";
 import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
+import { venues } from "../data/venues";
 
 interface SearchAutocompleteProps {
   onSearch: (query: string) => void;
@@ -32,9 +22,29 @@ type SuggestionType = {
 
 const SearchAutocomplete = ({ onSearch }: SearchAutocompleteProps) => {
   const [searchTerm, setSearchTerm] = useState("");
-  const [open, setOpen] = useState(false);
+  const [showSuggestions, setShowSuggestions] = useState(false);
   const [suggestions, setSuggestions] = useState<SuggestionType[]>([]);
   const inputRef = useRef<HTMLInputElement>(null);
+  const suggestionsRef = useRef<HTMLDivElement>(null);
+
+  // Close suggestions when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        suggestionsRef.current && 
+        !suggestionsRef.current.contains(event.target as Node) &&
+        inputRef.current &&
+        !inputRef.current.contains(event.target as Node)
+      ) {
+        setShowSuggestions(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
   useEffect(() => {
     if (searchTerm.trim() === "") {
@@ -78,70 +88,65 @@ const SearchAutocomplete = ({ onSearch }: SearchAutocompleteProps) => {
     e.preventDefault();
     if (searchTerm) {
       onSearch(searchTerm);
-      setOpen(false);
+      setShowSuggestions(false);
     }
   };
 
   const selectSuggestion = (suggestion: string) => {
     setSearchTerm(suggestion);
     onSearch(suggestion);
-    setOpen(false);
+    setShowSuggestions(false);
   };
 
   return (
     <form onSubmit={handleSearch} className="flex items-center relative w-full">
-      <Popover open={open && suggestions.length > 0} onOpenChange={setOpen}>
-        <PopoverTrigger asChild>
-          <div className="relative flex-1">
-            <Input
-              ref={inputRef}
-              type="text"
-              value={searchTerm}
-              onChange={(e) => {
-                setSearchTerm(e.target.value);
-                if (e.target.value.trim() !== "") {
-                  setOpen(true);
-                } else {
-                  setOpen(false);
-                }
-              }}
-              onClick={() => {
-                setOpen(searchTerm.trim() !== "");
-              }}
-              className="w-full px-6 py-3 h-12 text-base rounded-l-full border-2 border-gray-300 focus:border-green-500"
-              placeholder="Search locations or venue names"
-            />
+      <div className="relative flex-1">
+        <Input
+          ref={inputRef}
+          type="text"
+          value={searchTerm}
+          onChange={(e) => {
+            setSearchTerm(e.target.value);
+            setShowSuggestions(e.target.value.trim() !== "");
+          }}
+          onClick={() => {
+            setShowSuggestions(searchTerm.trim() !== "");
+          }}
+          className="w-full px-6 py-3 h-12 text-base rounded-l-full border-2 border-gray-300 focus:border-green-500"
+          placeholder="Search locations or venue names"
+          autoComplete="off"
+        />
+        
+        {/* Suggestions dropdown */}
+        {showSuggestions && suggestions.length > 0 && (
+          <div 
+            ref={suggestionsRef}
+            className="absolute left-0 right-0 mt-1 bg-white border border-gray-200 rounded-lg shadow-lg z-50 max-h-80 overflow-y-auto"
+          >
+            <div className="p-1">
+              {suggestions.map((suggestion, index) => (
+                <div
+                  key={`${suggestion.text}-${index}`}
+                  onClick={() => selectSuggestion(suggestion.text)}
+                  className="flex items-center justify-between p-2 hover:bg-gray-100 rounded cursor-pointer"
+                >
+                  <div className="flex items-center">
+                    {suggestion.type === 'location' ? (
+                      <MapPin className="h-4 w-4 mr-2 text-gray-400" />
+                    ) : (
+                      <Flower2 className="h-4 w-4 mr-2 text-green-500" />
+                    )}
+                    <span>{suggestion.text}</span>
+                  </div>
+                  <span className="ml-auto text-xs text-gray-400">
+                    {suggestion.type === 'location' ? 'Location' : 'Venue'}
+                  </span>
+                </div>
+              ))}
+            </div>
           </div>
-        </PopoverTrigger>
-        <PopoverContent className="p-0 w-[300px] md:w-[400px]" align="start">
-          <Command>
-            <CommandList>
-              <CommandEmpty>No results found</CommandEmpty>
-              <CommandGroup>
-                {suggestions.map((suggestion, index) => (
-                  <CommandItem
-                    key={`${suggestion.text}-${index}`}
-                    onSelect={() => selectSuggestion(suggestion.text)}
-                    className="flex items-center justify-between"
-                  >
-                    <div className="flex items-center">
-                      {suggestion.type === 'location' ? (
-                        <MapPin className="h-4 w-4 mr-2 text-gray-400" />
-                      ) : (
-                        <Flower2 className="h-4 w-4 mr-2 text-green-500" />
-                      )}
-                      <span>{suggestion.text}</span>
-                    </div>
-                    <span className="ml-auto text-xs text-gray-400">
-                      {suggestion.type === 'location' ? 'Location' : 'Venue'}
-                    </span>
-                  </CommandItem>
-                ))}
-              </CommandGroup>
-            </CommandList>
-          </Command>
-        </PopoverContent>
-      </Popover>
+        )}
+      </div>
       
       <div className="relative">
         <select className="h-12 px-4 py-2 border-2 border-y-gray-300 border-r-0 border-l-0 appearance-none focus:outline-none focus:ring-2 focus:ring-green-500 bg-white text-base">
