@@ -14,7 +14,7 @@ interface UtilityButtonsProps {
 
 const UtilityButtons = ({ activeAmenities, onAmenityToggle }: UtilityButtonsProps) => {
   const isActive = (amenity: string) => activeAmenities.includes(amenity);
-
+  
   return (
     <div className="flex flex-wrap gap-2 items-center">
       <TooltipProvider>
@@ -43,18 +43,18 @@ const UtilityButtons = ({ activeAmenities, onAmenityToggle }: UtilityButtonsProp
           <TooltipTrigger asChild>
             <button 
               className={`p-2 rounded-full border transition-colors ${
-                isActive('available-hours') 
+                isActive('clock') 
                   ? 'bg-green-500 text-white border-green-500' 
                   : 'border-gray-300 hover:bg-gray-100 text-gray-700'
               }`}
-              onClick={() => onAmenityToggle('available-hours')}
-              aria-pressed={isActive('available-hours')}
+              onClick={() => onAmenityToggle('clock')}
+              aria-pressed={isActive('clock')}
             >
               <Clock className="h-5 w-5" />
             </button>
           </TooltipTrigger>
           <TooltipContent>
-            <p>{isActive('available-hours') ? 'Remove availability filter' : 'Filter by availability time'}</p>
+            <p>{isActive('clock') ? 'Remove availability filter' : 'Filter by availability time'}</p>
           </TooltipContent>
         </Tooltip>
       </TooltipProvider>
