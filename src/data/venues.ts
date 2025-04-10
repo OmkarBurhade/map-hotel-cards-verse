@@ -1,3 +1,4 @@
+
 export interface VenueType {
   id: string;
   name: string;
@@ -54,7 +55,7 @@ export const venues: VenueType[] = [
       rating: 4,
       squareFeet: 24000,
       capacity: 90,
-      amenities: ["wifi", "pets"],
+      amenities: ["wifi", "pets", "clock"],
     },
     tags: ["Native Garden", "Dog Friendly", "Meditation"],
     image:
@@ -261,7 +262,7 @@ export const venues: VenueType[] = [
       rating: 4,
       squareFeet: 25000,
       capacity: 95,
-      amenities: ["wifi", "pets"],
+      amenities: ["wifi", "pets", "clock"],
     },
     tags: ["Dog Friendly", "Meditation", "Native Garden"],
     image:
@@ -376,7 +377,7 @@ export const venues: VenueType[] = [
       rating: 4,
       squareFeet: 20000,
       capacity: 75,
-      amenities: ["wifi", "pets"],
+      amenities: ["wifi", "pets", "clock"],
     },
     tags: ["Tropical", "Kid Friendly", "Meditation"],
     image:
@@ -445,7 +446,7 @@ export const venues: VenueType[] = [
       rating: 5,
       squareFeet: 30000,
       capacity: 110,
-      amenities: ["wifi", "power"],
+      amenities: ["wifi", "power", "clock"],
     },
     tags: ["Animals", "Dog Friendly", "Leave the City"],
     image:
