@@ -49,6 +49,9 @@ const SearchAutocomplete = ({ onSearch }: SearchAutocompleteProps) => {
   useEffect(() => {
     if (searchTerm.trim() === "") {
       setSuggestions([]);
+      // If search term is empty, trigger onSearch with empty string
+      // to reset the search and show all cards
+      onSearch("");
       return;
     }
 
@@ -82,20 +85,25 @@ const SearchAutocomplete = ({ onSearch }: SearchAutocompleteProps) => {
     ].slice(0, 15);
 
     setSuggestions(combinedResults);
-  }, [searchTerm]);
+  }, [searchTerm, onSearch]);
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
-    if (searchTerm) {
-      onSearch(searchTerm);
-      setShowSuggestions(false);
-    }
+    onSearch(searchTerm);
+    setShowSuggestions(false);
   };
 
   const selectSuggestion = (suggestion: string) => {
     setSearchTerm(suggestion);
     onSearch(suggestion);
     setShowSuggestions(false);
+  };
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    setSearchTerm(value);
+    // Show suggestions only if there's text
+    setShowSuggestions(value.trim() !== "");
   };
 
   return (
@@ -105,10 +113,7 @@ const SearchAutocomplete = ({ onSearch }: SearchAutocompleteProps) => {
           ref={inputRef}
           type="text"
           value={searchTerm}
-          onChange={(e) => {
-            setSearchTerm(e.target.value);
-            setShowSuggestions(e.target.value.trim() !== "");
-          }}
+          onChange={handleInputChange}
           onClick={() => {
             setShowSuggestions(searchTerm.trim() !== "");
           }}

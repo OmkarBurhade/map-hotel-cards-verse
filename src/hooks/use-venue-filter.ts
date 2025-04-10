@@ -18,7 +18,7 @@ export const useVenueFilter = () => {
     let filtered = venues;
     
     // Apply search filter for both location and venue name
-    if (searchQuery) {
+    if (searchQuery && searchQuery.trim() !== "") {
       filtered = filtered.filter(venue => 
         venue.location.city.toLowerCase().includes(searchQuery.toLowerCase()) ||
         venue.name.toLowerCase().includes(searchQuery.toLowerCase())
@@ -54,6 +54,11 @@ export const useVenueFilter = () => {
   }, [activeFilters, capacityRange, searchQuery, activeAmenities, setFilteredVenues]);
 
   const handleSearch = (query: string) => {
+    // If query is empty, just return without showing any toast
+    if (!query || query.trim() === "") {
+      return;
+    }
+    
     // Find exact venue match
     const exactVenueMatch = venues.find(
       venue => venue.name.toLowerCase() === query.toLowerCase()
