@@ -37,6 +37,7 @@ export const venueTypes = [
 
 // Sample venue data plus international gardens
 export const venues: VenueType[] = [
+<<<<<<< HEAD
   // Original venues
   {
     id: "1",
@@ -614,6 +615,9 @@ export const venues: VenueType[] = [
       "https://images.unsplash.com/photo-1571003123771-bd6a099dd83a?ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80",
     isFavorite: true,
   },
+=======
+  
+>>>>>>> main
   {
     id: "26",
     name: "Stone Bridge Gardens",
@@ -708,8 +712,9 @@ export const venues: VenueType[] = [
   },
   {
     id: "30",
-    name: "Redwood Retreat",
+    name: "The Taj Mahal Palace, Mumbai",
     location: {
+<<<<<<< HEAD
       address: "789 Forest Drive",
       city: "Los Angeles, CA",
       distance: "(6.3mi)",
@@ -1004,6 +1009,25 @@ export const venues: VenueType[] = [
     tags: ["Native Garden", "Tropical", "Kid Friendly"],
     image:
       "https://images.unsplash.com/photo-1590973598891-ab737a1f71c9?ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80",
+=======
+      address: "Apollo Bandar, Colaba, Mumbai, Maharashtra 400001",
+      city: "Mumbai",
+      distance: "(187km)",
+      coordinates: [18.921664368635, 72.8332021294478],
+    },
+    details: {
+      privateExperiences: 100,
+      events: 4583130,
+      reviews: 38,
+      rating: 4,
+      squareFeet: 1829863,
+      capacity: 4,
+      amenities: ["wifi", "power"],
+    },
+    tags: ["Tropical", "Kid Friendly", "Native Garden", "Powerful"],
+    image:
+      "https://images.unsplash.com/photo-1528914137830-c85ee162f588?ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80",
+>>>>>>> main
     isFavorite: false,
   },
 ];
