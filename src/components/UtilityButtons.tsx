@@ -54,7 +54,7 @@ const UtilityButtons = ({ activeAmenities, onAmenityToggle }: UtilityButtonsProp
             </button>
           </TooltipTrigger>
           <TooltipContent>
-            <p>{isActive('clock') ? 'Remove availability filter' : 'Filter by availability time'}</p>
+            <p>{isActive('clock') ? 'Remove availability filter' : 'Filter venues with flexible availability'}</p>
           </TooltipContent>
         </Tooltip>
       </TooltipProvider>

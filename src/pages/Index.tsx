@@ -64,11 +64,12 @@ const IndexContent = () => {
   };
 
   const handleAmenityToggle = (amenity: string) => {
-    setActiveAmenities([
-      ...activeAmenities.includes(amenity)
-        ? activeAmenities.filter(a => a !== amenity)
-        : [...activeAmenities, amenity]
-    ]);
+    // Fix: Instead of using a function to update state, directly set the new array
+    const newAmenities = activeAmenities.includes(amenity)
+      ? activeAmenities.filter(a => a !== amenity)
+      : [...activeAmenities, amenity];
+    
+    setActiveAmenities(newAmenities);
   };
 
 

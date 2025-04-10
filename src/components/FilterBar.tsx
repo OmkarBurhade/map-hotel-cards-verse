@@ -27,7 +27,6 @@ const FilterBar = ({ onFilterChange, onCapacityChange }: FilterBarProps) => {
 
   const {
     setSearchQuery,
-
     setCapacityRange,
     activeAmenities,
     setActiveAmenities,
@@ -35,11 +34,12 @@ const FilterBar = ({ onFilterChange, onCapacityChange }: FilterBarProps) => {
   } = useSearch();
 
   const handleAmenityToggle = (amenity: string) => {
-    setActiveAmenities(prev =>
-      prev.includes(amenity)
-        ? prev.filter(a => a !== amenity)
-        : [...prev, amenity]
-    );
+    // Fix: Directly set the new array instead of using a function
+    const newAmenities = activeAmenities.includes(amenity)
+      ? activeAmenities.filter(a => a !== amenity)
+      : [...activeAmenities, amenity];
+    
+    setActiveAmenities(newAmenities);
   };
 
   const [activeFilters, setActiveFilters] = useState<string[]>([]);
