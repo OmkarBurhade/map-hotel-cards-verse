@@ -10,15 +10,9 @@ interface MapProps {
   onMarkerClick: (id: string) => void;
 }
 
-<<<<<<< HEAD
-// Los Angeles coordinates
-const LOS_ANGELES_COORDINATES: [number, number] = [34.0522, -118.2437];
-const DEFAULT_ZOOM = 14;
-=======
 // Default coordinates and zoom
 const DEFAULT_COORDINATES: [number, number] = [20, 0]; // Center of world map
 const DEFAULT_ZOOM = 2;
->>>>>>> 1ec5f79bf713f5b59e875bba68cd7d95020a477f
 
 const Map = ({ venues, activeVenueId, onMarkerClick }: MapProps) => {
   const mapRef = useRef<L.Map | null>(null);
