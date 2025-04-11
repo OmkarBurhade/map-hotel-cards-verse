@@ -4,6 +4,7 @@ import { VenueType } from "../data/venues";
 import { useSearch } from "@/contexts/SearchContext";
 import { Button } from "@/components/ui/button";
 import { MapPin } from "lucide-react";
+import { calculateDistance } from "@/hooks/use-venue-filter";
 
 interface VenueListProps {
   activeVenueId: string | null;
@@ -15,8 +16,40 @@ const VenueList = ({ activeVenueId, onVenueHover, onVenueClick }: VenueListProps
   const { filteredVenues, searchQuery, allVenues } = useSearch();
 
   if (filteredVenues.length === 0) {
-    // Find nearby venues - for this example, we'll just show a few random venues as "nearby"
-    const nearbyVenues = allVenues.slice(0, 3);
+    // Find nearby venues based on the actual distance
+    let nearbyVenues: VenueType[] = [];
+    
+    // If we have a search query, try to find venues near the location
+    if (searchQuery) {
+      // Try to find the location coordinates from the search query
+      const searchedLocation = allVenues.find(venue => 
+        venue.location.city.toLowerCase().includes(searchQuery.toLowerCase())
+      );
+      
+      if (searchedLocation) {
+        // Sort venues by distance from the searched location
+        const searchCoords = searchedLocation.location.coordinates;
+        
+        // Calculate distance for each venue and sort them
+        nearbyVenues = allVenues
+          .filter(venue => venue.id !== searchedLocation.id) // Exclude the searched location itself
+          .map(venue => {
+            const venueCoords = venue.location.coordinates;
+            const distance = calculateDistance(
+              searchCoords[0], 
+              searchCoords[1], 
+              venueCoords[0], 
+              venueCoords[1]
+            );
+            return { ...venue, calculatedDistance: distance };
+          })
+          .sort((a, b) => (a.calculatedDistance || 0) - (b.calculatedDistance || 0))
+          .slice(0, 3); // Get the 3 closest venues
+      } else {
+        // If no exact location match, use a few venues as nearby as a fallback
+        nearbyVenues = allVenues.slice(0, 3);
+      }
+    }
 
     return (
       <div className="w-full">
