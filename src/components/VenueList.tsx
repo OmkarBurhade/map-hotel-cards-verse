@@ -3,8 +3,6 @@ import VenueCard from "./VenueCard";
 import { VenueType } from "../data/venues";
 import { useSearch } from "@/contexts/SearchContext";
 import { Button } from "@/components/ui/button";
-import { MapPin } from "lucide-react";
-import { calculateDistance } from "@/hooks/use-venue-filter";
 
 interface VenueListProps {
   activeVenueId: string | null;
@@ -16,76 +14,6 @@ const VenueList = ({ activeVenueId, onVenueHover, onVenueClick }: VenueListProps
   const { filteredVenues, searchQuery, allVenues } = useSearch();
 
   if (filteredVenues.length === 0) {
-    // Find nearby venues based on the actual distance
-    let nearbyVenues: VenueType[] = [];
-    let searchedLocation = null;
-    
-    // If we have a search query, try to find venues near the location
-    if (searchQuery) {
-      // First, try to find an exact location match
-      searchedLocation = allVenues.find(venue => 
-        venue.location.city.toLowerCase() === searchQuery.toLowerCase()
-      );
-      
-      // If no exact match, try partial match
-      if (!searchedLocation) {
-        searchedLocation = allVenues.find(venue => 
-          venue.location.city.toLowerCase().includes(searchQuery.toLowerCase())
-        );
-      }
-      
-      // If we found a location, use its coordinates to find nearby venues
-      if (searchedLocation) {
-        // Sort venues by distance from the searched location
-        const searchCoords = searchedLocation.location.coordinates;
-        
-        // Calculate distance for each venue and sort them
-        nearbyVenues = allVenues
-          .filter(venue => venue.id !== searchedLocation?.id) // Exclude the searched location itself
-          .map(venue => {
-            const venueCoords = venue.location.coordinates;
-            const distance = calculateDistance(
-              searchCoords[0], 
-              searchCoords[1], 
-              venueCoords[0], 
-              venueCoords[1]
-            );
-            return { ...venue, calculatedDistance: distance };
-          })
-          .sort((a, b) => (a.calculatedDistance || 0) - (b.calculatedDistance || 0))
-          .slice(0, 3); // Get the 3 closest venues
-      } else {
-        // If no exact location match, still try to find nearby venues based on name matches
-        const possibleMatches = allVenues.filter(venue => 
-          venue.name.toLowerCase().includes(searchQuery.toLowerCase())
-        );
-        
-        if (possibleMatches.length > 0) {
-          // If we found matches by name, use the first one's coordinates
-          const firstMatch = possibleMatches[0];
-          const matchCoords = firstMatch.location.coordinates;
-          
-          nearbyVenues = allVenues
-            .filter(venue => venue.id !== firstMatch.id)
-            .map(venue => {
-              const venueCoords = venue.location.coordinates;
-              const distance = calculateDistance(
-                matchCoords[0], 
-                matchCoords[1], 
-                venueCoords[0], 
-                venueCoords[1]
-              );
-              return { ...venue, calculatedDistance: distance };
-            })
-            .sort((a, b) => (a.calculatedDistance || 0) - (b.calculatedDistance || 0))
-            .slice(0, 3);
-        } else {
-          // Last resort: show a few random venues as nearby
-          nearbyVenues = allVenues.slice(0, 3);
-        }
-      }
-    }
-
     return (
       <div className="w-full">
         <div className="bg-white p-8 rounded-2xl shadow-md border border-blue-100 mb-4">
@@ -115,41 +43,19 @@ const VenueList = ({ activeVenueId, onVenueHover, onVenueClick }: VenueListProps
           {searchQuery ? `No gardens found in ${searchQuery}.` : "No gardens found in this area."}
         </p>
         
-        {searchQuery && nearbyVenues.length > 0 && (
-          <>
-            <h3 className="text-lg font-medium mb-4 ml-1 flex items-center">
-              <MapPin className="h-5 w-5 mr-1 text-coral-500" /> 
-              Here are some gardens a little further away...
-            </h3>
-            
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
-              {nearbyVenues.map((venue) => (
-                <div id={`venue-${venue.id}`} key={venue.id}>
-                  <VenueCard 
-                    venue={venue} 
-                    isActive={venue.id === activeVenueId}
-                    onHover={onVenueHover} 
-                    onClick={onVenueClick}
-                  />
-                </div>
-              ))}
+        <h3 className="text-lg font-medium mb-4 mt-8 ml-1">All available gardens</h3>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          {allVenues.map((venue) => (
+            <div id={`venue-${venue.id}`} key={venue.id}>
+              <VenueCard 
+                venue={venue} 
+                isActive={venue.id === activeVenueId}
+                onHover={onVenueHover} 
+                onClick={onVenueClick}
+              />
             </div>
-            
-            <h3 className="text-lg font-medium mb-4 mt-8 ml-1">All available gardens</h3>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              {allVenues.map((venue) => (
-                <div id={`venue-${venue.id}`} key={venue.id}>
-                  <VenueCard 
-                    venue={venue} 
-                    isActive={venue.id === activeVenueId}
-                    onHover={onVenueHover} 
-                    onClick={onVenueClick}
-                  />
-                </div>
-              ))}
-            </div>
-          </>
-        )}
+          ))}
+        </div>
       </div>
     );
   }
