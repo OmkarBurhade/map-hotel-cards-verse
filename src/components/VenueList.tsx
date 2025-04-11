@@ -18,21 +18,30 @@ const VenueList = ({ activeVenueId, onVenueHover, onVenueClick }: VenueListProps
   if (filteredVenues.length === 0) {
     // Find nearby venues based on the actual distance
     let nearbyVenues: VenueType[] = [];
+    let searchedLocation = null;
     
     // If we have a search query, try to find venues near the location
     if (searchQuery) {
-      // Try to find the location coordinates from the search query
-      const searchedLocation = allVenues.find(venue => 
-        venue.location.city.toLowerCase().includes(searchQuery.toLowerCase())
+      // First, try to find an exact location match
+      searchedLocation = allVenues.find(venue => 
+        venue.location.city.toLowerCase() === searchQuery.toLowerCase()
       );
       
+      // If no exact match, try partial match
+      if (!searchedLocation) {
+        searchedLocation = allVenues.find(venue => 
+          venue.location.city.toLowerCase().includes(searchQuery.toLowerCase())
+        );
+      }
+      
+      // If we found a location, use its coordinates to find nearby venues
       if (searchedLocation) {
         // Sort venues by distance from the searched location
         const searchCoords = searchedLocation.location.coordinates;
         
         // Calculate distance for each venue and sort them
         nearbyVenues = allVenues
-          .filter(venue => venue.id !== searchedLocation.id) // Exclude the searched location itself
+          .filter(venue => venue.id !== searchedLocation?.id) // Exclude the searched location itself
           .map(venue => {
             const venueCoords = venue.location.coordinates;
             const distance = calculateDistance(
@@ -46,8 +55,34 @@ const VenueList = ({ activeVenueId, onVenueHover, onVenueClick }: VenueListProps
           .sort((a, b) => (a.calculatedDistance || 0) - (b.calculatedDistance || 0))
           .slice(0, 3); // Get the 3 closest venues
       } else {
-        // If no exact location match, use a few venues as nearby as a fallback
-        nearbyVenues = allVenues.slice(0, 3);
+        // If no exact location match, still try to find nearby venues based on name matches
+        const possibleMatches = allVenues.filter(venue => 
+          venue.name.toLowerCase().includes(searchQuery.toLowerCase())
+        );
+        
+        if (possibleMatches.length > 0) {
+          // If we found matches by name, use the first one's coordinates
+          const firstMatch = possibleMatches[0];
+          const matchCoords = firstMatch.location.coordinates;
+          
+          nearbyVenues = allVenues
+            .filter(venue => venue.id !== firstMatch.id)
+            .map(venue => {
+              const venueCoords = venue.location.coordinates;
+              const distance = calculateDistance(
+                matchCoords[0], 
+                matchCoords[1], 
+                venueCoords[0], 
+                venueCoords[1]
+              );
+              return { ...venue, calculatedDistance: distance };
+            })
+            .sort((a, b) => (a.calculatedDistance || 0) - (b.calculatedDistance || 0))
+            .slice(0, 3);
+        } else {
+          // Last resort: show a few random venues as nearby
+          nearbyVenues = allVenues.slice(0, 3);
+        }
       }
     }
 
@@ -77,7 +112,7 @@ const VenueList = ({ activeVenueId, onVenueHover, onVenueClick }: VenueListProps
         </div>
 
         <p className="text-sm text-gray-500 ml-1 mb-4">
-          {searchQuery ? `Few results in this area.` : "No gardens found in this area."}
+          {searchQuery ? `No gardens found in ${searchQuery}.` : "No gardens found in this area."}
         </p>
         
         {searchQuery && nearbyVenues.length > 0 && (

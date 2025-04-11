@@ -37,10 +37,20 @@ export const useVenueFilter = () => {
     
     // Apply search filter for both location and venue name
     if (searchQuery && searchQuery.trim() !== "") {
-      filtered = filtered.filter(venue => 
-        venue.location.city.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        venue.name.toLowerCase().includes(searchQuery.toLowerCase())
+      // First try to find exact matches in location
+      const locationMatches = filtered.filter(venue => 
+        venue.location.city.toLowerCase().includes(searchQuery.toLowerCase())
       );
+      
+      // If we have location matches, use those
+      if (locationMatches.length > 0) {
+        filtered = locationMatches;
+      } else {
+        // Otherwise, check for venue name matches
+        filtered = filtered.filter(venue => 
+          venue.name.toLowerCase().includes(searchQuery.toLowerCase())
+        );
+      }
     }
     
     // Apply tag filters if any are active
