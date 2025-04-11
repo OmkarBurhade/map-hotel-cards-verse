@@ -1,5 +1,5 @@
 
-import { Clock, Heart } from "lucide-react";
+import { Clock, Flower2, Heart, PawPrint, Wifi, WifiHigh, Zap } from "lucide-react";
 import { useState } from "react";
 import { VenueType } from "../data/venues";
 import { Card } from "./ui/card";
@@ -13,13 +13,13 @@ interface VenueCardProps {
 
 const VenueCard = ({ venue, isActive, onHover, onClick }: VenueCardProps) => {
   const [isFavorite, setIsFavorite] = useState(venue.isFavorite);
-  
+
 
   const handleHeartClick = (e: React.MouseEvent) => {
     e.stopPropagation(); // Prevent card click when clicking the heart
     setIsFavorite(!isFavorite);
   };
-  console.log(venue);
+
 
   return (
     <div
@@ -90,34 +90,31 @@ const VenueCard = ({ venue, isActive, onHover, onClick }: VenueCardProps) => {
         </div>
 
         <div className="mt-3 flex gap-2">
-          {venue.details.amenities.includes("wifi") && (
-            <div className="p-1 bg-gray-100 rounded-full">
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-gray-600" viewBox="0 0 20 20" fill="currentColor">
-                <path fillRule="evenodd" d="M17.778 8.222c-4.296-4.296-11.26-4.296-15.556 0A1 1 0 01.808 6.808c5.076-5.077 13.308-5.077 18.384 0a1 1 0 01-1.414 1.414zM14.95 11.05a7 7 0 00-9.9 0 1 1 0 01-1.414-1.414 9 9 0 0112.728 0 1 1 0 01-1.414 1.414zM12.12 13.88a3 3 0 00-4.242 0 1 1 0 01-1.415-1.415 5 5 0 017.072 0 1 1 0 01-1.415 1.415zM9 16a1 1 0 011-1h.01a1 1 0 110 2H10a1 1 0 01-1-1z" clipRule="evenodd" />
-              </svg>
+          {venue.details.amenities?.includes("wifi") && (
+            <div className="p-2 bg-gray-100 rounded-full">
+              <Wifi  className="text-gray-600 h-4 w-4" />
             </div>
           )}
 
-          {venue.details.amenities.includes("power") && (
-            <div className="p-1 bg-gray-100 rounded-full">
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-gray-600" viewBox="0 0 20 20" fill="currentColor">
-                <path fillRule="evenodd" d="M11.3 1.046A1 1 0 0112 2v5h4a1 1 0 01.82 1.573l-7 10A1 1 0 018 18v-5H4a1 1 0 01-.82-1.573l7-10a1 1 0 011.12-.38z" clipRule="evenodd" />
-              </svg>
+          {venue.details.amenities?.includes("power") && (
+            <div className="p-2 bg-gray-100 rounded-full">
+             <Zap className="text-gray-600 h-4 w-4" />
             </div>
           )}
 
-          {venue.details.amenities.includes("pets") && (
-            <div className="p-1 bg-gray-100 rounded-full">
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-gray-600" viewBox="0 0 20 20" fill="currentColor">
-                <path fillRule="evenodd" d="M6.625 2.655A9 9 0 0119 11a1 1 0 11-2 0 7 7 0 00-9.625-6.492 1 1 0 11-.75-1.853zM4.662 4.959A1 1 0 014.75 6.37 6.97 6.97 0 003 11a1 1 0 11-2 0 8.97 8.97 0 012.25-5.953 1 1 0 011.412-.088z" clipRule="evenodd" />
-                <path fillRule="evenodd" d="M5 11a5 5 0 1110 0 1 1 0 11-2 0 3 3 0 10-6 0c0 1.677-.345 3.276-.968 4.729a1 1 0 11-1.838-.789A9.964 9.964 0 005 11zm8.921 2.012a1 1 0 01.831 1.145 19.86 19.86 0 01-.545 2.436 1 1 0 11-1.92-.558c.207-.713.371-1.445.49-2.192a1 1 0 011.144-.83z" clipRule="evenodd" />
-                <path fillRule="evenodd" d="M10 10a1 1 0 011 1c0 2.236-.46 4.368-1.29 6.304a1 1 0 01-1.838-.789A13.952 13.952 0 009 11a1 1 0 011-1z" clipRule="evenodd" />
-              </svg>
+          {venue.details.amenities?.includes("pets") && (
+            <div className="p-2 bg-gray-100 rounded-full">
+              <PawPrint className="text-gray-600 h-4 w-4" />
             </div>
           )}
-          {venue.details.amenities.includes("clock") && (
-            <div className="p-1 bg-gray-100 rounded-full text-gray-600">
-              <Clock className="h-5 w-5" />
+          {venue.details.amenities?.includes("gardens") && (
+            <div className="p-2 bg-gray-100 rounded-full">
+              <Flower2 className="text-gray-600 h-4 w-4" />
+            </div>
+          )}
+          {venue.details.amenities?.includes("clock") && (
+            <div className="p-2 bg-gray-100 rounded-full text-gray-600">
+              <Clock className="h-4 w-4" />
             </div>
           )}
         </div>

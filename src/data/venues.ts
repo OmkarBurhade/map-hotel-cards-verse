@@ -53,8 +53,8 @@ export const venues: VenueType[] = [
       reviews: 189,
       rating: 5,
       squareFeet: 40000,
-      capacity: 2161,
-      amenities: ["wifi", "power", "pets", "clock"],
+      capacity: 861,
+      amenities: ["wifi", "power"],
     },
     tags: ["Meditation", "Native Garden", "Powerful"],
     image: "https://kyoto-ryokan.co.jp/images/top/main02.jpg",
@@ -76,7 +76,7 @@ export const venues: VenueType[] = [
       rating: 5,
       squareFeet: 35000,
       capacity: 202,
-      amenities: ["wifi", "power", "pets"],
+      amenities: ["power", "gardens"],
     },
     tags: ["Tropical", "Meditation", "Leave the City"],
     image:
@@ -99,7 +99,7 @@ export const venues: VenueType[] = [
       rating: 5,
       squareFeet: 121400,
       capacity: 201,
-      amenities: ["wifi", "power", "pets", "clock"],
+      amenities: ["wifi", "power", "pets"],
     },
     tags: ["Native Garden", "Kid Friendly", "Edible Garden"],
     image:
@@ -122,7 +122,7 @@ export const venues: VenueType[] = [
       rating: 5,
       squareFeet: 250000,
       capacity: 200,
-      amenities: ["wifi", "power", "clock"],
+      amenities: ["clock", "gardens"],
     },
     tags: ["Tropical", "Powerful", "Kid Friendly"],
     image:
@@ -145,7 +145,7 @@ export const venues: VenueType[] = [
       rating: 5,
       squareFeet: 20000,
       capacity: 150,
-      amenities: ["pets", "clock"],
+      amenities: ["wifi", "pets", "clock"],
     },
     tags: ["Native Garden", "Tropical", "Meditation"],
     image:
@@ -168,7 +168,7 @@ export const venues: VenueType[] = [
       rating: 5,
       squareFeet: 55000,
       capacity: 107,
-      amenities: ["wifi", "power", "pets"],
+      amenities: ["power", "pets", "gardens"],
     },
     tags: ["Native Garden", "Kid Friendly", "Powerful"],
     image:
@@ -191,7 +191,7 @@ export const venues: VenueType[] = [
       rating: 5,
       squareFeet: 79000,
       capacity: 199,
-      amenities: ["wifi", "pets", "clock"],
+      amenities: ["clock", "gardens"],
     },
     tags: ["Native Garden", "Kid Friendly", "Leave the City"],
     image:
@@ -237,7 +237,7 @@ export const venues: VenueType[] = [
       rating: 5,
       squareFeet: 60000,
       capacity: 98,
-      amenities: ["wifi", "power", "pets", "clock"],
+      amenities: ["wifi", "power"],
     },
     tags: ["Native Garden", "Powerful", "Meditation"],
     image:
@@ -260,7 +260,7 @@ export const venues: VenueType[] = [
       rating: 5,
       squareFeet: 74000,
       capacity: 45,
-      amenities: ["wifi", "pets"],
+      amenities: ["wifi", "pets", "gardens"],
     },
     tags: ["Native Garden", "Kid Friendly", "Meditation"],
     image:
@@ -284,7 +284,7 @@ export const venues: VenueType[] = [
       rating: 5,
       squareFeet: 52000,
       capacity: 125,
-      amenities: ["wifi", "power", "clock"],
+      amenities: ["wifi", "power", "clock", "gardens"],
     },
     tags: ["Native Garden", "Kid Friendly", "Edible Garden"],
     image:
@@ -307,7 +307,7 @@ export const venues: VenueType[] = [
       rating: 5,
       squareFeet: 110000,
       capacity: 188,
-      amenities: ["wifi", "power", "pets"],
+      amenities: ["power", "pets", "gardens"],
     },
     tags: ["Native Garden", "Kid Friendly", "Powerful"],
     image:
@@ -330,7 +330,7 @@ export const venues: VenueType[] = [
       rating: 5,
       squareFeet: 87000,
       capacity: 115,
-      amenities: ["wifi", "pets", "clock"],
+      amenities: ["clock", "gardens"],
     },
     tags: ["Native Garden", "Kid Friendly", "Edible Garden"],
     image:
@@ -353,7 +353,7 @@ export const venues: VenueType[] = [
       rating: 5,
       squareFeet: 35000,
       capacity: 150,
-      amenities: ["power", "pets"],
+      amenities: ["power", "pets", "gardens"],
     },
     tags: ["Meditation", "Native Garden", "Leave the City"],
     image:
@@ -376,7 +376,7 @@ export const venues: VenueType[] = [
       rating: 5,
       squareFeet: 83000,
       capacity: 120,
-      amenities: ["wifi", "clock"],
+      amenities: ["wifi", "gardens"],
     },
     tags: ["Tropical", "Kid Friendly", "Native Garden"],
     image:
@@ -400,7 +400,7 @@ export const venues: VenueType[] = [
       rating: 4,
       squareFeet: 24000,
       capacity: 90,
-      amenities: ["wifi", "pets", "clock"],
+      amenities: ["pets", "clock", "gardens"],
     },
     tags: ["Native Garden", "Dog Friendly", "Meditation"],
     image:
@@ -423,7 +423,7 @@ export const venues: VenueType[] = [
       rating: 5,
       squareFeet: 39000,
       capacity: 145,
-      amenities: ["wifi", "power", "pets"],
+      amenities: ["wifi", "power", "gardens"],
     },
     tags: ["Powerful", "Kid Friendly", "Tropical"],
     image:
@@ -446,7 +446,7 @@ export const venues: VenueType[] = [
       rating: 5,
       squareFeet: 40000,
       capacity: 180,
-      amenities: ["wifi", "pets", "clock"],
+      amenities: ["gardens"],
     },
     tags: ["Tropical", "Leave the City", "Meditation"],
     image:
@@ -469,11 +469,10 @@ export const venues: VenueType[] = [
       rating: 5,
       squareFeet: 55000,
       capacity: 150,
-      amenities: ["wifi", "clock"],
+      amenities: ["wifi", "clock", "gardens"],
     },
     tags: ["Native Garden", "Powerful", "Leave the City"],
-    image:
-      "https://travel.usnews.com/images/dbg_general_garden8_El8nSEM.jpg",
+    image: "https://travel.usnews.com/images/dbg_general_garden8_El8nSEM.jpg",
     isFavorite: false,
   },
   {

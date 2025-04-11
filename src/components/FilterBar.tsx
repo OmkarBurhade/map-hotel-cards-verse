@@ -48,7 +48,7 @@ const FilterBar = ({ onFilterChange, onCapacityChange }: FilterBarProps) => {
   const [capacity, setCapacity] = useState<[number, number]>([0, getMaxCapacity()]);
   const [isCapacityOpen, setIsCapacityOpen] = useState(false);
 
-console.log('capacity', capacity);
+
 
   const toggleFilter = (filter: string) => {
     const isActive = activeFilters.includes(filter);

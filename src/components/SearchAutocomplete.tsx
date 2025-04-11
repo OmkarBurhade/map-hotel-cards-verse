@@ -30,7 +30,7 @@ const SearchAutocomplete = ({ onSearch }: SearchAutocompleteProps) => {
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (
-        suggestionsRef.current && 
+        suggestionsRef.current &&
         !suggestionsRef.current.contains(event.target as Node) &&
         inputRef.current &&
         !inputRef.current.contains(event.target as Node)
@@ -118,10 +118,10 @@ const SearchAutocomplete = ({ onSearch }: SearchAutocompleteProps) => {
           placeholder="Search locations or venue names"
           autoComplete="off"
         />
-        
+
         {/* Suggestions dropdown */}
         {showSuggestions && suggestions.length > 0 && (
-          <div 
+          <div
             ref={suggestionsRef}
             className="absolute left-0 right-0 mt-1 bg-white border border-gray-200 rounded-lg shadow-lg z-50 max-h-80 overflow-y-auto"
           >
@@ -149,15 +149,15 @@ const SearchAutocomplete = ({ onSearch }: SearchAutocompleteProps) => {
           </div>
         )}
       </div>
-      
+
       <div className="relative">
         <select className="h-12 px-4 py-2 border-2 border-y-gray-300 border-r-0 border-l-0 appearance-none focus:outline-none focus:ring-2 focus:ring-green-500 bg-white text-base">
           <option>Venue Rentals</option>
-          <option>Gardens</option>
-          <option>Parks</option>
+          <option>Ticketed Events</option>
+          <option>Private Experiences</option>
         </select>
       </div>
-      
+
       <button type="submit" className="bg-green-600 text-white px-5 py-3 h-12 rounded-r-full hover:bg-green-700 transition-colors">
         <Search className="h-5 w-5" />
       </button>

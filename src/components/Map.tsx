@@ -18,7 +18,7 @@ const Map = ({ venues, activeVenueId, onMarkerClick }: MapProps) => {
   const mapRef = useRef<L.Map | null>(null);
   const markersRef = useRef<{ [key: string]: L.Marker }>({});
   const isMobile = useIsMobile();
-  
+
   useEffect(() => {
     // Initialize map
     if (!mapRef.current) {
@@ -51,7 +51,7 @@ const Map = ({ venues, activeVenueId, onMarkerClick }: MapProps) => {
           // Determine zoom level based on if it's an international venue
           const isInternational = activeVenue.location.distance.includes("International");
           const zoomLevel = isInternational ? 6 : 10;
-          
+
           mapRef.current.setView(activeVenue.location.coordinates, zoomLevel, { animate: true, duration: 0.5 });
         } else {
           // Fit map to show all venues
@@ -59,9 +59,19 @@ const Map = ({ venues, activeVenueId, onMarkerClick }: MapProps) => {
           mapRef.current.fitBounds(bounds, { padding: [50, 50], maxZoom: 4 });
         }
       } else {
-        // When no active venue, fit map to show all venues
-        const bounds = L.latLngBounds(venues.map(v => v.location.coordinates));
-        mapRef.current.fitBounds(bounds, { padding: [50, 50], maxZoom: 4 });
+        // Handle empty venues list
+        if (venues.length === 0) {
+          mapRef.current.setView(DEFAULT_COORDINATES, DEFAULT_ZOOM);
+          return;
+        }
+
+        // 🟡 Set view to a random venue's location with zoom level 12
+        const randomVenue = venues[Math.floor(Math.random() * venues.length)];
+        mapRef.current.setView(randomVenue.location.coordinates, 12, {
+          animate: true,
+          duration: 0.5,
+        });
+
       }
     } catch (e) {
       console.error("Error setting map bounds:", e);
@@ -78,10 +88,10 @@ const Map = ({ venues, activeVenueId, onMarkerClick }: MapProps) => {
     // Add markers for venues
     venues.forEach(venue => {
       const isActive = venue.id === activeVenueId;
-      
+
       const el = document.createElement('div');
       el.className = `venue-marker ${isActive ? 'active' : ''}`;
-      
+
       // Create enhanced marker with custom HTML for better visibility
       const markerHtml = `
         <div class="marker-container">
@@ -89,20 +99,20 @@ const Map = ({ venues, activeVenueId, onMarkerClick }: MapProps) => {
           <div class="marker-icon ${isActive ? 'active' : ''}"></div>
         </div>
       `;
-      
+
       const icon = L.divIcon({
         html: markerHtml,
         className: 'custom-marker',
         iconSize: isActive ? [40, 40] : [30, 30],
         iconAnchor: isActive ? [20, 20] : [15, 15]
       });
-      
-      const marker = L.marker(venue.location.coordinates, { 
+
+      const marker = L.marker(venue.location.coordinates, {
         icon,
         riseOnHover: true,
         title: venue.name
       }).addTo(mapRef.current!);
-      
+
       // Add tooltip with name and location
       marker.bindTooltip(
         `<div class="font-medium">${venue.name}</div>
@@ -114,11 +124,11 @@ const Map = ({ venues, activeVenueId, onMarkerClick }: MapProps) => {
           className: 'bg-white shadow-lg rounded-lg px-3 py-2 text-sm font-medium'
         }
       );
-      
+
       marker.on('click', () => {
         onMarkerClick(venue.id);
       });
-      
+
       markersRef.current[venue.id] = marker;
     });
 
@@ -129,9 +139,9 @@ const Map = ({ venues, activeVenueId, onMarkerClick }: MapProps) => {
         // Set appropriate zoom level based on whether it's an international venue
         const isInternational = activeVenue.location.distance.includes("International");
         const zoomLevel = isInternational ? 6 : 10;
-        
+
         mapRef.current.setView(activeVenue.location.coordinates, zoomLevel, { animate: true, duration: 0.5 });
-        
+
         // Update all markers to reflect active state
         Object.entries(markersRef.current).forEach(([id, marker]) => {
           const el = marker.getElement();
