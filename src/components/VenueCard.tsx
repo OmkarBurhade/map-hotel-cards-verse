@@ -1,5 +1,5 @@
 
-import { Heart } from "lucide-react";
+import { Clock, Heart } from "lucide-react";
 import { useState } from "react";
 import { VenueType } from "../data/venues";
 import { Card } from "./ui/card";
@@ -18,35 +18,35 @@ const VenueCard = ({ venue, isActive, onHover, onClick }: VenueCardProps) => {
     e.stopPropagation(); // Prevent card click when clicking the heart
     setIsFavorite(!isFavorite);
   };
+  console.log(venue);
 
   return (
-    <div 
-      className={`bg-white rounded-lg shadow-md overflow-hidden transition-all cursor-pointer ${
-        isActive ? "ring-2 ring-pink-500 transform scale-[1.02]" : "hover:shadow-lg"
-      }`}
+    <div
+      className={`bg-white rounded-lg shadow-md overflow-hidden transition-all cursor-pointer ${isActive ? "ring-2 ring-pink-500 transform scale-[1.02]" : "hover:shadow-lg"
+        }`}
       onMouseEnter={() => onHover(venue.id)}
       onMouseLeave={() => onHover(null)}
       onClick={() => onClick(venue.id)} // Handle click to open popup
     >
       <div className="relative">
-        <img 
-          src={venue.image} 
-          alt={venue.name} 
+        <img
+          src={venue.image}
+          alt={venue.name}
           className="w-full h-48 object-cover"
         />
         <div className="absolute top-2 left-2 bg-black bg-opacity-50 text-white px-2 py-1 rounded text-xs">
           Guest Favorite
         </div>
-        <button 
+        <button
           className="absolute top-2 right-2 p-1 rounded-full"
           onClick={handleHeartClick}
         >
-          <Heart 
+          <Heart
             className={`h-6 w-6 ${isFavorite ? "fill-red-500 text-red-500" : "text-white"}`}
           />
         </button>
       </div>
-      
+
       <div className="p-4">
         <h3 className="font-bold text-lg">{venue.name}</h3>
         <div className="flex items-center text-sm text-gray-600 mb-2">
@@ -56,11 +56,11 @@ const VenueCard = ({ venue, isActive, onHover, onClick }: VenueCardProps) => {
           </svg>
           {venue.location.city} {venue.location.distance}
         </div>
-        
+
         <div className="text-sm mb-2">
           {venue.details.privateExperiences} Private Experiences & {venue.details.events} events
         </div>
-        
+
         <div className="flex items-center mb-4">
           <div className="flex items-center text-sm">
             {venue.details.reviews} reviews
@@ -74,12 +74,12 @@ const VenueCard = ({ venue, isActive, onHover, onClick }: VenueCardProps) => {
             ))}
           </div>
         </div>
-        
+
         <div className="flex justify-between items-center">
           <div className="text-sm font-medium">
             {venue.details.squareFeet} sq ft
           </div>
-          
+
           <div className="flex items-center">
             <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-gray-600 mr-1" viewBox="0 0 20 20" fill="currentColor">
               <path fillRule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clipRule="evenodd" />
@@ -87,7 +87,7 @@ const VenueCard = ({ venue, isActive, onHover, onClick }: VenueCardProps) => {
             <span className="text-sm font-medium">{venue.details.capacity}</span>
           </div>
         </div>
-        
+
         <div className="mt-3 flex gap-2">
           {venue.details.amenities.includes("wifi") && (
             <div className="p-1 bg-gray-100 rounded-full">
@@ -96,7 +96,7 @@ const VenueCard = ({ venue, isActive, onHover, onClick }: VenueCardProps) => {
               </svg>
             </div>
           )}
-          
+
           {venue.details.amenities.includes("power") && (
             <div className="p-1 bg-gray-100 rounded-full">
               <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-gray-600" viewBox="0 0 20 20" fill="currentColor">
@@ -104,7 +104,7 @@ const VenueCard = ({ venue, isActive, onHover, onClick }: VenueCardProps) => {
               </svg>
             </div>
           )}
-          
+
           {venue.details.amenities.includes("pets") && (
             <div className="p-1 bg-gray-100 rounded-full">
               <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-gray-600" viewBox="0 0 20 20" fill="currentColor">
@@ -112,6 +112,11 @@ const VenueCard = ({ venue, isActive, onHover, onClick }: VenueCardProps) => {
                 <path fillRule="evenodd" d="M5 11a5 5 0 1110 0 1 1 0 11-2 0 3 3 0 10-6 0c0 1.677-.345 3.276-.968 4.729a1 1 0 11-1.838-.789A9.964 9.964 0 005 11zm8.921 2.012a1 1 0 01.831 1.145 19.86 19.86 0 01-.545 2.436 1 1 0 11-1.92-.558c.207-.713.371-1.445.49-2.192a1 1 0 011.144-.83z" clipRule="evenodd" />
                 <path fillRule="evenodd" d="M10 10a1 1 0 011 1c0 2.236-.46 4.368-1.29 6.304a1 1 0 01-1.838-.789A13.952 13.952 0 009 11a1 1 0 011-1z" clipRule="evenodd" />
               </svg>
+            </div>
+          )}
+          {venue.details.amenities.includes("clock") && (
+            <div className="p-1 bg-gray-100 rounded-full text-gray-600">
+              <Clock className="h-5 w-5" />
             </div>
           )}
         </div>

@@ -2,7 +2,7 @@
 import { useState } from "react";
 import { venueTypes } from "../data/venues";
 import { Slider } from "@/components/ui/slider";
-import { 
+import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuGroup,
@@ -15,6 +15,8 @@ import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover
 import { Button } from "@/components/ui/button";
 import { toast } from "@/hooks/use-toast";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
+import UtilityButtons from "./UtilityButtons";
+import { useSearch } from "@/contexts/SearchContext";
 
 interface FilterBarProps {
   onFilterChange: (filters: string[]) => void;
@@ -22,22 +24,40 @@ interface FilterBarProps {
 }
 
 const FilterBar = ({ onFilterChange, onCapacityChange }: FilterBarProps) => {
+
+  const {
+    setSearchQuery,
+    setCapacityRange,
+    activeAmenities,
+    setActiveAmenities,
+    filteredVenues
+  } = useSearch();
+
+  const handleAmenityToggle = (amenity: string) => {
+    // Fix: Directly set the new array instead of using a function
+    const newAmenities = activeAmenities.includes(amenity)
+      ? activeAmenities.filter(a => a !== amenity)
+      : [...activeAmenities, amenity];
+    
+    setActiveAmenities(newAmenities);
+  };
+
   const [activeFilters, setActiveFilters] = useState<string[]>([]);
   const [capacity, setCapacity] = useState<[number, number]>([0, 200]);
   const [isCapacityOpen, setIsCapacityOpen] = useState(false);
 
   const toggleFilter = (filter: string) => {
     const isActive = activeFilters.includes(filter);
-    
+
     let newFilters: string[];
     if (filter === "All Filters") {
       newFilters = isActive ? [] : venueTypes.filter(type => type !== "All Filters");
     } else {
-      newFilters = isActive 
+      newFilters = isActive
         ? activeFilters.filter(f => f !== filter)
         : [...activeFilters, filter];
     }
-    
+
     setActiveFilters(newFilters);
     onFilterChange(newFilters);
   };
@@ -56,13 +76,13 @@ const FilterBar = ({ onFilterChange, onCapacityChange }: FilterBarProps) => {
         <div className="flex flex-wrap items-center gap-4 mb-4">
           <Popover open={isCapacityOpen} onOpenChange={setIsCapacityOpen}>
             <PopoverTrigger asChild>
-              <Button 
-                variant="outline" 
+              <Button
+                variant="outline"
                 className={`px-4 py-2 rounded-full flex items-center gap-2 ${capacity[0] > 0 || capacity[1] < 200 ? "bg-green-600 text-white hover:bg-green-700" : ""}`}
               >
                 <span>
-                  {capacity[0] > 0 || capacity[1] < 200 
-                    ? `Capacity: ${capacity[0]} - ${capacity[1]}` 
+                  {capacity[0] > 0 || capacity[1] < 200
+                    ? `Capacity: ${capacity[0]} - ${capacity[1]}`
                     : "Any Capacity"}
                 </span>
               </Button>
@@ -74,10 +94,10 @@ const FilterBar = ({ onFilterChange, onCapacityChange }: FilterBarProps) => {
                 <div className="mb-2">
                   <p className="text-sm font-medium">Range: {capacity[0]} - {capacity[1]} people</p>
                 </div>
-                <Slider 
-                  defaultValue={[0, 200]} 
-                  min={0} 
-                  max={200} 
+                <Slider
+                  defaultValue={[0, 200]}
+                  min={0}
+                  max={200}
                   step={5}
                   value={capacity}
                   onValueChange={handleCapacityChange}
@@ -92,16 +112,19 @@ const FilterBar = ({ onFilterChange, onCapacityChange }: FilterBarProps) => {
               <button
                 key={filter}
                 onClick={() => toggleFilter(filter)}
-                className={`px-3 py-1 rounded-full text-sm whitespace-nowrap flex items-center gap-1 transition-colors ${
-                  activeFilters.includes(filter)
-                    ? "bg-green-600 text-white"
-                    : "bg-gray-100 text-gray-800 hover:bg-gray-200"
-                }`}
+                className={`px-3 py-1 rounded-full text-sm whitespace-nowrap flex items-center gap-1 transition-colors ${activeFilters.includes(filter)
+                  ? "bg-green-600 text-white"
+                  : "bg-gray-100 text-gray-800 hover:bg-gray-200"
+                  }`}
               >
                 {filter}
               </button>
             ))}
           </div>
+          <UtilityButtons
+            activeAmenities={activeAmenities}
+            onAmenityToggle={handleAmenityToggle}
+          />
         </div>
       </div>
     </div>
