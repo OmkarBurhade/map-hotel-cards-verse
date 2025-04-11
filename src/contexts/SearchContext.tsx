@@ -1,6 +1,6 @@
 
 import { createContext, useContext, useState, ReactNode } from "react";
-import { VenueType } from "../data/venues";
+import { VenueType, venues } from "../data/venues";
 import getMaxCapacity from "@/components/MaxCapacity";
 
 type SearchContextType = {
@@ -14,6 +14,7 @@ type SearchContextType = {
   setActiveAmenities: (amenities: string[]) => void;
   filteredVenues: VenueType[];
   setFilteredVenues: (venues: VenueType[]) => void;
+  allVenues: VenueType[]; // Added access to all venues
 };
 
 const SearchContext = createContext<SearchContextType | undefined>(undefined);
@@ -39,6 +40,7 @@ export const SearchProvider = ({ children }: { children: ReactNode }) => {
         setActiveAmenities,
         filteredVenues,
         setFilteredVenues,
+        allVenues: venues, // Provide access to all venues
       }}
     >
       {children}
