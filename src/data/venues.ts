@@ -18,7 +18,8 @@ export interface VenueType {
   };
   tags: string[];
   image: string;
-  isFavorite: boolean;
+  isFavorite: boolean,
+  guestFavorite:boolean;
 }
 
 export const venueTypes = [
@@ -58,7 +59,8 @@ export const venues: VenueType[] = [
     },
     tags: ["Meditation", "Native Garden", "Powerful"],
     image: "https://kyoto-ryokan.co.jp/images/top/main02.jpg",
-    isFavorite: true,
+    isFavorite: false,
+    guestFavorite:true
   },
   {
     id: "2",
@@ -82,6 +84,7 @@ export const venues: VenueType[] = [
     image:
       "https://images.unsplash.com/photo-1559628233-100c798642d4?ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80",
     isFavorite: true,
+    guestFavorite:false
   },
   {
     id: "3",
@@ -105,6 +108,7 @@ export const venues: VenueType[] = [
     image:
       "https://www.guidelondon.org.uk/wp-content/uploads/2020/07/The-Palm-House-and-Parterre-at-the-Royal-Botanic-Gardens-of-Kew-in-London.jpg",
     isFavorite: true,
+    guestFavorite:true
   },
   {
     id: "4",
@@ -128,6 +132,7 @@ export const venues: VenueType[] = [
     image:
       "https://images.unsplash.com/photo-1506351421178-63b52a2d2562?ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80",
     isFavorite: false,
+    guestFavorite:false,
   },
   {
     id: "5",
@@ -151,6 +156,7 @@ export const venues: VenueType[] = [
     image:
       "https://images.unsplash.com/photo-1560750588-73207b1ef5b8?ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80",
     isFavorite: true,
+    guestFavorite:false
   },
   {
     id: "6",
@@ -174,6 +180,7 @@ export const venues: VenueType[] = [
     image:
       "https://image-tc.galaxy.tf/wijpeg-b9cop6l8p8l6m7cvhs2lx19w3/butchart-gardens-sunken-garden-lookout_standard.jpg?crop=62%2C0%2C977%2C733",
     isFavorite: false,
+    guestFavorite:true,
   },
   {
     id: "7",
@@ -197,6 +204,7 @@ export const venues: VenueType[] = [
     image:
       "https://bollenstreek.nl/wp-content/uploads/2017/03/media-filer_public_thumbnails-filer_public-93-2b-932b1924-5400-479b-abe2-c83b7f230f46-160502lt0116.jpg__1200x1200_q85.jpg",
     isFavorite: true,
+    guestFavorite:false
   },
   {
     id: "8",
@@ -219,7 +227,8 @@ export const venues: VenueType[] = [
     tags: ["Powerful", "Meditation", "Leave the City"],
     image:
       "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/2e/9a/5d/19/villa-d-este-general.jpg?w=500&h=-1&s=1",
-    isFavorite: false,
+    isFavorite: true,
+    guestFavorite:false,
   },
   {
     id: "9",
@@ -243,6 +252,7 @@ export const venues: VenueType[] = [
     image:
       "https://www.eternalweddingz.in/storage/venue_images/586MY0luZMtYBUhGrgCi5slFb18ytKuCYoLJHfSq.webp",
     isFavorite: true,
+    guestFavorite:true
   },
   {
     id: "10",
@@ -266,6 +276,7 @@ export const venues: VenueType[] = [
     image:
       "https://image-tc.galaxy.tf/wijpeg-dmlvkl5mzfs8ayepxnogjo31q/jamison-attractions-botanical-gardens_standard.jpg?crop=117%2C0%2C1767%2C1325",
     isFavorite: false,
+    guestFavorite:true,
   },
   // US Venues (not exclusively Los Angeles)
   {
@@ -290,6 +301,7 @@ export const venues: VenueType[] = [
     image:
       "https://images.unsplash.com/photo-1558694440-03ade9215d7b?ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80",
     isFavorite: true,
+    guestFavorite:false
   },
   {
     id: "12",
@@ -313,6 +325,7 @@ export const venues: VenueType[] = [
     image:
       "https://images.unsplash.com/photo-1501256504904-1fbe305bb538?ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80",
     isFavorite: false,
+    guestFavorite:false,
   },
   {
     id: "13",
@@ -336,6 +349,7 @@ export const venues: VenueType[] = [
     image:
       "https://images.trvl-media.com/lodging/1000000/30000/21800/21767/26a8e15a_y.jpg",
     isFavorite: true,
+    guestFavorite:true
   },
   {
     id: "14",
@@ -359,6 +373,7 @@ export const venues: VenueType[] = [
     image:
       "https://wpmedia.japanesegarden.org/cb:gH3K.2f15e/w:1600/h:1054/q:mauto/ig:avif/id:2accd00dc05d01f1463c076001034252/http://live-japanesegarden.pantheonsite.io/Sapporo-Lantern-in-Late-Summer-Dusk.-Photo-by-Roman-Johnston-1.webp",
     isFavorite: false,
+    guestFavorite:true,
   },
   {
     id: "15",
@@ -382,6 +397,7 @@ export const venues: VenueType[] = [
     image:
       "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/07/9f/02/80/fairchild-tropical-botanic.jpg?w=900&h=500&s=1",
     isFavorite: true,
+    guestFavorite:false
   },
   // Some Los Angeles venues (but with less priority)
   {
@@ -406,6 +422,7 @@ export const venues: VenueType[] = [
     image:
       "https://q-xx.bstatic.com/xdata/images/hotel/max500/338989411.jpg?k=5f94cf558b80d62ee4d2208493e2663637505a19a713d24bd618ab32acd514ec&o=",
     isFavorite: false,
+    guestFavorite:true,
   },
   {
     id: "17",
@@ -429,6 +446,7 @@ export const venues: VenueType[] = [
     image:
       "https://upload.wikimedia.org/wikipedia/commons/b/be/Enchanted_gardens_pool.jpg",
     isFavorite: true,
+    guestFavorite:false
   },
   {
     id: "18",
@@ -452,6 +470,7 @@ export const venues: VenueType[] = [
     image:
       "https://images.unsplash.com/photo-1570145820259-b5b80c5c8bd6?ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80",
     isFavorite: true,
+    guestFavorite:false
   },
   {
     id: "19",
@@ -474,6 +493,7 @@ export const venues: VenueType[] = [
     tags: ["Native Garden", "Powerful", "Leave the City"],
     image: "https://travel.usnews.com/images/dbg_general_garden8_El8nSEM.jpg",
     isFavorite: false,
+    guestFavorite:true,
   },
   {
     id: "20",
@@ -497,5 +517,6 @@ export const venues: VenueType[] = [
     image:
       "https://images.unsplash.com/photo-1566737236500-c8ac43014a67?ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80",
     isFavorite: true,
+    guestFavorite:false
   },
 ];

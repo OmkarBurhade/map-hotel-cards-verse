@@ -13,6 +13,7 @@ interface VenueCardProps {
 
 const VenueCard = ({ venue, isActive, onHover, onClick }: VenueCardProps) => {
   const [isFavorite, setIsFavorite] = useState(venue.isFavorite);
+  const [guestFavorite, setGuestFavorite] = useState(venue.guestFavorite);
 
 
   const handleHeartClick = (e: React.MouseEvent) => {
@@ -23,8 +24,7 @@ const VenueCard = ({ venue, isActive, onHover, onClick }: VenueCardProps) => {
 
   return (
     <div
-      className={`bg-white rounded-lg shadow-md overflow-hidden transition-all cursor-pointer ${isActive ? "ring-2 ring-pink-500 transform scale-[1.02]" : "hover:shadow-lg"
-        }`}
+      className={` transition-all cursor-pointer `}
       onMouseEnter={() => onHover(venue.id)}
       onMouseLeave={() => onHover(null)}
       onClick={() => onClick(venue.id)} // Handle click to open popup
@@ -33,17 +33,19 @@ const VenueCard = ({ venue, isActive, onHover, onClick }: VenueCardProps) => {
         <img
           src={venue.image}
           alt={venue.name}
-          className="w-full h-48 object-cover"
+          className={`w-full h-60 object-cover rounded-2xl transition-all ${isActive ? "transform scale-[1.02]" : "hover:shadow-lg"
+            }`}
         />
-        <div className="absolute top-2 left-2 bg-black bg-opacity-50 text-white px-2 py-1 rounded text-xs">
+        {guestFavorite && <div className="absolute top-2 left-2 bg-white text-black px-3 py-[.5rem] rounded-full text-xs">
           Guest Favorite
-        </div>
+        </div>}
+
         <button
           className="absolute top-2 right-2 p-1 rounded-full"
           onClick={handleHeartClick}
         >
           <Heart
-            className={`h-6 w-6 ${isFavorite ? "fill-red-500 text-red-500" : "text-white"}`}
+            className={`h-6 w-6  ${isFavorite ? "fill-red-500 text-red-500" : "text-white fill-[#00000043]"}`}
           />
         </button>
       </div>
@@ -92,13 +94,13 @@ const VenueCard = ({ venue, isActive, onHover, onClick }: VenueCardProps) => {
         <div className="mt-3 flex gap-2">
           {venue.details.amenities?.includes("wifi") && (
             <div className="p-2 bg-gray-100 rounded-full">
-              <Wifi  className="text-gray-600 h-4 w-4" />
+              <Wifi className="text-gray-600 h-4 w-4" />
             </div>
           )}
 
           {venue.details.amenities?.includes("power") && (
             <div className="p-2 bg-gray-100 rounded-full">
-             <Zap className="text-gray-600 h-4 w-4" />
+              <Zap className="text-gray-600 h-4 w-4" />
             </div>
           )}
 

@@ -125,7 +125,7 @@ const IndexContent = () => {
             />
           </div>
 
-          <div className={`${isMobile ? 'order-1 h-[350px] mb-4' : 'col-span-5 order-2 sticky top-24 h-[calc(100vh-150px)]'}`}>
+          <div className={ ` ${isMobile ? 'order-1 h-[350px] mb-4' : 'col-span-5 order-2 sticky top-28 h-[calc(100vh-150px)]'}`}>
             <Map
               venues={filteredVenues}
               activeVenueId={activeVenueId}
