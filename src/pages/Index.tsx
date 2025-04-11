@@ -26,17 +26,10 @@ const IndexContent = () => {
     setActiveAmenities,
     filteredVenues
   } = useSearch();
-  console.log(activeAmenities);
 
   const { handleSearch } = useVenueFilter();
 
-  // Filter Los Angeles venues on initial load
-  useEffect(() => {
-    const laVenues = venues.filter(venue => venue.location.city.includes("Los Angeles"));
-    if (laVenues.length > 0) {
-      // No need to set filteredVenues here as the useVenueFilter hook will handle it
-    }
-  }, []);
+
 
   const handleSearchSubmit = (query: string) => {
     setSearchQuery(query);
@@ -68,7 +61,7 @@ const IndexContent = () => {
     const newAmenities = activeAmenities.includes(amenity)
       ? activeAmenities.filter(a => a !== amenity)
       : [...activeAmenities, amenity];
-    
+
     setActiveAmenities(newAmenities);
   };
 

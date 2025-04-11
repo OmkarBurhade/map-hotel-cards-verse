@@ -1,4 +1,3 @@
-
 import { useState, useRef, useEffect } from "react";
 import { MapPin, Flower2, Search } from "lucide-react";
 import { Input } from "@/components/ui/input";
@@ -68,13 +67,11 @@ const SearchAutocomplete = ({ onSearch }: SearchAutocompleteProps) => {
 
     const partialVenueMatches = venues
       .filter(venue => venue.name.toLowerCase().includes(term) && venue.name.toLowerCase() !== term)
-      .slice(0, 5)
-      .map(venue => ({ text: venue.name, type: 'venue' as const }));
+      .map(venue => ({ text: venue.name, type: 'venue' as const })); // Removed .slice()
 
     const partialLocationMatches = commonLocations
       .filter(loc => loc.toLowerCase().includes(term) && loc.toLowerCase() !== term)
-      .slice(0, 10)
-      .map(loc => ({ text: loc, type: 'location' as const }));
+      .map(loc => ({ text: loc, type: 'location' as const })); // Removed .slice()
 
     // Combine results with exact matches first
     const combinedResults = [
@@ -82,7 +79,7 @@ const SearchAutocomplete = ({ onSearch }: SearchAutocompleteProps) => {
       ...exactLocationMatches,
       ...partialVenueMatches,
       ...partialLocationMatches
-    ].slice(0, 15);
+    ]; // Removed .slice()
 
     setSuggestions(combinedResults);
   }, [searchTerm, onSearch]);

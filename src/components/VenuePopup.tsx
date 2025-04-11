@@ -50,7 +50,7 @@ const VenuePopup = ({ venue, isOpen, onClose }: VenuePopupProps) => {
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="sm:max-w-[600px]">
         <DialogHeader>
-          <DialogTitle className="text-2xl flex items-center justify-between">
+          <DialogTitle className="text-2xl flex items-center justify-between mt-3">
             <span>{venue.name}</span>
             <button 
               onClick={toggleFavorite}
