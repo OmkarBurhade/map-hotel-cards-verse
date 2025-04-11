@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import Header from "../components/Header";
 import FilterBar from "../components/FilterBar";
@@ -29,19 +28,15 @@ const IndexContent = () => {
 
   const { handleSearch } = useVenueFilter();
 
-
-
   const handleSearchSubmit = (query: string) => {
     setSearchQuery(query);
     handleSearch(query);
 
-    // Find exact venue match
     const exactVenueMatch = venues.find(
       venue => venue.name.toLowerCase() === query.toLowerCase()
     );
 
     if (exactVenueMatch) {
-      // If exact venue match found, select it and open popup
       setSelectedVenue(exactVenueMatch);
       setActiveVenueId(exactVenueMatch.id);
       setIsPopupOpen(true);
@@ -57,14 +52,12 @@ const IndexContent = () => {
   };
 
   const handleAmenityToggle = (amenity: string) => {
-    // Fix: Instead of using a function to update state, directly set the new array
     const newAmenities = activeAmenities.includes(amenity)
       ? activeAmenities.filter(a => a !== amenity)
       : [...activeAmenities, amenity];
 
     setActiveAmenities(newAmenities);
   };
-
 
   const handleMarkerClick = (id: string) => {
     setActiveVenueId(id);
@@ -109,8 +102,6 @@ const IndexContent = () => {
         onCapacityChange={handleCapacityChange}
       />
 
-
-
       <main className="container mx-auto px-4 py-2">
         <div className="flex justify-between items-center mb-4">
           <SearchResultsInfo />
@@ -125,7 +116,7 @@ const IndexContent = () => {
             />
           </div>
 
-          <div className={ ` ${isMobile ? 'order-1 h-[350px] mb-4' : 'col-span-5 order-2 sticky top-28 h-[calc(100vh-150px)]'}`}>
+          <div className={` ${isMobile ? 'order-1 h-[350px] mb-4' : 'col-span-5 order-2 sticky top-28 h-[calc(100vh-150px)]'}`}>
             <Map
               venues={filteredVenues}
               activeVenueId={activeVenueId}
