@@ -95,7 +95,7 @@
 }
 
 .marker-icon {
-  background-color: #8B5CF6;
+  background-color: #dd5585;
   /* Updated to purple */
   border-radius: 50%;
   border: 2px solid white;
@@ -116,16 +116,16 @@
   width: 24px;
   height: 24px;
   border: 3px solid white;
-  box-shadow: 0 0 16px rgba(91, 33, 182, 0.7);
+  box-shadow: 0 0 16px rgba(221, 85, 133, 0.7);
   z-index: 1000;
 }
 
 .marker-pulse {
-  background-color: rgba(139, 92, 246, 0.4);
+  background-color: rgba(221, 85, 133, 0.4);
   /* Purple with opacity */
   border-radius: 50%;
-  height: 40px;
-  width: 40px;
+  height: 25px;
+  width: 25px;
   position: absolute;
   top: 50%;
   left: 50%;
@@ -137,7 +137,7 @@
 
 @keyframes pulse {
   0% {
-    transform: translate(-50%, -50%) scale(0.5);
+    transform: translate(-50%, -50%) scale(0.1);
     opacity: 1;
   }
 
