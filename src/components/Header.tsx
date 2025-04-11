@@ -1,4 +1,5 @@
-import { Search, Wifi, Clock, Zap, MapPin, Hotel, Garden } from "lucide-react";
+
+import { Search, Wifi, Clock, Zap, MapPin, Flower2 } from "lucide-react";
 import { useState, useRef, useEffect } from "react";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
@@ -7,97 +8,74 @@ import { venues } from "../data/venues";
 
 interface HeaderProps {
   onSearch: (location: string) => void;
+  onAmenityToggle: (amenity: string) => void;
+  activeAmenities: string[];
 }
 
-const Header = ({ onSearch }: HeaderProps) => {
+const Header = ({ onSearch, onAmenityToggle, activeAmenities }: HeaderProps) => {
   const [searchTerm, setSearchTerm] = useState("");
   const [searchOpen, setSearchOpen] = useState(false);
   const [suggestions, setSuggestions] = useState<{text: string, type: 'location' | 'venue'}[]>([]);
   const inputRef = useRef<HTMLInputElement>(null);
   
-  // International locations plus Indian, Pakistani, Chinese locations
   const commonLocations = [
-    // United States
     "Los Angeles, CA", "New York, NY", "Chicago, IL", "San Francisco, CA", "Miami, FL",
     "Seattle, WA", "Austin, TX", "Portland, OR",
-    // Europe
     "Paris, France", "London, UK", "Barcelona, Spain", "Berlin, Germany", 
     "Amsterdam, Netherlands", "Rome, Italy",
-    // Asia - India
     "New Delhi, India", "Mumbai, India", "Bengaluru, India", "Kolkata, India", 
     "Chennai, India", "Hyderabad, India", "Jaipur, India", "Goa, India",
-    // Asia - Pakistan
     "Islamabad, Pakistan", "Karachi, Pakistan", "Lahore, Pakistan", 
     "Faisalabad, Pakistan", "Peshawar, Pakistan", "Multan, Pakistan",
-    // Asia - China
     "Beijing, China", "Shanghai, China", "Guangzhou, China", "Shenzhen, China",
     "Hong Kong, China", "Chengdu, China", "Xi'an, China", "Hangzhou, China",
-    // Other Asia
     "Tokyo, Japan", "Kyoto, Japan", "Bangkok, Thailand", "Singapore",
     "Seoul, South Korea", "Dubai, UAE", "Istanbul, Turkey",
-    // Australia/Pacific
     "Sydney, Australia", "Melbourne, Australia", "Auckland, New Zealand",
-    // Africa
     "Cairo, Egypt", "Cape Town, South Africa", "Marrakech, Morocco", 
     "Nairobi, Kenya", "Lagos, Nigeria",
-    // South America
     "Rio de Janeiro, Brazil", "Buenos Aires, Argentina", "Lima, Peru", 
     "Santiago, Chile", "Bogotá, Colombia",
-    // North America
     "Toronto, Canada", "Montreal, Canada", "Vancouver, Canada", 
     "Mexico City, Mexico", "Cancún, Mexico"
   ];
 
-  // Update suggestions when searchTerm changes
   useEffect(() => {
+    // Only show suggestions when user has typed something
     if (searchTerm.trim() === "") {
-      // Show all common locations when input is empty but focused
-      if (searchOpen) {
-        const locationSuggestions = commonLocations.slice(0, 8).map(loc => ({
-          text: loc,
-          type: 'location' as const
-        }));
-        
-        const venueSuggestions = venues.slice(0, 4).map(venue => ({
-          text: venue.name,
-          type: 'venue' as const
-        }));
-        
-        setSuggestions([...locationSuggestions, ...venueSuggestions]);
-      } else {
-        setSuggestions([]);
-      }
+      setSuggestions([]);
       return;
     }
     
     const term = searchTerm.toLowerCase();
     
-    // Filter locations
-    const filteredLocations = commonLocations
-      .filter(loc => loc.toLowerCase().includes(term))
+    // Find exact matches first, then partial matches
+    const exactLocationMatches = commonLocations
+      .filter(loc => loc.toLowerCase() === term)
       .map(loc => ({ text: loc, type: 'location' as const }));
       
-    // Filter venues by name
-    const filteredVenues = venues
-      .filter(venue => venue.name.toLowerCase().includes(term))
+    const exactVenueMatches = venues
+      .filter(venue => venue.name.toLowerCase() === term)
       .map(venue => ({ text: venue.name, type: 'venue' as const }));
     
-    // Combine and limit results
-    const combinedResults = [...filteredVenues.slice(0, 5), ...filteredLocations.slice(0, 10)];
+    const partialLocationMatches = commonLocations
+      .filter(loc => loc.toLowerCase().includes(term) && loc.toLowerCase() !== term)
+      .map(loc => ({ text: loc, type: 'location' as const }));
+      
+    const partialVenueMatches = venues
+      .filter(venue => venue.name.toLowerCase().includes(term) && venue.name.toLowerCase() !== term)
+      .map(venue => ({ text: venue.name, type: 'venue' as const }));
+    
+    // Combine results with exact matches first
+    const combinedResults = [
+      ...exactVenueMatches,
+      ...exactLocationMatches,
+      ...partialVenueMatches.slice(0, 5),
+      ...partialLocationMatches.slice(0, 10)
+    ];
+    
     setSuggestions(combinedResults);
-    
-    // If there's an exact match, trigger search
-    const exactLocationMatch = commonLocations.find(
-      loc => loc.toLowerCase() === term
-    );
-    
-    if (exactLocationMatch) {
-      onSearch(exactLocationMatch);
-    } else {
-      // Also search by input directly
-      onSearch(searchTerm);
-    }
-  }, [searchTerm, searchOpen, onSearch]);
+  }, [searchTerm]);
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
@@ -112,11 +90,13 @@ const Header = ({ onSearch }: HeaderProps) => {
     onSearch(suggestion);
     setSearchOpen(false);
     
-    // Remove focus from the input
     if (document.activeElement instanceof HTMLElement) {
       document.activeElement.blur();
     }
   };
+
+  // Helper to determine if an amenity is active
+  const isAmenityActive = (amenity: string) => activeAmenities.includes(amenity);
 
   return (
     <header className="bg-white shadow-sm sticky top-0 z-10">
@@ -132,19 +112,29 @@ const Header = ({ onSearch }: HeaderProps) => {
           </a>
         </div>
         
-        <div className="w-full md:w-auto md:flex-1 md:mx-8">
+        <div className="w-full md:w-auto md:flex-1 md:mx-8 max-w-2xl">
           <form onSubmit={handleSearch} className="flex items-center">
             <div className="relative flex-1">
-              <Popover open={searchOpen} onOpenChange={setSearchOpen}>
+              <Popover open={searchOpen && suggestions.length > 0} onOpenChange={setSearchOpen}>
                 <PopoverTrigger asChild>
                   <Input
                     ref={inputRef}
                     type="text"
                     value={searchTerm}
-                    onChange={(e) => setSearchTerm(e.target.value)}
-                    className="w-full px-4 py-2 rounded-l-full"
+                    onChange={(e) => {
+                      setSearchTerm(e.target.value);
+                      if (e.target.value.trim() !== "") {
+                        setSearchOpen(true);
+                      } else {
+                        setSearchOpen(false);
+                      }
+                    }}
+                    onClick={() => {
+                      // Don't open suggestions when just clicked, need to type first
+                      setSearchOpen(searchTerm.trim() !== "");
+                    }}
+                    className="w-full px-6 py-3 h-12 text-base rounded-l-full border-2 border-gray-300 focus:border-green-500"
                     placeholder="Search locations or venue names"
-                    onFocus={() => setSearchOpen(true)}
                   />
                 </PopoverTrigger>
                 <PopoverContent className="p-0 w-[300px] md:w-[400px]" align="start">
@@ -162,7 +152,7 @@ const Header = ({ onSearch }: HeaderProps) => {
                             {suggestion.type === 'location' ? (
                               <MapPin className="h-4 w-4 mr-2 text-gray-400" />
                             ) : (
-                              <Garden className="h-4 w-4 mr-2 text-green-500" />
+                              <Flower2 className="h-4 w-4 mr-2 text-green-500" />
                             )}
                             <span>{suggestion.text}</span>
                             <span className="ml-auto text-xs text-gray-400">
@@ -177,71 +167,19 @@ const Header = ({ onSearch }: HeaderProps) => {
               </Popover>
             </div>
             <div className="relative">
-              <select className="h-full px-4 py-2 border-t border-b border-gray-300 appearance-none focus:outline-none focus:ring-2 focus:ring-green-500 bg-white">
+              <select className="h-12 px-4 py-2 border-2 border-y-gray-300 border-r-0 border-l-0 appearance-none focus:outline-none focus:ring-2 focus:ring-green-500 bg-white text-base">
                 <option>Venue Rentals</option>
                 <option>Gardens</option>
                 <option>Parks</option>
               </select>
             </div>
-            <button type="submit" className="bg-green-600 text-white p-2 rounded-r-full hover:bg-green-700 transition-colors">
+            <button type="submit" className="bg-green-600 text-white px-5 py-3 h-12 rounded-r-full hover:bg-green-700 transition-colors">
               <Search className="h-5 w-5" />
             </button>
           </form>
         </div>
         
         <div className="flex items-center space-x-2 mt-4 md:mt-0">
-          <TooltipProvider>
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <button className="utility-button p-2 rounded-full border border-gray-300 hover:bg-gray-100 transition-colors">
-                  <Wifi className="h-5 w-5 text-gray-700" />
-                </button>
-              </TooltipTrigger>
-              <TooltipContent>
-                <p>Filter venues with WiFi</p>
-              </TooltipContent>
-            </Tooltip>
-          </TooltipProvider>
-
-          <TooltipProvider>
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <button className="utility-button p-2 rounded-full border border-gray-300 hover:bg-gray-100 transition-colors">
-                  <Clock className="h-5 w-5 text-gray-700" />
-                </button>
-              </TooltipTrigger>
-              <TooltipContent>
-                <p>Filter by availability time</p>
-              </TooltipContent>
-            </Tooltip>
-          </TooltipProvider>
-
-          <TooltipProvider>
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <button className="utility-button p-2 rounded-full border border-gray-300 hover:bg-gray-100 transition-colors">
-                  <Zap className="h-5 w-5 text-gray-700" />
-                </button>
-              </TooltipTrigger>
-              <TooltipContent>
-                <p>Filter venues with power outlets</p>
-              </TooltipContent>
-            </Tooltip>
-          </TooltipProvider>
-
-          <TooltipProvider>
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <button className="utility-button p-2 rounded-full border border-gray-300 hover:bg-gray-100 transition-colors">
-                  <Garden className="h-5 w-5 text-gray-700" />
-                </button>
-              </TooltipTrigger>
-              <TooltipContent>
-                <p>Filter venues with gardens</p>
-              </TooltipContent>
-            </Tooltip>
-          </TooltipProvider>
-
           <div className="hidden md:block ml-2">
             <a href="#" className="text-green-700 font-medium hover:underline">
               Become a Host
