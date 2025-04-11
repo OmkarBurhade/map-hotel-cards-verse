@@ -1,4 +1,3 @@
-
 import { useEffect } from "react";
 import { venues } from "../data/venues";
 import { useSearch } from "@/contexts/SearchContext";
@@ -23,12 +22,6 @@ export const useVenueFilter = () => {
         venue.location.city.toLowerCase().includes(searchQuery.toLowerCase()) ||
         venue.name.toLowerCase().includes(searchQuery.toLowerCase())
       );
-    } else {
-      // When no search query, show random 10 hotels/gardens 
-      // Shuffle the venues array to get random results
-      const shuffled = [...venues].sort(() => 0.5 - Math.random());
-      // Get 10 random venues
-      filtered = shuffled.slice(0, 10);
     }
     
     // Apply tag filters if any are active
@@ -51,6 +44,7 @@ export const useVenueFilter = () => {
       );
     }
     
+    // Set the filtered venues
     setFilteredVenues(filtered);
   }, [activeFilters, capacityRange, searchQuery, activeAmenities, setFilteredVenues]);
 

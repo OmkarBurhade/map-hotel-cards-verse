@@ -13,6 +13,7 @@ interface VenueCardProps {
 
 const VenueCard = ({ venue, isActive, onHover, onClick }: VenueCardProps) => {
   const [isFavorite, setIsFavorite] = useState(venue.isFavorite);
+  
 
   const handleHeartClick = (e: React.MouseEvent) => {
     e.stopPropagation(); // Prevent card click when clicking the heart

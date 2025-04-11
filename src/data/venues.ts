@@ -1,4 +1,3 @@
-
 export interface VenueType {
   id: string;
   name: string;
@@ -45,7 +44,7 @@ export const venues: VenueType[] = [
     location: {
       address: "45 Zen Path",
       city: "Kyoto, Japan",
-      distance: "(International)",
+      distance: "International",
       coordinates: [35.011665, 135.768326],
     },
     details: {
@@ -54,12 +53,11 @@ export const venues: VenueType[] = [
       reviews: 189,
       rating: 5,
       squareFeet: 40000,
-      capacity: 120,
+      capacity: 2161,
       amenities: ["wifi", "power", "pets", "clock"],
     },
     tags: ["Meditation", "Native Garden", "Powerful"],
-    image:
-      "https://images.unsplash.com/photo-1546875508-5e8933226669?ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80",
+    image: "https://kyoto-ryokan.co.jp/images/top/main02.jpg",
     isFavorite: true,
   },
   {
@@ -68,7 +66,7 @@ export const venues: VenueType[] = [
     location: {
       address: "88 Beach Avenue",
       city: "Ubud, Bali",
-      distance: "(International)",
+      distance: "International",
       coordinates: [-8.506853, 115.262131],
     },
     details: {
@@ -77,7 +75,7 @@ export const venues: VenueType[] = [
       reviews: 156,
       rating: 5,
       squareFeet: 35000,
-      capacity: 100,
+      capacity: 202,
       amenities: ["wifi", "power", "pets"],
     },
     tags: ["Tropical", "Meditation", "Leave the City"],
@@ -91,7 +89,7 @@ export const venues: VenueType[] = [
     location: {
       address: "Kew, Richmond",
       city: "London, UK",
-      distance: "(International)",
+      distance: "International",
       coordinates: [51.478711, -0.295427],
     },
     details: {
@@ -100,12 +98,12 @@ export const venues: VenueType[] = [
       reviews: 203,
       rating: 5,
       squareFeet: 121400,
-      capacity: 500,
+      capacity: 201,
       amenities: ["wifi", "power", "pets", "clock"],
     },
     tags: ["Native Garden", "Kid Friendly", "Edible Garden"],
     image:
-      "https://images.unsplash.com/photo-1585320806297-9794b3e4eeae?ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80",
+      "https://www.guidelondon.org.uk/wp-content/uploads/2020/07/The-Palm-House-and-Parterre-at-the-Royal-Botanic-Gardens-of-Kew-in-London.jpg",
     isFavorite: true,
   },
   {
@@ -114,7 +112,7 @@ export const venues: VenueType[] = [
     location: {
       address: "18 Marina Gardens Drive",
       city: "Singapore",
-      distance: "(International)",
+      distance: "International",
       coordinates: [1.2815683, 103.8636132],
     },
     details: {
@@ -123,7 +121,7 @@ export const venues: VenueType[] = [
       reviews: 267,
       rating: 5,
       squareFeet: 250000,
-      capacity: 800,
+      capacity: 200,
       amenities: ["wifi", "power", "clock"],
     },
     tags: ["Tropical", "Powerful", "Kid Friendly"],
@@ -137,7 +135,7 @@ export const venues: VenueType[] = [
     location: {
       address: "Rue Yves St Laurent",
       city: "Marrakech, Morocco",
-      distance: "(International)",
+      distance: "International",
       coordinates: [31.6423813, -8.0056631],
     },
     details: {
@@ -160,7 +158,7 @@ export const venues: VenueType[] = [
     location: {
       address: "800 Benvenuto Ave",
       city: "Victoria, Canada",
-      distance: "(International)",
+      distance: "International",
       coordinates: [48.5635, -123.4702],
     },
     details: {
@@ -169,12 +167,12 @@ export const venues: VenueType[] = [
       reviews: 210,
       rating: 5,
       squareFeet: 55000,
-      capacity: 300,
+      capacity: 107,
       amenities: ["wifi", "power", "pets"],
     },
     tags: ["Native Garden", "Kid Friendly", "Powerful"],
     image:
-      "https://images.unsplash.com/photo-1585236283738-a538ef322bf2?ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80",
+      "https://image-tc.galaxy.tf/wijpeg-b9cop6l8p8l6m7cvhs2lx19w3/butchart-gardens-sunken-garden-lookout_standard.jpg?crop=62%2C0%2C977%2C733",
     isFavorite: false,
   },
   {
@@ -183,7 +181,7 @@ export const venues: VenueType[] = [
     location: {
       address: "Stationsweg 166A",
       city: "Lisse, Netherlands",
-      distance: "(International)",
+      distance: "International",
       coordinates: [52.2697, 4.5462],
     },
     details: {
@@ -192,21 +190,21 @@ export const venues: VenueType[] = [
       reviews: 195,
       rating: 5,
       squareFeet: 79000,
-      capacity: 400,
+      capacity: 199,
       amenities: ["wifi", "pets", "clock"],
     },
     tags: ["Native Garden", "Kid Friendly", "Leave the City"],
     image:
-      "https://images.unsplash.com/photo-1588630590486-e16163eeef66?ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80",
+      "https://bollenstreek.nl/wp-content/uploads/2017/03/media-filer_public_thumbnails-filer_public-93-2b-932b1924-5400-479b-abe2-c83b7f230f46-160502lt0116.jpg__1200x1200_q85.jpg",
     isFavorite: true,
   },
   {
-    id: "8", 
+    id: "8",
     name: "Villa d'Este",
     location: {
       address: "Piazza Trento, 5",
       city: "Tivoli, Italy",
-      distance: "(International)",
+      distance: "International",
       coordinates: [41.9633, 12.7958],
     },
     details: {
@@ -220,7 +218,7 @@ export const venues: VenueType[] = [
     },
     tags: ["Powerful", "Meditation", "Leave the City"],
     image:
-      "https://images.unsplash.com/photo-1552668252-7220d261dff0?ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80",
+      "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/2e/9a/5d/19/villa-d-este-general.jpg?w=500&h=-1&s=1",
     isFavorite: false,
   },
   {
@@ -229,7 +227,7 @@ export const venues: VenueType[] = [
     location: {
       address: "Apollo Bandar, Colaba",
       city: "Mumbai, India",
-      distance: "(International)",
+      distance: "International",
       coordinates: [18.9217, 72.8332],
     },
     details: {
@@ -238,12 +236,12 @@ export const venues: VenueType[] = [
       reviews: 220,
       rating: 5,
       squareFeet: 60000,
-      capacity: 250,
+      capacity: 98,
       amenities: ["wifi", "power", "pets", "clock"],
     },
     tags: ["Native Garden", "Powerful", "Meditation"],
     image:
-      "https://images.unsplash.com/photo-1587254259209-6e8cc33738ce?ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80",
+      "https://www.eternalweddingz.in/storage/venue_images/586MY0luZMtYBUhGrgCi5slFb18ytKuCYoLJHfSq.webp",
     isFavorite: true,
   },
   {
@@ -252,7 +250,7 @@ export const venues: VenueType[] = [
     location: {
       address: "Mrs Macquaries Rd",
       city: "Sydney, Australia",
-      distance: "(International)",
+      distance: "International",
       coordinates: [-33.8643, 151.2166],
     },
     details: {
@@ -261,12 +259,12 @@ export const venues: VenueType[] = [
       reviews: 185,
       rating: 5,
       squareFeet: 74000,
-      capacity: 350,
+      capacity: 45,
       amenities: ["wifi", "pets"],
     },
     tags: ["Native Garden", "Kid Friendly", "Meditation"],
     image:
-      "https://images.unsplash.com/photo-1596395463943-679c2d84e9af?ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80",
+      "https://image-tc.galaxy.tf/wijpeg-dmlvkl5mzfs8ayepxnogjo31q/jamison-attractions-botanical-gardens_standard.jpg?crop=117%2C0%2C1767%2C1325",
     isFavorite: false,
   },
   // US Venues (not exclusively Los Angeles)
@@ -285,7 +283,7 @@ export const venues: VenueType[] = [
       reviews: 175,
       rating: 5,
       squareFeet: 52000,
-      capacity: 270,
+      capacity: 125,
       amenities: ["wifi", "power", "clock"],
     },
     tags: ["Native Garden", "Kid Friendly", "Edible Garden"],
@@ -308,7 +306,7 @@ export const venues: VenueType[] = [
       reviews: 190,
       rating: 5,
       squareFeet: 110000,
-      capacity: 420,
+      capacity: 188,
       amenities: ["wifi", "power", "pets"],
     },
     tags: ["Native Garden", "Kid Friendly", "Powerful"],
@@ -323,7 +321,7 @@ export const venues: VenueType[] = [
       address: "1000 Lake Cook Rd",
       city: "Chicago, IL",
       distance: "(2100mi)",
-      coordinates: [42.1498, -87.7900],
+      coordinates: [42.1498, -87.79],
     },
     details: {
       privateExperiences: 4,
@@ -331,12 +329,12 @@ export const venues: VenueType[] = [
       reviews: 170,
       rating: 5,
       squareFeet: 87000,
-      capacity: 380,
+      capacity: 115,
       amenities: ["wifi", "pets", "clock"],
     },
     tags: ["Native Garden", "Kid Friendly", "Edible Garden"],
     image:
-      "https://images.unsplash.com/photo-1585594852648-ab7a5ac2bbe5?ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80",
+      "https://images.trvl-media.com/lodging/1000000/30000/21800/21767/26a8e15a_y.jpg",
     isFavorite: true,
   },
   {
@@ -346,7 +344,7 @@ export const venues: VenueType[] = [
       address: "611 SW Kingston Ave",
       city: "Portland, OR",
       distance: "(960mi)",
-      coordinates: [45.5190, -122.7084],
+      coordinates: [45.519, -122.7084],
     },
     details: {
       privateExperiences: 4,
@@ -359,7 +357,7 @@ export const venues: VenueType[] = [
     },
     tags: ["Meditation", "Native Garden", "Leave the City"],
     image:
-      "https://images.unsplash.com/photo-1576013551627-0ae7d1d006c4?ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80",
+      "https://wpmedia.japanesegarden.org/cb:gH3K.2f15e/w:1600/h:1054/q:mauto/ig:avif/id:2accd00dc05d01f1463c076001034252/http://live-japanesegarden.pantheonsite.io/Sapporo-Lantern-in-Late-Summer-Dusk.-Photo-by-Roman-Johnston-1.webp",
     isFavorite: false,
   },
   {
@@ -377,17 +375,17 @@ export const venues: VenueType[] = [
       reviews: 160,
       rating: 5,
       squareFeet: 83000,
-      capacity: 320,
+      capacity: 120,
       amenities: ["wifi", "clock"],
     },
     tags: ["Tropical", "Kid Friendly", "Native Garden"],
     image:
-      "https://images.unsplash.com/photo-1580093543655-6b95d6bdc0ab?ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80",
+      "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/07/9f/02/80/fairchild-tropical-botanic.jpg?w=900&h=500&s=1",
     isFavorite: true,
   },
   // Some Los Angeles venues (but with less priority)
   {
-    id: "26",
+    id: "16",
     name: "Stone Bridge Gardens",
     location: {
       address: "321 Rocky Road",
@@ -406,11 +404,11 @@ export const venues: VenueType[] = [
     },
     tags: ["Native Garden", "Dog Friendly", "Meditation"],
     image:
-      "https://images.unsplash.com/photo-1580093543655-6b95d6bdc0ab?ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80",
+      "https://q-xx.bstatic.com/xdata/images/hotel/max500/338989411.jpg?k=5f94cf558b80d62ee4d2208493e2663637505a19a713d24bd618ab32acd514ec&o=",
     isFavorite: false,
   },
   {
-    id: "27",
+    id: "17",
     name: "Enchanted Garden Resort",
     location: {
       address: "654 Fairy Lane",
@@ -429,11 +427,11 @@ export const venues: VenueType[] = [
     },
     tags: ["Powerful", "Kid Friendly", "Tropical"],
     image:
-      "https://images.unsplash.com/photo-1559304787-75b3f87def13?ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80",
+      "https://upload.wikimedia.org/wikipedia/commons/b/be/Enchanted_gardens_pool.jpg",
     isFavorite: true,
   },
   {
-    id: "30",
+    id: "18",
     name: "Hawaii Tropical Garden",
     location: {
       address: "27-717 Old Mamalahoa Hwy",
@@ -456,7 +454,7 @@ export const venues: VenueType[] = [
     isFavorite: true,
   },
   {
-    id: "31",
+    id: "19",
     name: "Desert Botanical Garden",
     location: {
       address: "1201 N Galvin Pkwy",
@@ -470,16 +468,16 @@ export const venues: VenueType[] = [
       reviews: 165,
       rating: 5,
       squareFeet: 55000,
-      capacity: 250,
+      capacity: 150,
       amenities: ["wifi", "clock"],
     },
     tags: ["Native Garden", "Powerful", "Leave the City"],
     image:
-      "https://images.unsplash.com/photo-1598080983455-829110b01fe5?ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80",
+      "https://travel.usnews.com/images/dbg_general_garden8_El8nSEM.jpg",
     isFavorite: false,
   },
   {
-    id: "32",
+    id: "20",
     name: "Meadowlark Hotel",
     location: {
       address: "654 Songbird Avenue",
@@ -500,5 +498,5 @@ export const venues: VenueType[] = [
     image:
       "https://images.unsplash.com/photo-1566737236500-c8ac43014a67?ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80",
     isFavorite: true,
-  }
+  },
 ];

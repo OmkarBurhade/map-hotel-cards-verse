@@ -1,6 +1,7 @@
 
 import { createContext, useContext, useState, ReactNode } from "react";
 import { VenueType } from "../data/venues";
+import getMaxCapacity from "@/components/MaxCapacity";
 
 type SearchContextType = {
   searchQuery: string;
@@ -20,9 +21,10 @@ const SearchContext = createContext<SearchContextType | undefined>(undefined);
 export const SearchProvider = ({ children }: { children: ReactNode }) => {
   const [searchQuery, setSearchQuery] = useState("");
   const [activeFilters, setActiveFilters] = useState<string[]>([]);
-  const [capacityRange, setCapacityRange] = useState<[number, number]>([0, 200]);
+  const [capacityRange, setCapacityRange] = useState<[number, number]>([0, getMaxCapacity()]);
   const [activeAmenities, setActiveAmenities] = useState<string[]>([]);
   const [filteredVenues, setFilteredVenues] = useState<VenueType[]>([]);
+
 
   return (
     <SearchContext.Provider

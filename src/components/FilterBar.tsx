@@ -1,6 +1,6 @@
 
 import { useState } from "react";
-import { venueTypes } from "../data/venues";
+import { venues, venueTypes } from "../data/venues";
 import { Slider } from "@/components/ui/slider";
 import {
   DropdownMenu,
@@ -17,10 +17,12 @@ import { toast } from "@/hooks/use-toast";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import UtilityButtons from "./UtilityButtons";
 import { useSearch } from "@/contexts/SearchContext";
+import getMaxCapacity from "./MaxCapacity";
 
 interface FilterBarProps {
   onFilterChange: (filters: string[]) => void;
   onCapacityChange?: (capacity: [number, number]) => void;
+
 }
 
 const FilterBar = ({ onFilterChange, onCapacityChange }: FilterBarProps) => {
@@ -30,7 +32,7 @@ const FilterBar = ({ onFilterChange, onCapacityChange }: FilterBarProps) => {
     setCapacityRange,
     activeAmenities,
     setActiveAmenities,
-    filteredVenues
+
   } = useSearch();
 
   const handleAmenityToggle = (amenity: string) => {
@@ -38,13 +40,15 @@ const FilterBar = ({ onFilterChange, onCapacityChange }: FilterBarProps) => {
     const newAmenities = activeAmenities.includes(amenity)
       ? activeAmenities.filter(a => a !== amenity)
       : [...activeAmenities, amenity];
-    
+
     setActiveAmenities(newAmenities);
   };
 
   const [activeFilters, setActiveFilters] = useState<string[]>([]);
-  const [capacity, setCapacity] = useState<[number, number]>([0, 200]);
+  const [capacity, setCapacity] = useState<[number, number]>([0, getMaxCapacity()]);
   const [isCapacityOpen, setIsCapacityOpen] = useState(false);
+
+console.log('capacity', capacity);
 
   const toggleFilter = (filter: string) => {
     const isActive = activeFilters.includes(filter);
@@ -78,10 +82,10 @@ const FilterBar = ({ onFilterChange, onCapacityChange }: FilterBarProps) => {
             <PopoverTrigger asChild>
               <Button
                 variant="outline"
-                className={`px-4 py-2 rounded-full flex items-center gap-2 ${capacity[0] > 0 || capacity[1] < 200 ? "bg-green-600 text-white hover:bg-green-700" : ""}`}
+                className={`px-4 py-2 rounded-full flex items-center gap-2 ${capacity[0] > 0 || capacity[1] < capacity[1] ? "bg-green-600 text-white hover:bg-green-700" : ""}`}
               >
                 <span>
-                  {capacity[0] > 0 || capacity[1] < 200
+                  {capacity[0] > 0 || capacity[1] < capacity[1]
                     ? `Capacity: ${capacity[0]} - ${capacity[1]}`
                     : "Any Capacity"}
                 </span>
@@ -95,10 +99,10 @@ const FilterBar = ({ onFilterChange, onCapacityChange }: FilterBarProps) => {
                   <p className="text-sm font-medium">Range: {capacity[0]} - {capacity[1]} people</p>
                 </div>
                 <Slider
-                  defaultValue={[0, 200]}
+                  defaultValue={[0, capacity[1]]}
                   min={0}
-                  max={200}
-                  step={5}
+                  max={capacity[1]}
+                  step={1}
                   value={capacity}
                   onValueChange={handleCapacityChange}
                   className="py-4"
