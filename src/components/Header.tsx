@@ -12,7 +12,7 @@ interface HeaderProps {
 
 const Header = ({ onSearch, onAmenityToggle, activeAmenities }: HeaderProps) => {
   return (
-    <header className="bg-white shadow-sm sticky top-0 z-10">
+    <header className="bg-white shadow-sm sticky top-0 z-[10000]">
       <div className="container mx-auto px-4 py-4 flex flex-col md:flex-row items-center justify-between">
         <div className="flex items-center mb-4 md:mb-0">
           <Link to="/" className="flex items-center">

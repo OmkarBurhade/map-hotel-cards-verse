@@ -16,22 +16,23 @@ const VenueList = ({ activeVenueId, onVenueHover, onVenueClick }: VenueListProps
   if (filteredVenues.length === 0) {
     return (
       <div className="w-full">
-        <div className="bg-white p-8 rounded-2xl shadow-md border border-blue-100 mb-4">
-          <div className="flex flex-col md:flex-row justify-between gap-6">
+        <div className="bg-white p-6 rounded-2xl shadow-md border border-blue-100 mb-4">
+          <div className="flex flex-col md:flex-row items-center justify-between gap-6">
             <div className="space-y-4">
               <h3 className="text-xl font-medium">We are still growing in this location,</h3>
               <p className="text-gray-700">would you like to be notified when new gardens are added nearby?</p>
               <Button 
-                className="bg-coral-500 hover:bg-coral-600 text-white rounded-full px-6 py-2"
+                className="bg-[#F5775E] hover:bg-[#e77159] text-white font-semibold rounded-full px-6 py-2"
               >
                 Notify Me
               </Button>
             </div>
+            <div className="w-[3px] h-28 mr-2 bg-gray-200"></div>
             <div className="space-y-4">
               <h3 className="text-xl font-medium">Have a garden in this area?</h3>
               <p className="text-gray-700">We would love to have you in the Healing Gardens network.</p>
               <Button 
-                className="bg-coral-500 hover:bg-coral-600 text-white rounded-full px-6 py-2"
+                className="bg-[#F5775E] hover:bg-[#e77159] text-white font-semibold rounded-full px-6 py-2"
               >
                 Become a Host
               </Button>
