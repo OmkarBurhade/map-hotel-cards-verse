@@ -80,7 +80,7 @@ const VenueCard = ({ venue, isActive, onHover, onClick }: VenueCardProps) => {
 
         <div className="flex justify-between items-center">
           <div className="text-sm font-medium">
-            {venue.details.squareFeet} sq ft
+            {venue.details.squareFeet} sq ftt.
           </div>
 
           <div className="flex items-center">
