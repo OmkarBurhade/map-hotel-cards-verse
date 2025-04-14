@@ -195,7 +195,29 @@ const IndexContent = () => {
 
           <div className={`${isMobile ? 'order-1 h-[350px] mb-4' : 'col-span-5 order-2 sticky top-28 h-[calc(100vh-150px)]'}`}>
             <Map
-              venues={contentType === "venues" ? filteredVenues : filteredEvents}
+              venues={contentType === "venues" ? filteredVenues : filteredEvents.map(event => ({
+                id: event.id,
+                name: event.name,
+                location: {
+                  address: event.location.venue,
+                  city: `${event.location.city}, ${event.location.state}`,
+                  distance: event.location.distance,
+                  coordinates: event.location.coordinates,
+                },
+                details: {
+                  privateExperiences: 0,
+                  events: 1,
+                  reviews: 0,
+                  rating: 5,
+                  squareFeet: 0,
+                  capacity: event.details.capacity,
+                  amenities: event.details.amenities,
+                },
+                tags: event.details.categories,
+                image: event.image,
+                isFavorite: false,
+                guestFavorite: false,
+              }))}
               activeVenueId={contentType === "venues" ? activeVenueId : activeEventId}
               onMarkerClick={handleMarkerClick}
             />

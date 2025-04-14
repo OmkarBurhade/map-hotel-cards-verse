@@ -1,5 +1,4 @@
-
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Slider } from "@/components/ui/slider";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Button } from "@/components/ui/button";
@@ -24,33 +23,27 @@ const EventFilterBar = () => {
   const [isLanguageOpen, setIsLanguageOpen] = useState(false);
 
   const toggleCategory = (category: string) => {
-    setActiveEventCategories(prevCategories => {
-      if (prevCategories.includes(category)) {
-        return prevCategories.filter(c => c !== category);
-      } else {
-        return [...prevCategories, category];
-      }
-    });
+    const newCategories = activeEventCategories.includes(category)
+      ? activeEventCategories.filter(c => c !== category)
+      : [...activeEventCategories, category];
+    
+    setActiveEventCategories(newCategories);
   };
 
   const toggleTimeOfDay = (time: string) => {
-    setActiveTimeOfDay(prevTimes => {
-      if (prevTimes.includes(time)) {
-        return prevTimes.filter(t => t !== time);
-      } else {
-        return [...prevTimes, time];
-      }
-    });
+    const newTimes = activeTimeOfDay.includes(time)
+      ? activeTimeOfDay.filter(t => t !== time)
+      : [...activeTimeOfDay, time];
+    
+    setActiveTimeOfDay(newTimes);
   };
 
   const toggleLanguage = (language: string) => {
-    setActiveLanguages(prevLanguages => {
-      if (prevLanguages.includes(language)) {
-        return prevLanguages.filter(l => l !== language);
-      } else {
-        return [...prevLanguages, language];
-      }
-    });
+    const newLanguages = activeLanguages.includes(language)
+      ? activeLanguages.filter(l => l !== language)
+      : [...activeLanguages, language];
+    
+    setActiveLanguages(newLanguages);
   };
 
   const handlePriceChange = (values: number[]) => {
