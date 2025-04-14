@@ -1,7 +1,17 @@
+
 import { useState, useRef, useEffect } from "react";
-import { MapPin, Flower2, Search } from "lucide-react";
+import { MapPin, Flower2, Search, Ticket } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { venues } from "../data/venues";
+import { events } from "../data/events";
+import { useSearch } from "@/contexts/SearchContext";
+import { 
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue
+} from "@/components/ui/select";
 
 interface SearchAutocompleteProps {
   onSearch: (query: string) => void;
@@ -16,10 +26,11 @@ const commonLocations = [
 
 type SuggestionType = {
   text: string;
-  type: 'location' | 'venue';
+  type: 'location' | 'venue' | 'event';
 };
 
 const SearchAutocomplete = ({ onSearch }: SearchAutocompleteProps) => {
+  const { contentType, setContentType } = useSearch();
   const [searchTerm, setSearchTerm] = useState("");
   const [showSuggestions, setShowSuggestions] = useState(false);
   const [suggestions, setSuggestions] = useState<SuggestionType[]>([]);
@@ -56,33 +67,54 @@ const SearchAutocomplete = ({ onSearch }: SearchAutocompleteProps) => {
 
     const term = searchTerm.toLowerCase();
 
-    // Find matches
-    const exactVenueMatches = venues
-      .filter(venue => venue.name.toLowerCase() === term)
-      .map(venue => ({ text: venue.name, type: 'venue' as const }));
+    let exactVenueMatches: SuggestionType[] = [];
+    let partialVenueMatches: SuggestionType[] = [];
+    let exactEventMatches: SuggestionType[] = [];
+    let partialEventMatches: SuggestionType[] = [];
 
+    if (contentType === "venues" || contentType === "experiences") {
+      // Find venue matches
+      exactVenueMatches = venues
+        .filter(venue => venue.name.toLowerCase() === term)
+        .map(venue => ({ text: venue.name, type: 'venue' as const }));
+      
+      partialVenueMatches = venues
+        .filter(venue => venue.name.toLowerCase().includes(term) && venue.name.toLowerCase() !== term)
+        .map(venue => ({ text: venue.name, type: 'venue' as const }));
+    }
+
+    if (contentType === "events") {
+      // Find event matches
+      exactEventMatches = events
+        .filter(event => event.name.toLowerCase() === term)
+        .map(event => ({ text: event.name, type: 'event' as const }));
+      
+      partialEventMatches = events
+        .filter(event => event.name.toLowerCase().includes(term) && event.name.toLowerCase() !== term)
+        .map(event => ({ text: event.name, type: 'event' as const }));
+    }
+
+    // Location matches for all content types
     const exactLocationMatches = commonLocations
       .filter(loc => loc.toLowerCase() === term)
       .map(loc => ({ text: loc, type: 'location' as const }));
 
-    const partialVenueMatches = venues
-      .filter(venue => venue.name.toLowerCase().includes(term) && venue.name.toLowerCase() !== term)
-      .map(venue => ({ text: venue.name, type: 'venue' as const })); // Removed .slice()
-
     const partialLocationMatches = commonLocations
       .filter(loc => loc.toLowerCase().includes(term) && loc.toLowerCase() !== term)
-      .map(loc => ({ text: loc, type: 'location' as const })); // Removed .slice()
+      .map(loc => ({ text: loc, type: 'location' as const }));
 
     // Combine results with exact matches first
     const combinedResults = [
       ...exactVenueMatches,
+      ...exactEventMatches,
       ...exactLocationMatches,
       ...partialVenueMatches,
+      ...partialEventMatches,
       ...partialLocationMatches
-    ]; // Removed .slice()
+    ];
 
     setSuggestions(combinedResults);
-  }, [searchTerm, onSearch]);
+  }, [searchTerm, onSearch, contentType]);
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
@@ -103,6 +135,10 @@ const SearchAutocomplete = ({ onSearch }: SearchAutocompleteProps) => {
     setShowSuggestions(value.trim() !== "");
   };
 
+  const handleContentTypeChange = (value: string) => {
+    setContentType(value as "venues" | "events" | "experiences");
+  };
+
   return (
     <form onSubmit={handleSearch} className="flex items-center relative w-full">
       <div className="relative flex-1">
@@ -115,7 +151,7 @@ const SearchAutocomplete = ({ onSearch }: SearchAutocompleteProps) => {
             setShowSuggestions(searchTerm.trim() !== "");
           }}
           className="w-full px-6 py-3 h-12 text-base rounded-l-full border-2 border-gray-300 focus:border-green-500"
-          placeholder="Search locations or venue names"
+          placeholder={`Search locations or ${contentType === "events" ? "event" : "venue"} names`}
           autoComplete="off"
         />
 
@@ -135,13 +171,15 @@ const SearchAutocomplete = ({ onSearch }: SearchAutocompleteProps) => {
                   <div className="flex items-center">
                     {suggestion.type === 'location' ? (
                       <MapPin className="h-4 w-4 mr-2 text-gray-400" />
+                    ) : suggestion.type === 'event' ? (
+                      <Ticket className="h-4 w-4 mr-2 text-pink-500" />
                     ) : (
                       <Flower2 className="h-4 w-4 mr-2 text-green-500" />
                     )}
                     <span>{suggestion.text}</span>
                   </div>
                   <span className="ml-auto text-xs text-gray-400">
-                    {suggestion.type === 'location' ? 'Location' : 'Venue'}
+                    {suggestion.type === 'location' ? 'Location' : suggestion.type === 'event' ? 'Event' : 'Venue'}
                   </span>
                 </div>
               ))}
@@ -151,11 +189,19 @@ const SearchAutocomplete = ({ onSearch }: SearchAutocompleteProps) => {
       </div>
 
       <div className="relative">
-        <select className="h-12 px-4 py-2 border-2 border-gray-300 border-x-0 appearance-none focus:outline-none bg-white text-base">
-          <option>Venue Rentals</option>
-          <option>Ticketed Events</option>
-          <option>Private Experiences</option>
-        </select>
+        <Select 
+          value={contentType} 
+          onValueChange={handleContentTypeChange}
+        >
+          <SelectTrigger className="h-12 px-4 py-2 border-2 border-gray-300 border-x-0 w-[160px] appearance-none focus:outline-none bg-white text-base">
+            <SelectValue placeholder="Venue Rentals" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="venues">Venue Rentals</SelectItem>
+            <SelectItem value="events">Ticketed Events</SelectItem>
+            <SelectItem value="experiences">Private Experiences</SelectItem>
+          </SelectContent>
+        </Select>
       </div>
 
       <button type="submit" className="bg-green-600 text-white px-5 py-3 h-12 rounded-r-full hover:bg-green-700 transition-colors">
