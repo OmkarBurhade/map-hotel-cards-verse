@@ -45,7 +45,7 @@ const VenueList = ({ activeVenueId, onVenueHover, onVenueClick }: VenueListProps
         </p>
         
         <h3 className="text-lg font-medium mb-4 mt-8 ml-1">All available gardens</h3>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 gap-y-8">
           {allVenues.map((venue) => (
             <div id={`venue-${venue.id}`} key={venue.id}>
               <VenueCard 
@@ -62,7 +62,7 @@ const VenueList = ({ activeVenueId, onVenueHover, onVenueClick }: VenueListProps
   }
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+    <div className="grid grid-cols-1 md:grid-cols-3 gap-6 gap-y-8">
       {filteredVenues.map((venue) => (
         <div id={`venue-${venue.id}`} key={venue.id}>
           <VenueCard 

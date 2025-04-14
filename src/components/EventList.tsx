@@ -44,7 +44,7 @@ const EventList = ({ activeEventId, onEventHover, onEventClick }: EventListProps
         </p>
         
         <h3 className="text-lg font-medium mb-4 mt-8 ml-1">All upcoming events</h3>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 gap-y-8">
           {allEvents.map((event) => (
             <div id={`event-${event.id}`} key={event.id}>
               <EventCard 
@@ -61,7 +61,7 @@ const EventList = ({ activeEventId, onEventHover, onEventClick }: EventListProps
   }
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+    <div className="grid grid-cols-1 md:grid-cols-3 gap-6 gap-y-8">
       {filteredEvents.map((event) => (
         <div id={`event-${event.id}`} key={event.id}>
           <EventCard 

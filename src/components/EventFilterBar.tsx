@@ -26,7 +26,7 @@ const EventFilterBar = () => {
     const newCategories = activeEventCategories.includes(category)
       ? activeEventCategories.filter(c => c !== category)
       : [...activeEventCategories, category];
-    
+
     setActiveEventCategories(newCategories);
   };
 
@@ -34,7 +34,7 @@ const EventFilterBar = () => {
     const newTimes = activeTimeOfDay.includes(time)
       ? activeTimeOfDay.filter(t => t !== time)
       : [...activeTimeOfDay, time];
-    
+
     setActiveTimeOfDay(newTimes);
   };
 
@@ -42,7 +42,7 @@ const EventFilterBar = () => {
     const newLanguages = activeLanguages.includes(language)
       ? activeLanguages.filter(l => l !== language)
       : [...activeLanguages, language];
-    
+
     setActiveLanguages(newLanguages);
   };
 
@@ -59,11 +59,10 @@ const EventFilterBar = () => {
             <PopoverTrigger asChild>
               <Button
                 variant="outline"
-                className={`px-4 py-2 rounded-full flex items-center gap-2 ${
-                  eventPriceRange[0] > 0 || eventPriceRange[1] < 100 
-                    ? "bg-green-600 text-white hover:bg-green-700" 
+                className={`px-4 py-2 rounded-full flex items-center gap-2 ${eventPriceRange[0] > 0 || eventPriceRange[1] < 100
+                    ? "bg-green-600 text-white hover:bg-green-700 hover:text-white"
                     : ""
-                }`}
+                  }`}
               >
                 <span>
                   {eventPriceRange[0] > 0 || eventPriceRange[1] < 100
@@ -72,7 +71,7 @@ const EventFilterBar = () => {
                 </span>
               </Button>
             </PopoverTrigger>
-            <PopoverContent className="w-80 p-4">
+            <PopoverContent className="w-80 p-4 ml-5">
               <div>
                 <h3 className="font-medium mb-2">Price Range</h3>
                 <p className="text-sm text-gray-600 mb-4">Select min and max price</p>
@@ -96,11 +95,10 @@ const EventFilterBar = () => {
             <PopoverTrigger asChild>
               <Button
                 variant="outline"
-                className={`px-4 py-2 rounded-full flex items-center gap-2 ${
-                  activeTimeOfDay.length > 0
-                    ? "bg-green-600 text-white hover:bg-green-700" 
+                className={`px-4 py-2 rounded-full flex items-center gap-2 ${activeTimeOfDay.length > 0
+                    ? "bg-green-600 text-white hover:bg-green-700 hover:text-white"
                     : ""
-                }`}
+                  }`}
               >
                 <span>
                   {activeTimeOfDay.length > 0
@@ -116,16 +114,15 @@ const EventFilterBar = () => {
                   {timeOfDayOptions.map((time) => (
                     <div key={time} className="flex items-center">
                       <div
-                        className={`w-5 h-5 rounded border flex items-center justify-center mr-2 cursor-pointer ${
-                          activeTimeOfDay.includes(time) 
-                            ? "bg-green-600 border-green-600" 
+                        className={`w-5 h-5 rounded border flex items-center justify-center mr-2 cursor-pointer ${activeTimeOfDay.includes(time)
+                            ? "bg-green-600 border-green-600"
                             : "border-gray-300"
-                        }`}
+                          }`}
                         onClick={() => toggleTimeOfDay(time)}
                       >
                         {activeTimeOfDay.includes(time) && <Check className="h-3 w-3 text-white" />}
                       </div>
-                      <span className="text-sm">{time}</span>
+                      <span onClick={() => toggleTimeOfDay(time)} className="text-sm select-none cursor-pointer">{time}</span>
                     </div>
                   ))}
                 </div>
@@ -137,11 +134,10 @@ const EventFilterBar = () => {
             <PopoverTrigger asChild>
               <Button
                 variant="outline"
-                className={`px-4 py-2 rounded-full flex items-center gap-2 ${
-                  activeLanguages.length > 0
-                    ? "bg-green-600 text-white hover:bg-green-700" 
+                className={`px-4 py-2 rounded-full flex items-center gap-2 ${activeLanguages.length > 0
+                    ? "bg-green-600 text-white hover:bg-green-700 hover:text-white"
                     : ""
-                }`}
+                  }`}
               >
                 <span>
                   {activeLanguages.length > 0
@@ -157,16 +153,15 @@ const EventFilterBar = () => {
                   {languageOptions.map((language) => (
                     <div key={language} className="flex items-center">
                       <div
-                        className={`w-5 h-5 rounded border flex items-center justify-center mr-2 cursor-pointer ${
-                          activeLanguages.includes(language) 
-                            ? "bg-green-600 border-green-600" 
+                        className={`w-5 h-5 rounded border flex items-center justify-center mr-2 cursor-pointer ${activeLanguages.includes(language)
+                            ? "bg-green-600 border-green-600"
                             : "border-gray-300"
-                        }`}
+                          }`}
                         onClick={() => toggleLanguage(language)}
                       >
                         {activeLanguages.includes(language) && <Check className="h-3 w-3 text-white" />}
                       </div>
-                      <span className="text-sm">{language}</span>
+                      <span onClick={() => toggleLanguage(language)} className="text-sm select-none cursor-pointer">{language}</span>
                     </div>
                   ))}
                 </div>
@@ -174,16 +169,15 @@ const EventFilterBar = () => {
             </PopoverContent>
           </Popover>
 
-          <div className="flex flex-wrap gap-2 overflow-x-auto pb-2 no-scrollbar">
+          <div className="flex flex-wrap gap-2 overflow-x-auto pb-2 mt-3 no-scrollbar">
             {eventCategories.map((category) => (
               <button
                 key={category}
                 onClick={() => toggleCategory(category)}
-                className={`px-3 py-1 rounded-full text-sm whitespace-nowrap flex items-center gap-1 transition-colors ${
-                  activeEventCategories.includes(category)
+                className={`px-3 py-1 rounded-full text-sm whitespace-nowrap flex items-center gap-1 transition-colors ${activeEventCategories.includes(category)
                     ? "bg-green-600 text-white"
                     : "bg-gray-100 text-gray-800 hover:bg-gray-200"
-                }`}
+                  }`}
               >
                 {category}
               </button>

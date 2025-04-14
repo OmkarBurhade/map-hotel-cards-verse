@@ -162,7 +162,7 @@ const Map = ({ venues, activeVenueId, onMarkerClick }: MapProps) => {
     };
   }, [venues, activeVenueId, isMobile, onMarkerClick]);
 
-  return <div id="map" className="w-full h-full rounded-2xl shadow-md" />;
+  return <div id="map" className="w-full h-full lg:h-[84vh] rounded-2xl shadow-md z-0" />;
 };
 
 export default Map;

@@ -22,12 +22,12 @@ const EventPopup = ({ event, isOpen, onClose }: EventPopupProps) => {
             alt={event.name}
             className="w-full h-full object-cover"
           />
-          <button
+          {/* <button
             onClick={onClose}
             className="absolute top-4 right-4 bg-white p-1 rounded-full hover:bg-gray-100"
           >
             <X className="h-5 w-5" />
-          </button>
+          </button> */}
           {event.isSelling && (
             <div className="absolute bottom-4 left-4 bg-red-500 text-white px-3 py-1 rounded-full text-xs font-bold">
               Selling Fast!

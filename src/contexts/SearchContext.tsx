@@ -20,6 +20,7 @@ type SearchContextType = {
   filteredVenues: VenueType[];
   setFilteredVenues: (venues: VenueType[]) => void;
   allVenues: VenueType[]; // Access to all venues
+  
   // Events related state
   filteredEvents: EventType[];
   setFilteredEvents: (events: EventType[]) => void;

@@ -44,7 +44,7 @@ const IndexContent = () => {
 
   const handleSearchSubmit = (query: string) => {
     setSearchQuery(query);
-    
+
     if (contentType === "venues") {
       handleVenueSearch(query);
 
@@ -166,6 +166,7 @@ const IndexContent = () => {
       ) : null}
 
       <main className="container mx-auto px-4 py-2">
+     
         <div className="flex justify-between items-center mb-4">
           <SearchResultsInfo />
         </div>
@@ -193,7 +194,7 @@ const IndexContent = () => {
             )}
           </div>
 
-          <div className={`${isMobile ? 'order-1 h-[350px] mb-4' : 'col-span-5 order-2 sticky top-28 h-[calc(100vh-150px)]'}`}>
+          <div className={`${isMobile ? 'order-1 mb-4' : 'col-span-5 order-2 sticky top-[6.9rem] h-[calc(100vh-150px)]'}`}>
             <Map
               venues={contentType === "venues" ? filteredVenues : filteredEvents.map(event => ({
                 id: event.id,

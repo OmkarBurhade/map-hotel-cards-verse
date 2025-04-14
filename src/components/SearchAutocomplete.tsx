@@ -5,7 +5,7 @@ import { Input } from "@/components/ui/input";
 import { venues } from "../data/venues";
 import { events } from "../data/events";
 import { useSearch } from "@/contexts/SearchContext";
-import { 
+import {
   Select,
   SelectContent,
   SelectItem,
@@ -77,7 +77,7 @@ const SearchAutocomplete = ({ onSearch }: SearchAutocompleteProps) => {
       exactVenueMatches = venues
         .filter(venue => venue.name.toLowerCase() === term)
         .map(venue => ({ text: venue.name, type: 'venue' as const }));
-      
+
       partialVenueMatches = venues
         .filter(venue => venue.name.toLowerCase().includes(term) && venue.name.toLowerCase() !== term)
         .map(venue => ({ text: venue.name, type: 'venue' as const }));
@@ -88,7 +88,7 @@ const SearchAutocomplete = ({ onSearch }: SearchAutocompleteProps) => {
       exactEventMatches = events
         .filter(event => event.name.toLowerCase() === term)
         .map(event => ({ text: event.name, type: 'event' as const }));
-      
+
       partialEventMatches = events
         .filter(event => event.name.toLowerCase().includes(term) && event.name.toLowerCase() !== term)
         .map(event => ({ text: event.name, type: 'event' as const }));
@@ -140,74 +140,81 @@ const SearchAutocomplete = ({ onSearch }: SearchAutocompleteProps) => {
   };
 
   return (
-    <form onSubmit={handleSearch} className="flex items-center relative w-full">
-      <div className="relative flex-1">
-        <Input
-          ref={inputRef}
-          type="text"
-          value={searchTerm}
-          onChange={handleInputChange}
-          onClick={() => {
-            setShowSuggestions(searchTerm.trim() !== "");
-          }}
-          className="w-full px-6 py-3 h-12 text-base rounded-l-full border-2 border-gray-300 focus:border-green-500"
-          placeholder={`Search locations or ${contentType === "events" ? "event" : "venue"} names`}
-          autoComplete="off"
-        />
+    <>
+      <form onSubmit={handleSearch} className="w-[80%] flex items-center relative">
+        <div className="w-full border-2 flex items-center rounded-full overflow-hidden border-gray-300">
+          <div className="relative flex-1">
+            <Input
+              ref={inputRef}
+              type="text"
+              value={searchTerm}
+              onChange={handleInputChange}
+              onClick={() => {
+                setShowSuggestions(searchTerm.trim() !== "");
+              }}
+              className="w-full h-8 text-base focus:font-medium border-none"
+              placeholder={`Search locations or ${contentType === "events" ? "event" : "venue"} names`}
+              autoComplete="off"
+            />
 
-        {/* Suggestions dropdown */}
-        {showSuggestions && suggestions.length > 0 && (
-          <div
-            ref={suggestionsRef}
-            className="absolute left-0 right-0 mt-1 bg-white border border-gray-200 rounded-lg shadow-lg z-50 max-h-80 overflow-y-auto"
-          >
-            <div className="p-1">
-              {suggestions.map((suggestion, index) => (
-                <div
-                  key={`${suggestion.text}-${index}`}
-                  onClick={() => selectSuggestion(suggestion.text)}
-                  className="flex items-center justify-between p-2 hover:bg-gray-100 rounded cursor-pointer"
-                >
-                  <div className="flex items-center">
-                    {suggestion.type === 'location' ? (
-                      <MapPin className="h-4 w-4 mr-2 text-gray-400" />
-                    ) : suggestion.type === 'event' ? (
-                      <Ticket className="h-4 w-4 mr-2 text-pink-500" />
-                    ) : (
-                      <Flower2 className="h-4 w-4 mr-2 text-green-500" />
-                    )}
-                    <span>{suggestion.text}</span>
-                  </div>
-                  <span className="ml-auto text-xs text-gray-400">
-                    {suggestion.type === 'location' ? 'Location' : suggestion.type === 'event' ? 'Event' : 'Venue'}
-                  </span>
+            {/* Suggestions dropdown */}
+            {showSuggestions && suggestions.length > 0 && (
+              <div
+                ref={suggestionsRef}
+                className="absolute left-0 right-0 mt-1 bg-white border border-gray-200 rounded-lg shadow-lg z-50 max-h-80 overflow-y-auto"
+              >
+                <div className="p-1">
+                  {suggestions.map((suggestion, index) => (
+                    <div
+                      key={`${suggestion.text}-${index}`}
+                      onClick={() => selectSuggestion(suggestion.text)}
+                      className="flex items-center justify-between p-2 hover:bg-gray-100 rounded cursor-pointer"
+                    >
+                      <div className="flex items-center">
+                        {suggestion.type === 'location' ? (
+                          <MapPin className="h-4 w-4 mr-2 text-gray-400" />
+                        ) : suggestion.type === 'event' ? (
+                          <Ticket className="h-4 w-4 mr-2 text-pink-500" />
+                        ) : (
+                          <Flower2 className="h-4 w-4 mr-2 text-green-500" />
+                        )}
+                        <span>{suggestion.text}</span>
+                      </div>
+                      <span className="ml-auto text-xs text-gray-400">
+                        {suggestion.type === 'location' ? 'Location' : suggestion.type === 'event' ? 'Event' : 'Venue'}
+                      </span>
+                    </div>
+                  ))}
                 </div>
-              ))}
-            </div>
+              </div>
+            )}
           </div>
-        )}
-      </div>
+          <div className="w-[0.1rem] h-8 bg-gray-300 "></div>
+          <div className="flex items-center justify-between p-1 pr-[0.4]">
 
-      <div className="relative">
-        <Select 
-          value={contentType} 
-          onValueChange={handleContentTypeChange}
-        >
-          <SelectTrigger className="h-12 px-4 py-2 border-2 border-gray-300 border-x-0 w-[160px] appearance-none focus:outline-none bg-white text-base">
-            <SelectValue placeholder="Venue Rentals" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="venues">Venue Rentals</SelectItem>
-            <SelectItem value="events">Ticketed Events</SelectItem>
-            <SelectItem value="experiences">Private Experiences</SelectItem>
-          </SelectContent>
-        </Select>
-      </div>
+            <div className="relative">
+              <Select
+                value={contentType}
+                onValueChange={handleContentTypeChange}
+              >
+                <SelectTrigger className="h-8 px-3 py-2 rounded-none border-none appearance-none focus:outline-none mr-1 bg-white text-sm">
+                  <SelectValue placeholder="Venue Rentals" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem className="cursor-pointer" value="venues">Venue Rentals</SelectItem>
+                  <SelectItem className="cursor-pointer" value="events">Ticketed Events</SelectItem>
+                  <SelectItem className="cursor-pointer" value="experiences">Private Experiences</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
 
-      <button type="submit" className="bg-green-600 text-white px-5 py-3 h-12 rounded-r-full hover:bg-green-700 transition-colors">
-        <Search className="h-5 w-5" />
-      </button>
-    </form>
+            <button type="submit" className="flex items-center justify-center bg-green-600 text-white px-2 py-2 h-8 w-8 rounded-full hover:bg-green-700 transition-colors">
+              <Search className="h-4 w-4" />
+            </button>
+          </div>
+        </div>
+      </form>
+    </>
   );
 };
 

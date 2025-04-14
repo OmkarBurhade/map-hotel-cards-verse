@@ -24,7 +24,7 @@ const VenueCard = ({ venue, isActive, onHover, onClick }: VenueCardProps) => {
 
   return (
     <div
-      className={` transition-all cursor-pointer `}
+      className={` transition-all cursor-pointer w-64`}
       onMouseEnter={() => onHover(venue.id)}
       onMouseLeave={() => onHover(null)}
       onClick={() => onClick(venue.id)} // Handle click to open popup
@@ -33,7 +33,7 @@ const VenueCard = ({ venue, isActive, onHover, onClick }: VenueCardProps) => {
         <img
           src={venue.image}
           alt={venue.name}
-          className={`w-full h-60 object-cover rounded-2xl transition-all ${isActive ? "transform scale-[1.02]" : "hover:shadow-lg"
+          className={`w-full h-52 object-cover rounded-2xl transition-all ${isActive ? "transform scale-[1.02]" : "hover:shadow-lg"
             }`}
         />
         {guestFavorite && <div className="absolute top-2 left-2 bg-white text-black px-3 py-[.5rem] rounded-full text-xs">
@@ -50,9 +50,9 @@ const VenueCard = ({ venue, isActive, onHover, onClick }: VenueCardProps) => {
         </button>
       </div>
 
-      <div className="p-4">
-        <h3 className="font-bold text-lg">{venue.name}</h3>
-        <div className="flex items-center text-sm text-gray-600 mb-2">
+      <div className="py-4 px-2">
+        <h3 className="font-semibold text-base">{venue.name}</h3>
+        <div className="flex items-center text-sm text-gray-600 mb-1">
           <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-1 text-pink-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
@@ -60,11 +60,11 @@ const VenueCard = ({ venue, isActive, onHover, onClick }: VenueCardProps) => {
           {venue.location.city} {`(${venue.location.distance}) `}
         </div>
 
-        <div className="text-sm mb-2">
+        <div className="text-sm mb-1">
           {venue.details.privateExperiences} Private Experiences & {venue.details.events} events
         </div>
 
-        <div className="flex items-center mb-4">
+        <div className="flex items-center mb-2">
           <div className="flex items-center text-sm">
             {venue.details.reviews} reviews
           </div>
@@ -79,11 +79,11 @@ const VenueCard = ({ venue, isActive, onHover, onClick }: VenueCardProps) => {
         </div>
 
         <div className="flex justify-between items-center">
-          <div className="text-sm font-medium">
+          <div className="text-base font-medium">
             {venue.details.squareFeet} sq ftt.
           </div>
 
-          <div className="flex items-center">
+          <div className="flex items-center justify-center">
             <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-gray-600 mr-1" viewBox="0 0 20 20" fill="currentColor">
               <path fillRule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clipRule="evenodd" />
             </svg>
@@ -93,29 +93,29 @@ const VenueCard = ({ venue, isActive, onHover, onClick }: VenueCardProps) => {
 
         <div className="mt-3 flex gap-2">
           {venue.details.amenities?.includes("wifi") && (
-            <div className="p-2 bg-gray-100 rounded-full">
+            <div className="p-2 bg-gray-200 rounded-full">
               <Wifi className="text-gray-600 h-4 w-4" />
             </div>
           )}
 
           {venue.details.amenities?.includes("power") && (
-            <div className="p-2 bg-gray-100 rounded-full">
+            <div className="p-2 bg-gray-200 rounded-full">
               <Zap className="text-gray-600 h-4 w-4" />
             </div>
           )}
 
           {venue.details.amenities?.includes("pets") && (
-            <div className="p-2 bg-gray-100 rounded-full">
+            <div className="p-2 bg-gray-200 rounded-full">
               <PawPrint className="text-gray-600 h-4 w-4" />
             </div>
           )}
           {venue.details.amenities?.includes("gardens") && (
-            <div className="p-2 bg-gray-100 rounded-full">
+            <div className="p-2 bg-gray-200 rounded-full">
               <Flower2 className="text-gray-600 h-4 w-4" />
             </div>
           )}
           {venue.details.amenities?.includes("clock") && (
-            <div className="p-2 bg-gray-100 rounded-full text-gray-600">
+            <div className="p-2 bg-gray-200 rounded-full text-gray-600">
               <Clock className="h-4 w-4" />
             </div>
           )}

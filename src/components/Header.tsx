@@ -3,7 +3,7 @@ import { useState } from "react";
 import { useSearch } from "@/contexts/SearchContext";
 import SearchAutocomplete from "./SearchAutocomplete";
 import { Link } from "react-router-dom";
-
+import HealingLogo from "../assets/healing-logo.png";
 interface HeaderProps {
   onSearch: (location: string) => void;
   onAmenityToggle: (amenity: string) => void;
@@ -12,16 +12,15 @@ interface HeaderProps {
 
 const Header = ({ onSearch, onAmenityToggle, activeAmenities }: HeaderProps) => {
   return (
-    <header className="bg-white shadow-sm sticky top-0 z-[10000]">
-      <div className="container mx-auto px-4 py-4 flex flex-col md:flex-row items-center justify-between">
+    <header className="bg-white border-b-[0.1rem] border-zinc-100 shadow-sm sticky top-0 z-[10]">
+      <div className="container mx-auto px-4 py-2 flex flex-col md:flex-row items-center justify-between">
         <div className="flex items-center mb-4 md:mb-0">
           <Link to="/" className="flex items-center">
-            <img src="https://www.healinggardens.co/_next/static/images/HGNewLogo-removebg-7798e84533bb03cb3285bc1887a3d7e3.png" alt="Logo" className="h-auto w-32 mr-2" />
-
+            <img src={HealingLogo} alt="Logo" className="h-auto w-32 mr-2" />
           </Link>
         </div>
 
-        <div className="w-full md:w-auto md:flex-1 md:mx-8 max-w-2xl">
+        <div className="w-full md:w-auto md:flex-1 md:mx-8 max-w-2xl flex items-center justify-center">
           <SearchAutocomplete onSearch={onSearch} />
         </div>
 
