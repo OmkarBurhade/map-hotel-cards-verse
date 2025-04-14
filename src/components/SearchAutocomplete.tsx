@@ -151,7 +151,7 @@ const SearchAutocomplete = ({ onSearch }: SearchAutocompleteProps) => {
       </div>
 
       <div className="relative">
-        <select className="h-12 px-4 py-2 border-2 border-y-gray-300 border-r-0 border-l-0 appearance-none focus:outline-none focus:ring-2 focus:ring-green-500 bg-white text-base">
+        <select className="h-12 px-4 py-2 border-2 border-gray-300 border-x-0 appearance-none focus:outline-none bg-white text-base">
           <option>Venue Rentals</option>
           <option>Ticketed Events</option>
           <option>Private Experiences</option>
